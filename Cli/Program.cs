@@ -1,3 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿
+using BusinessLogic;
 
-Console.WriteLine("Hello, World!");
+AnagramController anagramController = new AnagramController();
+
+string inputWord = "alus";
+
+HashSet<string> words = anagramController.FindAnagrams(inputWord);
+
+foreach (var word in words)
+{
+    Console.WriteLine(word);
+}
