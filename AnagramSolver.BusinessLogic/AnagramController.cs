@@ -6,7 +6,7 @@ namespace AnagramSolver.BusinessLogic;
 
 public class AnagramController
 {
-    private readonly IWordRepository _wordRepository = new InMemData();
+    private readonly IWordRepository _wordRepository = new FileDataAccess();
     private readonly HashSet<string> _fetchedWords;
     private readonly HashSet<Anagram> _fetchedAnagramsSet;
     private readonly HashSet<string> _anagramsSet;
