@@ -1,5 +1,5 @@
 ﻿
-using BusinessLogic;
+using AnagramSolver.BusinessLogic;
 
 AnagramController anagramController = new AnagramController();
 

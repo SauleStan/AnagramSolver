@@ -1,10 +1,10 @@
-using Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces;
 
-namespace Contracts.DataAccess;
+namespace AnagramSolver.Contracts.DataAccess;
 
 public class InMemData : IWordRepository
 {
-    private HashSet<string> _words = new ();
+    private readonly HashSet<string> _words = new ();
 
     public InMemData()
     {

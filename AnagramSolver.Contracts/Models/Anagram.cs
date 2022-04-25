@@ -1,4 +1,4 @@
-namespace Contracts;
+namespace AnagramSolver.Contracts.Models;
 
 public class Anagram : IEquatable<string>
 {

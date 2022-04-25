@@ -1,15 +1,15 @@
-using Contracts;
-using Contracts.DataAccess;
-using Contracts.Interfaces;
+using AnagramSolver.Contracts.Models;
+using AnagramSolver.Contracts.DataAccess;
+using AnagramSolver.Contracts.Interfaces;
 
-namespace BusinessLogic;
+namespace AnagramSolver.BusinessLogic;
 
 public class AnagramController
 {
-    private IWordRepository _wordRepository = new InMemData();
-    private HashSet<string> _fetchedWords;
-    private HashSet<Anagram> _fetchedAnagramsSet;
-    private HashSet<string> _anagramsSet;
+    private readonly IWordRepository _wordRepository = new InMemData();
+    private readonly HashSet<string> _fetchedWords;
+    private readonly HashSet<Anagram> _fetchedAnagramsSet;
+    private readonly HashSet<string> _anagramsSet;
 
     public AnagramController()
     {

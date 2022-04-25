@@ -5,10 +5,11 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>AnagramSolver.Cli</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
+      <ProjectReference Include="..\AnagramSolver.BusinessLogic\AnagramSolver.BusinessLogic.csproj" />
     </ItemGroup>
 
 </Project>
