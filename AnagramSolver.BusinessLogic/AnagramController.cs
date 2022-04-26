@@ -8,40 +8,34 @@ public class AnagramController
 {
     private readonly IWordRepository _wordRepository = new FileDataAccess();
     private readonly HashSet<string> _fetchedWords;
-    private readonly HashSet<Anagram> _fetchedAnagramsSet;
+    private HashSet<Anagram> _fetchedAnagrams;
     private readonly HashSet<string> _anagramsSet;
+    private readonly IAnagramService _anagramService;
 
-    public AnagramController()
+    public AnagramController(IAnagramService anagramService)
     {
+        _anagramService = anagramService;
         _fetchedWords = _wordRepository.GetWords();
-        _fetchedAnagramsSet = new HashSet<Anagram>();
+        _fetchedAnagrams = new HashSet<Anagram>();
         _anagramsSet = new HashSet<string>();
-    }
-
-    private void ConvertToAnagrams(HashSet<string> stringWords)
-    {
-        foreach (var word in stringWords)
-        {
-            _fetchedAnagramsSet.Add(new Anagram(word));
-        }
     }
 
     public HashSet<string> FindAnagrams(string inputWord)
     {
-        // Convert inputWord to anagram
-        Anagram inputAnagram = new Anagram(inputWord);
-        
         // Filter the set to same length words
         _fetchedWords.RemoveWhere(x => x.Length != inputWord.Length);
         
         // Convert the set to Anagram models
-        ConvertToAnagrams(_fetchedWords);
+        _fetchedAnagrams = _anagramService.ConvertToAnagrams(_fetchedWords);
 
+        // Convert inputWord to Anagram
+        Anagram inputAnagram = _anagramService.ConvertToAnagram(inputWord);
+        
         // Check for anagrams
-        foreach (var word in _fetchedAnagramsSet)
+        foreach (var word in _fetchedAnagrams)
         {
             // Compares anagram cribs and ignores the word that is the same as input word
-            if (word.Equals(inputAnagram) && !word.Name.Equals(inputAnagram.Name))
+            if (_anagramService.IsEqualCrib(word, inputAnagram) && !word.Name.Equals(inputAnagram.Name))
             {
                 _anagramsSet.Add(word.Name);
             }
