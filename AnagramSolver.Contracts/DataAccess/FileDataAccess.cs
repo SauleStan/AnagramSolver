@@ -1,3 +1,4 @@
+using System.Text;
 using AnagramSolver.Contracts.Interfaces;
 
 namespace AnagramSolver.Contracts.DataAccess;
