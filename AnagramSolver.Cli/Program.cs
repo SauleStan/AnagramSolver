@@ -1,4 +1,5 @@
 ﻿using AnagramSolver.BusinessLogic;
+using AnagramSolver.BusinessLogic.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 // Configuration
@@ -15,23 +16,31 @@ var minLength = config.GetSection("Constraints").GetValue<int>("MinInput");
 var minAnagrams = config.GetSection("Constraints").GetValue<int>("MinAnagramCount");
 var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCount");
 
-IAnagramController anagramController = new AnagramController(new AnagramService());
+IAnagramSolver anagramSolver = new AnagramController(new AnagramService());
 
 // User input
 var inputWord = "";
+bool validInput = false;
 do
 {
     Console.WriteLine("Your input: ");
     inputWord = Console.ReadLine();
-    if (inputWord != null && inputWord.Length < minLength)
+    if (inputWord != null)
     {
-        Console.WriteLine("Minimal input length: {0}", minLength);
+        if (inputWord.Length < minLength)
+        {
+            Console.WriteLine("Minimal input length: {0}", minLength);
+        }
+        else
+        {
+            validInput = true;
+        }
     }
-} while (inputWord != null && inputWord.Length < minLength);
+} while (!validInput);
 
 if (inputWord != null)
 {
-    var words = anagramController.FindAnagrams(inputWord);
+    var words = anagramSolver.FindAnagrams(inputWord);
     
     Console.WriteLine("Anagrams: ");
     if (words.Count < minAnagrams)

@@ -1,6 +1,6 @@
 using AnagramSolver.Contracts.Models;
 
-namespace AnagramSolver.BusinessLogic;
+namespace AnagramSolver.BusinessLogic.Interfaces;
 
 public interface IAnagramService
 {

@@ -1,10 +1,11 @@
+using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.Contracts.DataAccess;
 using AnagramSolver.Contracts.Interfaces;
 
 namespace AnagramSolver.BusinessLogic;
 
-public class AnagramController : IAnagramController
+public class AnagramController : IAnagramSolver
 {
     private readonly IWordRepository _wordRepository = new FileDataAccess();
     private readonly HashSet<string> _fetchedWords;
