@@ -1,10 +1,7 @@
 ﻿using AnagramSolver.BusinessLogic;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 
 // Configuration
-using IHost host = Host.CreateDefaultBuilder(args).Build();
-
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .AddEnvironmentVariables()
