@@ -4,7 +4,7 @@ using AnagramSolver.Contracts.Interfaces;
 
 namespace AnagramSolver.BusinessLogic;
 
-public class AnagramController
+public class AnagramController : IAnagramController
 {
     private readonly IWordRepository _wordRepository = new FileDataAccess();
     private readonly HashSet<string> _fetchedWords;
