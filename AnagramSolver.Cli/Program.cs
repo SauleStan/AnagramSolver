@@ -3,11 +3,16 @@ using AnagramSolver.BusinessLogic;
 
 AnagramController anagramController = new AnagramController();
 
-string inputWord = "alus";
+Console.WriteLine("Your input: ");
+var inputWord = Console.ReadLine();
+//string inputWord = "alus";
 
-HashSet<string> words = anagramController.FindAnagrams(inputWord);
-
-foreach (var word in words)
+if (inputWord != null)
 {
-    Console.WriteLine(word);
+    var words = anagramController.FindAnagrams(inputWord);
+    Console.WriteLine("Anagrams: ");
+    foreach (var word in words)
+    {
+        Console.WriteLine(word);
+    }
 }
