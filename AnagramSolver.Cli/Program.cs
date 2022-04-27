@@ -4,7 +4,8 @@ using Microsoft.Extensions.Configuration;
 
 // Configuration
 IConfiguration config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
+    .AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile("appsettings.{environment}.json", true, true)
     .AddEnvironmentVariables()
     .Build();
 
