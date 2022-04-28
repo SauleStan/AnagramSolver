@@ -2,7 +2,7 @@ using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.DataAccess;
 using AnagramSolver.Contracts.Interfaces;
 
-namespace AnagramSolver.BusinessLogic;
+namespace AnagramSolver.BusinessLogic.Services;
 
 public class WordService : IWordService
 {

@@ -1,5 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Cli;
 using AnagramSolver.Cli.Interfaces;
 using Microsoft.Extensions.Configuration;
