@@ -1,5 +1,7 @@
 ﻿using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.Cli;
+using AnagramSolver.Cli.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 // Configuration
@@ -19,37 +21,18 @@ var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCoun
 
 IAnagramSolver anagramSolver = new AnagramController(new AnagramService(), new WordService());
 
-// User input
-string? inputWord;
-bool validInput = false;
-do
-{
-    Console.WriteLine("Your input: ");
-    inputWord = Console.ReadLine();
-    if (inputWord != null)
-    {
-        if (inputWord.Length < minLength)
-        {
-            Console.WriteLine($"Minimal input length: {minLength}");
-        }
-        else
-        {
-            validInput = true;
-        }
-    }
-} while (!validInput);
+IUserInput userInput = new UserInput(minLength);
 
-if (inputWord != null)
+var inputWord = userInput.GetUserInput();
+
+var anagrams = anagramSolver.FindAnagrams(inputWord);
+
+Console.WriteLine("Anagrams: ");
+if (anagrams.Count < minAnagrams)
 {
-    var anagrams = anagramSolver.FindAnagrams(inputWord);
-    
-    Console.WriteLine("Anagrams: ");
-    if (anagrams.Count < minAnagrams)
-    {
-        Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
-    }
-    foreach (var anagram in anagrams.Take(maxAnagrams))
-    {
-        Console.WriteLine(anagram);
-    }
+    Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
+}
+foreach (var anagram in anagrams.Take(maxAnagrams))
+{
+    Console.WriteLine(anagram);
 }
