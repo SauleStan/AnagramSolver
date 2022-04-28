@@ -17,7 +17,7 @@ var minLength = config.GetSection("Constraints").GetValue<int>("MinInput");
 var minAnagrams = config.GetSection("Constraints").GetValue<int>("MinAnagramCount");
 var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCount");
 
-IAnagramSolver anagramSolver = new AnagramController(new AnagramService());
+IAnagramSolver anagramSolver = new AnagramController(new AnagramService(), new WordService());
 
 // User input
 var inputWord = "";
