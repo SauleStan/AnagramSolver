@@ -2,7 +2,7 @@ using AnagramSolver.Contracts.Interfaces;
 
 namespace AnagramSolver.Contracts.DataAccess;
 
-public class FileDataAccess : IWordRepository
+public class WordFileAccess : IWordRepository
 {
     private readonly HashSet<string> _words = new ();
 

@@ -6,7 +6,7 @@ namespace AnagramSolver.BusinessLogic;
 
 public class WordService : IWordService
 {
-    private readonly IWordRepository _wordRepository = new FileDataAccess();
+    private readonly IWordRepository _wordRepository = new WordFileAccess();
     
     public HashSet<string> GetWords()
     {
