@@ -12,7 +12,7 @@ public class FileDataAccess : IWordRepository
     {
         try
         {
-            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(), @"Resources\zodynas.txt");
+            var path = @"Resources\zodynas.txt";
             using (var sr = new StreamReader(path))
             {
                 string? line;
