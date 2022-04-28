@@ -18,6 +18,7 @@ public class UserInput : IUserInput
         var validInput = false;
         do
         {
+            Console.WriteLine();
             Console.WriteLine("Your input: ");
             inputWord = Console.ReadLine();
             if (inputWord is null)

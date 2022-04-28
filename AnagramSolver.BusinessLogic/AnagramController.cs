@@ -20,7 +20,10 @@ public class AnagramController : IAnagramSolver
 
     public HashSet<string> FindAnagrams(string inputWord)
     {
-        _fetchedWords.RemoveWhere(x => x.Length != inputWord.Length);
+        _anagramsSet.Clear();
+        
+        var filteredFetchedWords = new HashSet<string>(_fetchedWords);
+        filteredFetchedWords.RemoveWhere(x => x.Length != inputWord.Length);
         
         _fetchedAnagrams = _anagramService.ConvertToAnagrams(_fetchedWords);
         
