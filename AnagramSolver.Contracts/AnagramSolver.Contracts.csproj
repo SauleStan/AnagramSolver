@@ -7,4 +7,11 @@
         <RootNamespace>AnagramSolver.Contracts</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\zodynas.txt" />
+      <Content Include="Resources\zodynas.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

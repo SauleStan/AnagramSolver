@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using AnagramSolver.Contracts.Interfaces;
 
@@ -11,13 +12,11 @@ public class FileDataAccess : IWordRepository
     {
         try
         {
-            // Create an instance of StreamReader to read from a file.
-            // The using statement also closes the StreamReader.
-            using (var sr = new StreamReader("zodynas.txt"))
+            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(), @"Resources\zodynas.txt");
+            using (var sr = new StreamReader(path))
             {
                 string? line;
-                // Read and display lines from the file until the end of
-                // the file is reached.
+                
                 while ((line = sr.ReadLine()) != null)
                 {
                     var word = line.Split("\t")[0];
@@ -30,7 +29,6 @@ public class FileDataAccess : IWordRepository
         }
         catch (Exception e)
         {
-            // Let the user know what went wrong.
             Console.WriteLine("The file could not be read:");
             Console.WriteLine(e.Message);
         }
