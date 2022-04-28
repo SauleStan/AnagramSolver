@@ -20,7 +20,7 @@ var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCoun
 IAnagramSolver anagramSolver = new AnagramController(new AnagramService(), new WordService());
 
 // User input
-var inputWord = "";
+string? inputWord;
 bool validInput = false;
 do
 {
@@ -30,7 +30,7 @@ do
     {
         if (inputWord.Length < minLength)
         {
-            Console.WriteLine("Minimal input length: {0}", minLength);
+            Console.WriteLine($"Minimal input length: {minLength}");
         }
         else
         {
@@ -41,15 +41,15 @@ do
 
 if (inputWord != null)
 {
-    var words = anagramSolver.FindAnagrams(inputWord);
+    var anagrams = anagramSolver.FindAnagrams(inputWord);
     
     Console.WriteLine("Anagrams: ");
-    if (words.Count < minAnagrams)
+    if (anagrams.Count < minAnagrams)
     {
-        Console.WriteLine("Less than {0} anagrams have been found. Try another word.", minAnagrams);
+        Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
     }
-    foreach (var word in words.Take(maxAnagrams))
+    foreach (var anagram in anagrams.Take(maxAnagrams))
     {
-        Console.WriteLine(word);
+        Console.WriteLine(anagram);
     }
 }
