@@ -26,11 +26,11 @@ public class AnagramController : IAnagramSolver
         
         Anagram inputAnagram = _anagramService.ConvertToAnagram(inputWord);
         
-        foreach (var word in _fetchedAnagrams)
+        foreach (var anagram in _fetchedAnagrams)
         {
-            if (_anagramService.IsEqualCrib(word, inputAnagram) && !word.Name.Equals(inputAnagram.Name))
+            if (_anagramService.IsEqualCrib(anagram, inputAnagram) && !anagram.Name.Equals(inputAnagram.Name))
             {
-                _anagramsSet.Add(word.Name);
+                _anagramsSet.Add(anagram.Name);
             }
         }
 
