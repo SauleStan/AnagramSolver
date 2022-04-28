@@ -5,9 +5,11 @@ using AnagramSolver.Cli;
 using AnagramSolver.Cli.Interfaces;
 using Microsoft.Extensions.Configuration;
 
+var environment = Environment.GetEnvironmentVariable("APSNETCORE_ENVIRONMENT");
+
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.local.json", true, true)
-    .AddJsonFile("appsettings.{environment}.json", true, true)
+    .AddJsonFile($"appsettings.{environment}.json", true, true)
     .AddEnvironmentVariables()
     .Build();
 
