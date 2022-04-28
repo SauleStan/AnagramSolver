@@ -28,7 +28,7 @@ public class AnagramController : IAnagramSolver
         
         foreach (var anagram in _fetchedAnagrams)
         {
-            if (_anagramService.IsEqualCrib(anagram, inputAnagram) && !anagram.Name.Equals(inputAnagram.Name))
+            if (anagram.Crib.Equals(inputAnagram.Crib) && !anagram.Name.Equals(inputAnagram.Name))
             {
                 _anagramsSet.Add(anagram.Name);
             }

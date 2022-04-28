@@ -5,11 +5,6 @@ namespace AnagramSolver.BusinessLogic;
 
 public class AnagramService : IAnagramService
 {
-    public bool IsEqualCrib(Anagram anagram1, Anagram anagram2)
-    {
-        return anagram1.Crib.Equals(anagram2.Crib);
-    }
-    
     public HashSet<Anagram> ConvertToAnagrams(HashSet<string> words)
     {
         var anagramSet = new HashSet<Anagram>();
