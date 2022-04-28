@@ -48,4 +48,19 @@ public class AnagramControllerTests
         // Assert
         Assert.IsTrue(result.Contains("sula"));
     }
+    [Test]
+    public void FindAnagrams_ReturnsEmptyAnagramHashSet_WhenGivenInputWordThatHasNoAnagrams()
+    {
+        // Arrange
+        AnagramController anagramController = new (_anagramServiceMock.Object, _wordServiceMock.Object);
+        string word = "vdsdvs";
+        string crib = "ddssvv";
+        _anagramServiceMock.Setup(x => x.ConvertToAnagram(word)).Returns(new Anagram(word, crib));
+
+        // Act
+        var result = anagramController.FindAnagrams(word);
+        
+        // Assert
+        Assert.IsEmpty(result);
+    }
 }
