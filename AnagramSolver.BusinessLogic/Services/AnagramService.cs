@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Models;
 
@@ -23,6 +24,7 @@ public class AnagramService : IAnagramService
 
     private string SortWordAlphabetically(string word)
     {
+        word = Regex.Replace(word, @"\s", "");
         char[] chars = word.ToCharArray();
         Array.Sort(chars);
         return new string(chars);

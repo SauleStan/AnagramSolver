@@ -24,6 +24,20 @@ public class AnagramServiceTests
     }
     
     [Test]
+    public void ConvertToAnagram_ReturnsAnagramWithCorrectCrib_WhenProvidedASentence()
+    {
+        // Arrange
+        string word = "nag a ram";
+        string crib = "aaagmnr";
+
+        // Act
+        var result = _anagramService.ConvertToAnagram(word);
+
+        // Assert
+        Assert.AreEqual(crib, result.Crib);
+    }
+    
+    [Test]
     public void ConvertToAnagram_ReturnsAnagramWithCorrectCrib_WhenProvidedAString()
     {
         // Arrange
