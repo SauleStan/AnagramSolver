@@ -19,7 +19,7 @@ Console.OutputEncoding = System.Text.Encoding.Unicode;
 var minLength = config.GetSection("Constraints").GetValue<int>("MinInput");
 var minAnagrams = config.GetSection("Constraints").GetValue<int>("MinAnagramCount");
 var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCount");
-var dataFilePath = config.GetValue<string>("DataFilePath");
+var dataFilePath = config.GetValue<string>("WordFilePath");
 
 if (dataFilePath != null)
 {
