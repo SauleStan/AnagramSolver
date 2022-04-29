@@ -27,6 +27,11 @@ if (dataFilePath != null)
 
     IUserInput userInput = new UserInput(minLength);
 
+    AnagramOutput(userInput, anagramSolver);
+}
+
+void AnagramOutput(IUserInput userInput, IAnagramSolver anagramSolver)
+{
     while (true)
     {
         var inputWord = userInput.GetUserInput();
@@ -38,9 +43,11 @@ if (dataFilePath != null)
         {
             Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
         }
+
         foreach (var anagram in anagrams.Take(maxAnagrams))
         {
             Console.WriteLine(anagram);
         }
     }
+    // ReSharper disable once FunctionNeverReturns
 }
