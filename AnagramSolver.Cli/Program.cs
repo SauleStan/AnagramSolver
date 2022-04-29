@@ -19,24 +19,28 @@ Console.OutputEncoding = System.Text.Encoding.Unicode;
 var minLength = config.GetSection("Constraints").GetValue<int>("MinInput");
 var minAnagrams = config.GetSection("Constraints").GetValue<int>("MinAnagramCount");
 var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCount");
+var dataFilePath = config.GetValue<string>("DataFilePath");
 
-IAnagramSolver anagramSolver = new AnagramController(new AnagramService(), new WordService());
-
-IUserInput userInput = new UserInput(minLength);
-
-while (true)
+if (dataFilePath != null)
 {
-    var inputWord = userInput.GetUserInput();
+    IAnagramSolver anagramSolver = new AnagramController(new AnagramService(), new WordService(dataFilePath));
 
-    var anagrams = anagramSolver.FindAnagrams(inputWord);
+    IUserInput userInput = new UserInput(minLength);
 
-    Console.WriteLine("Anagrams: ");
-    if (anagrams.Count < minAnagrams)
+    while (true)
     {
-        Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
-    }
-    foreach (var anagram in anagrams.Take(maxAnagrams))
-    {
-        Console.WriteLine(anagram);
+        var inputWord = userInput.GetUserInput();
+
+        var anagrams = anagramSolver.FindAnagrams(inputWord);
+
+        Console.WriteLine("Anagrams: ");
+        if (anagrams.Count < minAnagrams)
+        {
+            Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
+        }
+        foreach (var anagram in anagrams.Take(maxAnagrams))
+        {
+            Console.WriteLine(anagram);
+        }
     }
 }
