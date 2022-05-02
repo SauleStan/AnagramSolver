@@ -1,0 +1,21 @@
+@page
+@model AnagramSolver.WebApp.Views.Home.getAnagrams
+
+@{
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Anagrams</title>
+</head>
+<body>
+<div>
+    @foreach (var anagram in @ViewBag.Anagrams)
+    {
+        @anagram<br/>
+    }
+</div>
+</body>
+</html>
