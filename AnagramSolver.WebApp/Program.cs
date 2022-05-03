@@ -1,3 +1,8 @@
+using System.Reflection;
+using AnagramSolver.BusinessLogic;
+using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.BusinessLogic.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var environment = Environment.GetEnvironmentVariable("APSNETCORE_ENVIRONMENT");
@@ -13,8 +18,13 @@ var minAnagrams = config.GetSection("Constraints").GetValue<int>("MinAnagramCoun
 var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCount");
 var dataFilePath = config.GetValue<string>("WordFilePath");
 
+var directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+var path = directoryPath + dataFilePath;
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IWordService>(sp => new WordService(path));
+builder.Services.AddSingleton<IAnagramSolver>(sp => new AnagramController(new AnagramService(), new WordService(path)));
 
 var app = builder.Build();
 

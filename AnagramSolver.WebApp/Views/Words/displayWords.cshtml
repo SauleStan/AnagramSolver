@@ -1,0 +1,19 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+      @foreach (var word in ViewBag.Words)
+      {
+          @word<br/>
+      }
+</div>
+</body>
+</html>
