@@ -13,10 +13,13 @@ public class WordsController : Controller
         _wordService = wordService;
     }
     
-    public IActionResult DisplayWords()
+    public IActionResult DisplayWords(int? pageNumber)
     {
-        var words = _wordService.GetWords();
-        ViewBag.Words = words.Take(100);
+        HashSet<string> words = _wordService.GetWords();
+        int pageSize = 100;
+
+        ViewBag.Words = PaginatedHashSet<HashSet<string>>.Create(words, pageNumber ?? 1 ,pageSize);
+
         return View();
     }
 }

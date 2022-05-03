@@ -1,19 +1,43 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     Layout = null;
+    var prevDisabled = !ViewBag.Words.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !ViewBag.Words.HasNextPage ? "disabled" : "";
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <title>title</title>
+    <title>Words</title>
 </head>
 <body>
 <div>
-      @foreach (var word in ViewBag.Words)
-      {
-          @word<br/>
-      }
+    <table>
+        @foreach (var word in ViewBag.Words)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Home"
+                       asp-action="GetAnagrams"
+                       asp-route-input="@word">@word</a>
+                </td>
+            </tr>
+        }
+        
+    </table>
+    <a asp-action="DisplayWords"
+       asp-route-pageNumber="@(ViewBag.Words.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="DisplayWords"
+       asp-route-pageNumber="@(ViewBag.Words.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 </div>
 </body>
 </html>
+
