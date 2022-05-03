@@ -1,4 +1,5 @@
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnagramSolver.WebApp.Controllers;
@@ -22,5 +23,17 @@ public class HomeController : Controller
     {
         ViewBag.Anagrams = _anagramSolver.FindAnagrams(input);
         return View();
+    }
+    
+    [HttpPost]
+    public IActionResult GetAnagrams([Bind("Input")]AnagramModel anagramModel)
+    {
+        if (ModelState.IsValid)
+        {
+            ViewBag.Anagrams = _anagramSolver.FindAnagrams(anagramModel.Input);
+            return View();
+        }
+
+        return View("Index");
     }
 }
