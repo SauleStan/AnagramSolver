@@ -1,19 +1,10 @@
 @{
-    Layout = null;
+    ViewBag.Title = "Anagrams";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Anagrams</title>
-</head>
-<body>
+<h5>Found anagrams:</h5>
 <div>
     @foreach (var anagram in @ViewBag.Anagrams)
     {
         @anagram<br/>
     }
 </div>
-</body>
-</html>

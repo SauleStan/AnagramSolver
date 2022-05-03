@@ -1,18 +1,11 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    Layout = null;
+    ViewBag.Title = "Words";
     var prevDisabled = !ViewBag.Words.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !ViewBag.Words.HasNextPage ? "disabled" : "";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Words</title>
-</head>
-<body>
 <div>
     <table>
         @foreach (var word in ViewBag.Words)
@@ -38,6 +31,3 @@
         Next
     </a>
 </div>
-</body>
-</html>
-
