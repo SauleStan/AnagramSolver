@@ -32,10 +32,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "anagram",
-    pattern: "/{input}",
-    defaults: new { controller = "Home", action = "GetAnagrams"});
-
-app.MapDefaultControllerRoute();
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{input?}");
 
 app.Run();
