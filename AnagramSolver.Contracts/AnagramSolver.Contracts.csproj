@@ -10,7 +10,7 @@
     <ItemGroup>
       <None Remove="Resources\zodynas.txt" />
       <Content Include="Resources\zodynas.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
 

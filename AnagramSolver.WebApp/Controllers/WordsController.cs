@@ -7,18 +7,20 @@ namespace AnagramSolver.WebApp.Controllers;
 public class WordsController : Controller
 {
     private readonly IWordService _wordService;
+    private readonly HashSet<string> _words;
 
     public WordsController(IWordService wordService)
     {
         _wordService = wordService;
+        _words = _wordService.GetWords();
+
     }
     
     public IActionResult DisplayWords(int? pageNumber)
     {
-        HashSet<string> words = _wordService.GetWords();
         int pageSize = 100;
 
-        ViewBag.Words = PaginatedHashSet<HashSet<string>>.Create(words, pageNumber ?? 1 ,pageSize);
+        ViewBag.Words = PaginatedHashSet<HashSet<string>>.Create(_words, pageNumber ?? 1 ,pageSize);
 
         return View();
     }

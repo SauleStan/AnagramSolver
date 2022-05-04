@@ -32,4 +32,16 @@ public class WordFileAccess : IWordRepository
 
         return _words;
     }
+
+    public void AddWord(string word, string path)
+    {
+        try
+        {
+            File.AppendAllText(path, word + Environment.NewLine);
+        }
+        catch (FileNotFoundException e)
+        {
+            Console.WriteLine("Couldn't find the file." + e.Message);
+        }
+    }
 }

@@ -18,4 +18,9 @@ public class WordService : IWordService
     {
         return _wordRepository.GetWords(_path);
     }
+
+    public void AddWord(string word)
+    {
+        _wordRepository.AddWord(word, _path);
+    }
 }
