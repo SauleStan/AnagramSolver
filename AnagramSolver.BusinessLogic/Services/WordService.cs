@@ -19,8 +19,20 @@ public class WordService : IWordService
         return _wordRepository.GetWords(_path);
     }
 
-    public void AddWord(string word)
+    public bool AddWord(string word)
     {
-        _wordRepository.AddWord(word, _path);
+        try
+        {
+            if (_wordRepository.GetWords(_path).Contains(word))
+            {
+                throw new ArgumentException($"{word} already exists.");
+            }
+            _wordRepository.AddWord(word, _path);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

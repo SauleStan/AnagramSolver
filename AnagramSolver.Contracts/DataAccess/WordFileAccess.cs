@@ -37,6 +37,7 @@ public class WordFileAccess : IWordRepository
     {
         try
         {
+
             File.AppendAllText(path, word + Environment.NewLine);
         }
         catch (FileNotFoundException e)

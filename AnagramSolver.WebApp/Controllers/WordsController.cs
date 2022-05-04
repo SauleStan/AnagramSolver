@@ -20,4 +20,23 @@ public class WordsController : Controller
     {
         return View(PaginatedHashSet<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
     }
+    
+    public IActionResult SaveNewWord()
+    {
+        return View();
+    }
+    
+    [HttpPost]
+    public IActionResult SaveNewWord([Bind("Input")]AnagramModel anagramModel)
+    {
+        if (anagramModel is null || !ModelState.IsValid)
+        {
+            return View();
+        }
+        
+        bool result = _wordService.AddWord(anagramModel.Input);
+        ViewBag.SaveStatus = result;
+
+        return View();
+    }
 }
