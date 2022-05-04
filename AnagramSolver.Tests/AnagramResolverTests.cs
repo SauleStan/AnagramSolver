@@ -7,7 +7,7 @@ using Moq;
 
 namespace AnagramSolver.Tests;
 
-public class AnagramControllerTests
+public class AnagramResolverTests
 {
     private readonly Mock<IAnagramService> _anagramServiceMock = new ();
     private readonly Mock<IWordService> _wordServiceMock = new ();
