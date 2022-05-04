@@ -6,7 +6,7 @@ namespace AnagramSolver.BusinessLogic.Services;
 
 public class AnagramService : IAnagramService
 {
-    public HashSet<Anagram> ConvertToAnagrams(HashSet<string> words)
+    public HashSet<Anagram> ConvertToAnagrams(IEnumerable<string> words)
     {
         var anagramSet = new HashSet<Anagram>();
         foreach (var word in words)

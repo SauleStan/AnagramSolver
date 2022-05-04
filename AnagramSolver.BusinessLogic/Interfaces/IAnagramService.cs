@@ -4,7 +4,7 @@ namespace AnagramSolver.BusinessLogic.Interfaces;
 
 public interface IAnagramService
 {
-    public HashSet<Anagram> ConvertToAnagrams(HashSet<string> words);
+    public HashSet<Anagram> ConvertToAnagrams(IEnumerable<string> words);
     public Anagram ConvertToAnagram(string word);
     
 }

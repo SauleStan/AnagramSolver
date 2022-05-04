@@ -6,7 +6,7 @@ public class PaginatedHashSet<T> : HashSet<T>
     public int TotalPages { get; set; }
     public int PageSize { get; set; }
 
-    public PaginatedHashSet(HashSet<T> items, int count, int pageIndex, int pageSize)
+    private PaginatedHashSet(IEnumerable<T> items, int count, int pageIndex, int pageSize)
     {
         PageIndex = pageIndex;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -18,10 +18,11 @@ public class PaginatedHashSet<T> : HashSet<T>
 
     public bool HasNextPage => PageIndex < TotalPages;
 
-    public static PaginatedHashSet<string> Create(HashSet<string> source, int pageIndex, int pageSize)
+    public static PaginatedHashSet<string> Create(IEnumerable<string> source, int pageIndex, int pageSize)
     {
-        var count = source.Count();
-        HashSet<string> items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToHashSet();
+        var enumerable = source.ToList();
+        var count = enumerable.Count();
+        HashSet<string> items = enumerable.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToHashSet();
         return new PaginatedHashSet<string>(items, count, pageIndex, pageSize);
     }
 }
