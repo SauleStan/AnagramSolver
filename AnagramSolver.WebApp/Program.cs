@@ -24,7 +24,7 @@ var path = directoryPath + dataFilePath;
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IWordService>(sp => new WordService(path));
-builder.Services.AddSingleton<IAnagramSolver>(sp => new AnagramController(new AnagramService(), new WordService(path)));
+builder.Services.AddSingleton<IAnagramResolver>(sp => new AnagramResolver(new AnagramService(), new WordService(path)));
 
 var app = builder.Build();
 

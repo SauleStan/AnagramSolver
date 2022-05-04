@@ -23,14 +23,14 @@ var dataFilePath = config.GetValue<string>("WordFilePath");
 
 if (dataFilePath != null)
 {
-    IAnagramSolver anagramSolver = new AnagramController(new AnagramService(), new WordService(dataFilePath));
+    IAnagramResolver anagramResolver = new AnagramResolver(new AnagramService(), new WordService(dataFilePath));
 
     IUserInput userInput = new UserInput(minLength);
 
-    AnagramOutput(userInput, anagramSolver);
+    AnagramOutput(userInput, anagramResolver);
 }
 
-void AnagramOutput(IUserInput userInput, IAnagramSolver anagramSolver)
+void AnagramOutput(IUserInput userInput, IAnagramResolver anagramSolver)
 {
     while (true)
     {

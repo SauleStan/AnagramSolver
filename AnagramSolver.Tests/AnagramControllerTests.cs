@@ -43,13 +43,13 @@ public class AnagramControllerTests
     public void FindAnagrams_ReturnsAnagramHashSet_WhenGivenInputWord()
     {
         // Arrange
-        AnagramController anagramController = new (_anagramServiceMock.Object, _wordServiceMock.Object);
+        AnagramResolver anagramResolver = new (_anagramServiceMock.Object, _wordServiceMock.Object);
         string word = "alus";
         string crib = "alsu";
         _anagramServiceMock.Setup(x => x.ConvertToAnagram(word)).Returns(new Anagram(word, crib));
 
         // Act
-        var result = anagramController.FindAnagrams(word);
+        var result = anagramResolver.FindAnagrams(word);
         
         // Assert
         Assert.IsTrue(result.Contains("sula"));
@@ -58,13 +58,13 @@ public class AnagramControllerTests
     public void FindAnagrams_ReturnsEmptyAnagramHashSet_WhenGivenInputWordThatHasNoAnagrams()
     {
         // Arrange
-        AnagramController anagramController = new (_anagramServiceMock.Object, _wordServiceMock.Object);
+        AnagramResolver anagramResolver = new (_anagramServiceMock.Object, _wordServiceMock.Object);
         string word = "vdsdvs";
         string crib = "ddssvv";
         _anagramServiceMock.Setup(x => x.ConvertToAnagram(word)).Returns(new Anagram(word, crib));
 
         // Act
-        var result = anagramController.FindAnagrams(word);
+        var result = anagramResolver.FindAnagrams(word);
         
         // Assert
         Assert.IsEmpty(result);
@@ -73,13 +73,13 @@ public class AnagramControllerTests
     public void FindAnagrams_ReturnsAnagramHashSet_WhenGivenInputSentence()
     {
         // Arrange
-        AnagramController anagramController = new (_anagramServiceMock.Object, _wordServiceMock.Object);
+        AnagramResolver anagramResolver = new (_anagramServiceMock.Object, _wordServiceMock.Object);
         string sentence = "nag a ram";
         string crib = "aaagmnr";
         _anagramServiceMock.Setup(x => x.ConvertToAnagram(sentence)).Returns(new Anagram(sentence, crib));
 
         // Act
-        var result = anagramController.FindAnagrams(sentence);
+        var result = anagramResolver.FindAnagrams(sentence);
         
         // Assert
         Assert.IsTrue(result.Contains("anagram"));

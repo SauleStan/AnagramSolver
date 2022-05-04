@@ -1,15 +1,16 @@
-namespace AnagramSolver.WebApp;
+namespace AnagramSolver.WebApp.Models;
 
 public class PaginatedHashSet<T> : HashSet<T>
 {
     public int PageIndex { get; set; }
     public int TotalPages { get; set; }
+    public int PageSize { get; set; }
 
     public PaginatedHashSet(HashSet<T> items, int count, int pageIndex, int pageSize)
     {
         PageIndex = pageIndex;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
+        PageSize = pageSize;
         UnionWith(items);
     }
 

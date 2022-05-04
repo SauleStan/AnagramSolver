@@ -3,31 +3,29 @@ using AnagramSolver.Contracts.Models;
 
 namespace AnagramSolver.BusinessLogic;
 
-public class AnagramController : IAnagramSolver
+public class AnagramResolver : IAnagramResolver
 {
-    private readonly HashSet<string> _fetchedWords;
-    private HashSet<Anagram> _fetchedAnagrams;
-    private readonly HashSet<string> _anagramsSet;
+    private HashSet<Anagram> _fetchedAnagrams = new();
+    private readonly HashSet<string> _anagramsSet = new();
     private readonly IAnagramService _anagramService;
+    private readonly IWordService _wordService;
 
-    public AnagramController(IAnagramService anagramService, IWordService wordService)
+    public AnagramResolver(IAnagramService anagramService, IWordService wordService)
     {
         _anagramService = anagramService;
-        _fetchedWords = wordService.GetWords();
-        _fetchedAnagrams = new HashSet<Anagram>();
-        _anagramsSet = new HashSet<string>();
+        _wordService = wordService;
     }
 
     public HashSet<string> FindAnagrams(string inputWord)
     {
         _anagramsSet.Clear();
         
-        var filteredFetchedWords = new HashSet<string>(_fetchedWords);
+        var filteredFetchedWords = new HashSet<string>(_wordService.GetWords());
         filteredFetchedWords.RemoveWhere(x => x.Length != inputWord.Length);
         
-        _fetchedAnagrams = _anagramService.ConvertToAnagrams(_fetchedWords);
+        _fetchedAnagrams = _anagramService.ConvertToAnagrams(_wordService.GetWords());
         
-        Anagram inputAnagram = _anagramService.ConvertToAnagram(inputWord);
+        var inputAnagram = _anagramService.ConvertToAnagram(inputWord);
         
         foreach (var anagram in _fetchedAnagrams)
         {

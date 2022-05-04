@@ -7,11 +7,11 @@ namespace AnagramSolver.WebApp.Controllers;
 [Controller]
 public class HomeController : Controller
 {
-    private readonly IAnagramSolver _anagramSolver;
+    private readonly IAnagramResolver _anagramResolver;
 
-    public HomeController(IAnagramSolver anagramSolver)
+    public HomeController(IAnagramResolver anagramResolver)
     {
-        _anagramSolver = anagramSolver;
+        _anagramResolver = anagramResolver;
     }
     
     public IActionResult Index()
@@ -21,17 +21,16 @@ public class HomeController : Controller
 
     public IActionResult GetAnagrams(string input)
     {
-        ViewBag.Anagrams = _anagramSolver.FindAnagrams(input);
+        ViewBag.Anagrams = _anagramResolver.FindAnagrams(input);
         return View();
     }
     
     [HttpPost]
-    public IActionResult GetAnagrams([Bind("Input")]AnagramModel anagramModel)
+    public IActionResult GetAnagrams([Bind("Input")]AnagramModel anagramModel, int pageNumber = 1, int pageSize = 20)
     {
         if (ModelState.IsValid)
         {
-            ViewBag.Anagrams = _anagramSolver.FindAnagrams(anagramModel.Input);
-            return View();
+            return View(PaginatedHashSet<string>.Create(_anagramResolver.FindAnagrams(anagramModel.Input), pageNumber, pageSize));
         }
 
         return View("Index");

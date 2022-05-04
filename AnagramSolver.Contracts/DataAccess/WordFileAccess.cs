@@ -41,7 +41,7 @@ public class WordFileAccess : IWordRepository
         }
         catch (FileNotFoundException e)
         {
-            Console.WriteLine("Couldn't find the file." + e.Message);
+            throw;
         }
     }
 }

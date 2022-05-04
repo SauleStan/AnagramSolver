@@ -1,4 +1,5 @@
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnagramSolver.WebApp.Controllers;
@@ -7,21 +8,16 @@ namespace AnagramSolver.WebApp.Controllers;
 public class WordsController : Controller
 {
     private readonly IWordService _wordService;
-    private readonly HashSet<string> _words;
+    private const int PageSize = 100;
 
     public WordsController(IWordService wordService)
     {
         _wordService = wordService;
-        _words = _wordService.GetWords();
 
     }
     
-    public IActionResult DisplayWords(int? pageNumber)
+    public IActionResult DisplayWords(int pageNumber = 1)
     {
-        int pageSize = 100;
-
-        ViewBag.Words = PaginatedHashSet<HashSet<string>>.Create(_words, pageNumber ?? 1 ,pageSize);
-
-        return View();
+        return View(PaginatedHashSet<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
     }
 }

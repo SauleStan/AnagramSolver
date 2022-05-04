@@ -46,7 +46,6 @@ public class SaveWordController : Controller
         catch (Exception e)
         {
             ViewBag.SaveStatus = "Something went wrong";
-            Console.WriteLine(e.Message);
         }
         return View();
     }
