@@ -8,12 +8,10 @@ namespace AnagramSolver.WebApp.Controllers;
 public class AnagramController : ControllerBase
 {
     private readonly IAnagramResolver _anagramResolver;
-    private readonly IWordService _wordService;
     
-    public AnagramController(IAnagramResolver anagramResolver, IWordService wordService)
+    public AnagramController(IAnagramResolver anagramResolver)
     {
         _anagramResolver = anagramResolver;
-        _wordService = wordService;
     }
     
     [HttpGet("{input}")]
