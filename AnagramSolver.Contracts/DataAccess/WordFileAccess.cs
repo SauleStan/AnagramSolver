@@ -4,7 +4,7 @@ namespace AnagramSolver.Contracts.DataAccess;
 
 public class WordFileAccess : IWordRepository
 {
-    private readonly List<string> _words = new ();
+    private readonly HashSet<string> _words = new ();
 
     public IEnumerable<string> GetWords(string path)
     {

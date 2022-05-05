@@ -36,7 +36,7 @@ public class AnagramResolverTests
         _anagramSetMock.Add(anagram4);
         _anagramSetMock.Add(anagramSentence);
         
-        _wordServiceMock.Setup(x => x.GetWords()).Returns(_wordSetMock.ToList);
+        _wordServiceMock.Setup(x => x.GetWords()).Returns(_wordSetMock);
         _anagramServiceMock.Setup(x => x.ConvertToAnagrams(_wordSetMock)).Returns(_anagramSetMock);
     }
     
