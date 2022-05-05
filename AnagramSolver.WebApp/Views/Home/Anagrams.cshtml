@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Anagrams";
 }
-<h5>Found anagrams:</h5>
+<h5>Found anagrams for @Model.Word:</h5>
 <div>
     @foreach (var anagram in @Model.Anagrams)
     {

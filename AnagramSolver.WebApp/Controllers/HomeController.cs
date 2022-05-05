@@ -21,7 +21,7 @@ public class HomeController : Controller
 
     public IActionResult GetAnagrams(string input)
     {
-        return View("Anagrams", new AnagramList(_anagramResolver.FindAnagrams(input)));
+        return View("Anagrams", new AnagramList(_anagramResolver.FindAnagrams(input), input));
     }
     
     [HttpPost]
@@ -29,7 +29,7 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            return View("Anagrams", new AnagramList(_anagramResolver.FindAnagrams(inputModel.Input)));
+            return View("Anagrams", new AnagramList(_anagramResolver.FindAnagrams(inputModel.Input), inputModel.Input));
         }
 
         return View("Index");
