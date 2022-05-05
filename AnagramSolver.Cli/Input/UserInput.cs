@@ -1,7 +1,6 @@
-using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Cli.Interfaces;
 
-namespace AnagramSolver.Cli;
+namespace AnagramSolver.Cli.Input;
 
 public class UserInput : IUserInput
 {

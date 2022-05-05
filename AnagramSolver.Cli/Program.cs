@@ -2,7 +2,9 @@
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Cli;
+using AnagramSolver.Cli.Input;
 using AnagramSolver.Cli.Interfaces;
+using AnagramSolver.Cli.Output;
 using Microsoft.Extensions.Configuration;
 
 var environment = Environment.GetEnvironmentVariable("APSNETCORE_ENVIRONMENT");
@@ -27,27 +29,6 @@ if (dataFilePath != null)
 
     IUserInput userInput = new UserInput(minLength);
 
-    AnagramOutput(userInput, anagramResolver);
-}
-
-void AnagramOutput(IUserInput userInput, IAnagramResolver anagramSolver)
-{
-    while (true)
-    {
-        var inputWord = userInput.GetUserInput();
-
-        var anagrams = anagramSolver.FindAnagrams(inputWord);
-
-        Console.WriteLine("Anagrams: ");
-        if (anagrams.Count < minAnagrams)
-        {
-            Console.WriteLine($"Less than {minAnagrams} anagrams have been found. Try another word.");
-        }
-
-        foreach (var anagram in anagrams.Take(maxAnagrams))
-        {
-            Console.WriteLine(anagram);
-        }
-    }
-    // ReSharper disable once FunctionNeverReturns
+    IAnagramOutput anagramOutput = new AnagramOutputFromUri();
+    await anagramOutput.AnagramOutput(userInput.GetUserInput());
 }
