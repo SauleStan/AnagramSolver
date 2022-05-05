@@ -15,8 +15,8 @@ public class AnagramController : ControllerBase
     }
     
     [HttpGet("{input}")]
-    public HashSet<string> GetAnagrams(string input)
+    public List<string> GetAnagrams(string input)
     {
-        return _anagramResolver.FindAnagrams(input);
+        return _anagramResolver.FindAnagrams(input).ToList();
     }
 }

@@ -16,7 +16,7 @@ public class AnagramResolver : IAnagramResolver
         _wordService = wordService;
     }
 
-    public HashSet<string> FindAnagrams(string inputWord)
+    public List<string> FindAnagrams(string inputWord)
     {
         _anagramsSet.Clear();
         
@@ -35,6 +35,6 @@ public class AnagramResolver : IAnagramResolver
             }
         }
 
-        return _anagramsSet;
+        return _anagramsSet.ToList();
     }
 }

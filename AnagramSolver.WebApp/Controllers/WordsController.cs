@@ -18,12 +18,12 @@ public class WordsController : Controller
     
     public IActionResult DisplayWords(int pageNumber = 1)
     {
-        return View(PaginatedHashSet<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
+        return View("Words",PaginatedHashSet<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
     }
     
     public IActionResult SaveNewWord()
     {
-        return View();
+        return View("NewWord");
     }
     
     [HttpPost]
@@ -31,12 +31,12 @@ public class WordsController : Controller
     {
         if (anagramModel is null || !ModelState.IsValid)
         {
-            return View();
+            return View("NewWord");
         }
         
         bool result = _wordService.AddWord(anagramModel.Input);
         ViewBag.SaveStatus = result;
 
-        return View();
+        return View("NewWord");
     }
 }

@@ -1,0 +1,12 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model AnagramSolver.WebApp.Models.AnagramList
+@{
+    ViewBag.Title = "Anagrams";
+}
+<h5>Found anagrams:</h5>
+<div>
+    @foreach (var anagram in @Model.Anagrams)
+    {
+        @anagram<br/>
+    }
+</div>

@@ -21,16 +21,15 @@ public class HomeController : Controller
 
     public IActionResult GetAnagrams(string input)
     {
-        ViewBag.Anagrams = _anagramResolver.FindAnagrams(input);
-        return View();
+        return View("Anagrams", new AnagramList(_anagramResolver.FindAnagrams(input)));
     }
     
     [HttpPost]
-    public IActionResult GetAnagrams([Bind("Input")]AnagramModel anagramModel, int pageNumber = 1, int pageSize = 20)
+    public IActionResult GetAnagrams([Bind("Input")]AnagramModel anagramModel)
     {
         if (ModelState.IsValid)
         {
-            return View(PaginatedHashSet<string>.Create(_anagramResolver.FindAnagrams(anagramModel.Input), pageNumber, pageSize));
+            return View("Anagrams", new AnagramList(_anagramResolver.FindAnagrams(anagramModel.Input)));
         }
 
         return View("Index");
