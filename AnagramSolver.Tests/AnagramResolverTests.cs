@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Models;
@@ -35,7 +36,7 @@ public class AnagramResolverTests
         _anagramSetMock.Add(anagram4);
         _anagramSetMock.Add(anagramSentence);
         
-        _wordServiceMock.Setup(x => x.GetWords()).Returns(_wordSetMock);
+        _wordServiceMock.Setup(x => x.GetWords()).Returns(_wordSetMock.ToList);
         _anagramServiceMock.Setup(x => x.ConvertToAnagrams(_wordSetMock)).Returns(_anagramSetMock);
     }
     

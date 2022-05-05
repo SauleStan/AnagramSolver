@@ -2,6 +2,6 @@ namespace AnagramSolver.BusinessLogic.Interfaces;
 
 public interface IWordService
 {
-    public HashSet<string> GetWords();
+    public List<string> GetWords();
     bool AddWord(string word);
 }

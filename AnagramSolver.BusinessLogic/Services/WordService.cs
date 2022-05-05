@@ -14,9 +14,9 @@ public class WordService : IWordService
         _path = path;
     }
     
-    public HashSet<string> GetWords()
+    public List<string> GetWords()
     {
-        return _wordRepository.GetWords(_path);
+        return _wordRepository.GetWords(_path).ToList();
     }
 
     public bool AddWord(string word)
