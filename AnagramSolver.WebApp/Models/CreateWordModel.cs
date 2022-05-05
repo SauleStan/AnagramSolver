@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnagramSolver.WebApp.Models;
 
-public class AnagramModel
+public class CreateWordModel
 {
     [Required]
-    public string Input { get; set; }
+    public string Word { get; set; }
 }
