@@ -1,7 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
-using AnagramSolver.Cli;
 using AnagramSolver.Cli.Input;
 using AnagramSolver.Cli.Interfaces;
 using AnagramSolver.Cli.Output;
@@ -30,5 +29,9 @@ if (dataFilePath != null)
     IUserInput userInput = new UserInput(minLength);
 
     IAnagramOutput anagramOutput = new AnagramOutputFromUri();
-    await anagramOutput.AnagramOutput(userInput.GetUserInput());
+    while (true)
+    {
+        await anagramOutput.AnagramOutput(userInput.GetUserInput());
+    }
+
 }

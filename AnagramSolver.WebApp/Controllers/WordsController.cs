@@ -27,14 +27,14 @@ public class WordsController : Controller
     }
     
     [HttpPost]
-    public IActionResult SaveNewWord([Bind("Input")]InputModel inputModel)
+    public IActionResult SaveNewWord([Bind("Input")]AnagramModel anagramModel)
     {
-        if (inputModel is null || !ModelState.IsValid)
+        if (anagramModel is null || !ModelState.IsValid)
         {
             return View("NewWord");
         }
         
-        bool result = _wordService.AddWord(inputModel.Input);
+        bool result = _wordService.AddWord(anagramModel.Input);
         ViewBag.SaveStatus = result;
 
         return View("NewWord");

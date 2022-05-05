@@ -4,19 +4,23 @@ namespace AnagramSolver.Cli.Output;
 
 public class AnagramOutputFromUri : IAnagramOutput
 {
-    private static HttpClient _client = new();
+    private static readonly HttpClient Client;
 
+    static AnagramOutputFromUri()
+    {
+        var handler = new HttpClientHandler();
+        handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+        handler.ServerCertificateCustomValidationCallback = 
+            (httpRequestMessage, cert, cetChain, policyErrors) => true;
+
+        Client = new HttpClient(handler);
+    }
+    
     public async Task AnagramOutput(string userInput)
     {
         try	
         {
-            var handler = new HttpClientHandler();
-            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            handler.ServerCertificateCustomValidationCallback = 
-                (httpRequestMessage, cert, cetChain, policyErrors) => true;
-
-            _client = new HttpClient(handler);
-            HttpResponseMessage response = await _client.GetAsync($"https://localhost:7188/api/Anagram/{userInput}");
+            HttpResponseMessage response = await Client.GetAsync($"https://localhost:7188/api/Anagram/{userInput}");
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
 

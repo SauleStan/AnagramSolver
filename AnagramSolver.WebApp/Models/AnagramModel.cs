@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnagramSolver.WebApp.Models;
 
-public class InputModel
+public class AnagramModel
 {
     [Required]
     public string Input { get; set; }

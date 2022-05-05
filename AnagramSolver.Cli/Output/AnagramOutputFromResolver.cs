@@ -17,22 +17,19 @@ public class AnagramOutputFromResolver
     
     public void AnagramOutput(string userInput)
     {
-        while (true)
+        var inputWord = userInput;
+
+        var anagrams = _anagramResolver.FindAnagrams(inputWord);
+
+        Console.WriteLine("Anagrams: ");
+        if (anagrams.Count < _minAnagrams)
         {
-            var inputWord = userInput;
+            Console.WriteLine($"Less than {_minAnagrams} anagrams have been found. Try another word.");
+        }
 
-            var anagrams = _anagramResolver.FindAnagrams(inputWord);
-
-            Console.WriteLine("Anagrams: ");
-            if (anagrams.Count < _minAnagrams)
-            {
-                Console.WriteLine($"Less than {_minAnagrams} anagrams have been found. Try another word.");
-            }
-
-            foreach (var anagram in anagrams.Take(_maxAnagrams))
-            {
-                Console.WriteLine(anagram);
-            }
+        foreach (var anagram in anagrams.Take(_maxAnagrams))
+        {
+            Console.WriteLine(anagram);
         }
         // ReSharper disable once FunctionNeverReturns
     }
