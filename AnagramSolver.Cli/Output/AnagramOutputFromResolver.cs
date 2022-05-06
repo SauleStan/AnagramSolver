@@ -20,7 +20,7 @@ public class AnagramOutputFromResolver : IAnagramOutput
     {
         var inputWord = userInput;
 
-        var anagrams = _anagramResolver.FindAnagrams(inputWord);
+        var anagrams = _anagramResolver.FindAnagrams(inputWord).ToList();
 
         Console.WriteLine("Anagrams: ");
         if (anagrams.Count < _minAnagrams)
