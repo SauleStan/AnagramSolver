@@ -5,12 +5,16 @@ namespace AnagramSolver.Contracts.DataAccess;
 public class WordFileAccess : IWordRepository
 {
     private readonly HashSet<string> _words = new ();
-
-    public IEnumerable<string> GetWords(string path)
+    private readonly string _path;
+    public WordFileAccess(string path)
+    {
+        _path = path;
+    }
+    public IEnumerable<string> GetWords()
     {
         try
         {
-            using (var sr = new StreamReader(path))
+            using (var sr = new StreamReader(_path))
             {
                 string? line;
                 
@@ -33,12 +37,12 @@ public class WordFileAccess : IWordRepository
         return _words;
     }
 
-    public void AddWord(string word, string path)
+    public void AddWord(string word)
     {
         try
         {
 
-            File.AppendAllText(path, word + Environment.NewLine);
+            File.AppendAllText(_path, word + Environment.NewLine);
         }
         catch (FileNotFoundException e)
         {

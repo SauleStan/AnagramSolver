@@ -6,28 +6,27 @@ namespace AnagramSolver.BusinessLogic.Services;
 
 public class WordService : IWordService
 {
-    private readonly IWordRepository _wordRepository = new WordFileAccess();
-    private readonly string _path;
+    private readonly IWordRepository _wordRepository;
 
-    public WordService(string path)
+    public WordService(IWordRepository wordRepository)
     {
-        _path = path;
+        _wordRepository = wordRepository;
     }
     
     public HashSet<string> GetWords()
     {
-        return _wordRepository.GetWords(_path).ToHashSet();
+        return _wordRepository.GetWords().ToHashSet();
     }
 
     public bool AddWord(string word)
     {
         try
         {
-            if (_wordRepository.GetWords(_path).Contains(word))
+            if (_wordRepository.GetWords().Contains(word))
             {
                 throw new ArgumentException($"{word} already exists.");
             }
-            _wordRepository.AddWord(word, _path);
+            _wordRepository.AddWord(word);
             return true;
         }
         catch (Exception)

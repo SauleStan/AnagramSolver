@@ -1,8 +1,9 @@
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.Cli.Interfaces;
 
 namespace AnagramSolver.Cli.Output;
 
-public class AnagramOutputFromResolver
+public class AnagramOutputFromResolver : IAnagramOutput
 {
     private readonly IAnagramResolver _anagramResolver;
     private readonly int _minAnagrams;
@@ -15,7 +16,7 @@ public class AnagramOutputFromResolver
         _maxAnagrams = maxAnagrams;
     }
     
-    public void AnagramOutput(string userInput)
+    public Task AnagramOutput(string userInput)
     {
         var inputWord = userInput;
 
@@ -31,6 +32,6 @@ public class AnagramOutputFromResolver
         {
             Console.WriteLine(anagram);
         }
-        // ReSharper disable once FunctionNeverReturns
+        return Task.CompletedTask;
     }
 }

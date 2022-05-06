@@ -4,6 +4,7 @@ using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Cli.Input;
 using AnagramSolver.Cli.Interfaces;
 using AnagramSolver.Cli.Output;
+using AnagramSolver.Contracts.DataAccess;
 using Microsoft.Extensions.Configuration;
 
 var environment = Environment.GetEnvironmentVariable("APSNETCORE_ENVIRONMENT");
@@ -24,7 +25,7 @@ var dataFilePath = config.GetValue<string>("WordFilePath");
 
 if (dataFilePath != null)
 {
-    IAnagramResolver anagramResolver = new AnagramResolver(new AnagramService(), new WordService(dataFilePath));
+    IAnagramResolver anagramResolver = new AnagramResolver(new AnagramService(), new WordService(new WordFileAccess(dataFilePath)));
 
     IUserInput userInput = new UserInput(minLength);
 

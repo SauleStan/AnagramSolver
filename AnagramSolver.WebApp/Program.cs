@@ -2,6 +2,8 @@ using System.Reflection;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
+using AnagramSolver.Contracts.DataAccess;
+using AnagramSolver.Contracts.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +25,9 @@ var path = directoryPath + dataFilePath;
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IWordService>(sp => new WordService(path));
-builder.Services.AddSingleton<IAnagramResolver>(sp => new AnagramResolver(new AnagramService(), new WordService(path)));
+builder.Services.AddSingleton<IWordRepository>(sp => new WordFileAccess(path));
+builder.Services.AddScoped<IWordService>(sp => new WordService(new WordFileAccess(path)));
+builder.Services.AddSingleton<IAnagramResolver>(sp => new AnagramResolver(new AnagramService(), new WordService(new WordFileAccess(path))));
 
 var app = builder.Build();
 
