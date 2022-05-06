@@ -37,16 +37,16 @@ public class WordFileAccess : IWordRepository
         return _words;
     }
 
-    public void AddWord(string word)
+    public bool AddWord(string word)
     {
         try
         {
-
             File.AppendAllText(_path, word + Environment.NewLine);
+            return true;
         }
-        catch (FileNotFoundException e)
+        catch (FileNotFoundException)
         {
-            throw;
+            return false;
         }
     }
 }

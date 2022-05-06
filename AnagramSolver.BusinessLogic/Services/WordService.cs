@@ -26,7 +26,12 @@ public class WordService : IWordService
             {
                 throw new ArgumentException($"{word} already exists.");
             }
-            _wordRepository.AddWord(word);
+
+            if (!_wordRepository.AddWord(word))
+            {
+                throw new Exception("Failed to add the word.");
+            }
+
             return true;
         }
         catch (Exception)

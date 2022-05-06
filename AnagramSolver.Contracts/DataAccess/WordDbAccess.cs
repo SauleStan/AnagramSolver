@@ -33,7 +33,7 @@ public class WordDbAccess : IWordRepository
         return _words;
     }
 
-    public void AddWord(string word)
+    public bool AddWord(string word)
     {
         try
         {
@@ -44,10 +44,11 @@ public class WordDbAccess : IWordRepository
             cmd.CommandText = "INSERT INTO Words ([Name]) VALUES (@Word)";
             cmd.Parameters.AddWithValue("@Word", word);
             cmd.ExecuteNonQuery();
+            return true;
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
+            return false;
         }
         finally
         {
