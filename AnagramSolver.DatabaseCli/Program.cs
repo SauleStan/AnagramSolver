@@ -18,6 +18,6 @@ var dataFilePath = config.GetValue<string>("WordFilePath");
 if (dataFilePath != null)
 {
     var wordFileService = new WordService(new WordFileRepository(dataFilePath));
-    var wordDbAccess = new WordDbRepository();
-    wordDbAccess.AddWords(wordFileService.GetWords());
+    var wordDbRepository = new WordDbRepository();
+    wordDbRepository.AddWords(wordFileService.GetWords());
 }
