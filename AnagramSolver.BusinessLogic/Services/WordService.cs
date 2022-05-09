@@ -12,24 +12,15 @@ public class WordService : IWordService
         _wordRepository = wordRepository;
     }
     
-    public HashSet<string> GetWords()
+    public IEnumerable<string> GetWords()
     {
-        var words = new HashSet<string>();
-        foreach (var word in _wordRepository.GetWords())
-        {
-            words.Add(word.Name);
-        }
+        var words = _wordRepository.GetWords().Select(word => word.Name);
         return words;
     }
 
     public IEnumerable<string> GetFilteredWords(string filter)
     {
-        var words = new HashSet<string>();
-        foreach (var word in _wordRepository.GetFilteredWords(filter))
-        {
-            words.Add(word.Name);
-        }
-
+        var words = _wordRepository.GetFilteredWords(filter).Select(word => word.Name);
         return words;
     }
 
