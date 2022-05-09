@@ -20,7 +20,7 @@ public class WordDbRepository : IWordRepository
         SqlCommand cmd = new SqlCommand();
         cmd.Connection = _cn;
         cmd.CommandType = CommandType.Text;
-        cmd.CommandText = "SELECT * FROM Words";
+        cmd.CommandText = "SELECT Id, Name FROM Words";
         SqlDataReader dr = cmd.ExecuteReader();
         if (dr.HasRows)
         {
@@ -68,7 +68,7 @@ public class WordDbRepository : IWordRepository
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = _cn;
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM Words WHERE Name LIKE @Filter";
+            cmd.CommandText = "SELECT Id, Name FROM Words WHERE Name LIKE @Filter";
             cmd.Parameters.AddWithValue("@Filter", filter);
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.HasRows)
