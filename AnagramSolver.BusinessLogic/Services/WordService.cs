@@ -1,5 +1,4 @@
 using AnagramSolver.BusinessLogic.Interfaces;
-using AnagramSolver.Contracts.DataAccess;
 using AnagramSolver.Contracts.Interfaces;
 
 namespace AnagramSolver.BusinessLogic.Services;
@@ -15,14 +14,30 @@ public class WordService : IWordService
     
     public HashSet<string> GetWords()
     {
-        return _wordRepository.GetWords().ToHashSet();
+        var words = new HashSet<string>();
+        foreach (var word in _wordRepository.GetWords())
+        {
+            words.Add(word.Name);
+        }
+        return words;
+    }
+
+    public IEnumerable<string> GetFilteredWords(string filter)
+    {
+        var words = new HashSet<string>();
+        foreach (var word in _wordRepository.GetFilteredWords(filter))
+        {
+            words.Add(word.Name);
+        }
+
+        return words;
     }
 
     public bool AddWord(string word)
     {
         try
         {
-            if (_wordRepository.GetWords().Contains(word))
+            if (_wordRepository.GetWords().Any(x => x.Name == word))
             {
                 throw new ArgumentException($"{word} already exists.");
             }

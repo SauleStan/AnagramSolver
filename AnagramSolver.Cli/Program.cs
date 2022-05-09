@@ -25,7 +25,7 @@ var dataFilePath = config.GetValue<string>("WordFilePath");
 
 if (dataFilePath != null)
 {
-    IAnagramResolver anagramResolver = new AnagramResolver(new AnagramService(), new WordService(new WordFileAccess(dataFilePath)));
+    IAnagramResolver anagramResolver = new AnagramResolver(new AnagramService(), new WordService(new WordFileRepository(dataFilePath)));
 
     IUserInput userInput = new UserInput(minLength);
 

@@ -18,7 +18,13 @@ public class WordsController : Controller
     
     public IActionResult DisplayWords(int pageNumber = 1)
     {
-        return View("Words",PaginatedList<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
+        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
+    }
+    
+    [HttpPost]
+    public IActionResult DisplayFilteredWords(string searchInputModel, int pageNumber = 1)
+    {
+        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetFilteredWords(searchInputModel), pageNumber, PageSize));
     }
     
     public IActionResult SaveNewWord()

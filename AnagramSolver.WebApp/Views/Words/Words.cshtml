@@ -1,12 +1,21 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model AnagramSolver.WebApp.Models.PaginatedList<string>
+@model AnagramSolver.WebApp.Models.PaginatedList<string>;
 
 @{
     ViewBag.Title = "Words";
     var prevDisabled = !@Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !@Model.HasNextPage ? "disabled" : "";
 }
-
+<form asp-controller="Words" asp-action="DisplayFilteredWords" method="post">
+    <div class="form-actions no-color">
+        <p>
+            Search by word:
+            <input type="text" name="searchInputModel"/>
+            <button type="submit">Search</button> |
+            <a asp-action="DisplayWords">Get full list</a>
+        </p>
+    </div>
+</form>
 <div>
     <table>
         @foreach (var word in @Model)

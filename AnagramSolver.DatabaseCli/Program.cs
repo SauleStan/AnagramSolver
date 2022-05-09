@@ -17,8 +17,8 @@ var dataFilePath = config.GetValue<string>("WordFilePath");
 
 if (dataFilePath != null)
 {
-    var wordFileService = new WordService(new WordFileAccess(dataFilePath));
-    var wordDbAccess = new WordDbAccess();
+    var wordFileService = new WordService(new WordFileRepository(dataFilePath));
+    var wordDbAccess = new WordDbRepository();
 
     foreach (var word in wordFileService.GetWords())
     {
