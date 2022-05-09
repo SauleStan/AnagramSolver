@@ -21,15 +21,15 @@ public class WordDbRepository : IWordRepository
         cmd.Connection = _cn;
         cmd.CommandType = CommandType.Text;
         cmd.CommandText = "SELECT Id, Name FROM Words";
-        SqlDataReader dr = cmd.ExecuteReader();
-        if (dr.HasRows)
+        SqlDataReader dataReader = cmd.ExecuteReader();
+        if (dataReader.HasRows)
         {
-            while (dr.Read())
+            while (dataReader.Read())
             {
-                _words.Add(new WordModel((int)dr["Id"], (string)dr["Name"]));
+                _words.Add(new WordModel((int)dataReader["Id"], (string)dataReader["Name"]));
             }
         }
-        dr.Close();
+        dataReader.Close();
         _cn.Close();
         return _words;
     }
@@ -70,15 +70,15 @@ public class WordDbRepository : IWordRepository
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "SELECT Id, Name FROM Words WHERE Name LIKE @Filter";
             cmd.Parameters.AddWithValue("@Filter", filter);
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.HasRows)
+            SqlDataReader dataReader = cmd.ExecuteReader();
+            if (dataReader.HasRows)
             {
-                while (dr.Read())
+                while (dataReader.Read())
                 {
-                    filteredWords.Add(new WordModel((int)dr["Id"], (string)dr["Name"]));
+                    filteredWords.Add(new WordModel((int)dataReader["Id"], (string)dataReader["Name"]));
                 }
             }
-            dr.Close();
+            dataReader.Close();
             
             return filteredWords;
         }
