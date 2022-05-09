@@ -60,4 +60,17 @@ public class WordFileRepository : IWordRepository
             return false;
         }
     }
+
+    public bool AddWords(IEnumerable<string> words)
+    {
+        try
+        {
+            File.AppendAllLines(_path, words);
+            return true;
+        }
+        catch (FileNotFoundException)
+        {
+            return false;
+        }
+    }
 }

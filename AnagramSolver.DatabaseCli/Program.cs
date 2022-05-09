@@ -19,9 +19,5 @@ if (dataFilePath != null)
 {
     var wordFileService = new WordService(new WordFileRepository(dataFilePath));
     var wordDbAccess = new WordDbRepository();
-
-    foreach (var word in wordFileService.GetWords())
-    {
-        wordDbAccess.AddWord(word);
-    }
+    wordDbAccess.AddWords(wordFileService.GetWords());
 }

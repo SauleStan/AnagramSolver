@@ -57,6 +57,33 @@ public class WordDbRepository : IWordRepository
         }
     }
 
+    public bool AddWords(IEnumerable<string> words)
+    {
+        try
+        {
+            _cn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = _cn;
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "INSERT INTO Words ([Name]) VALUES (@Word)";
+            foreach (var word in words)
+            {
+                cmd.Parameters.AddWithValue("@Word", word);
+                cmd.ExecuteNonQuery();
+            }
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+        finally
+        {
+            _cn.Open();
+        }
+    }
+
     public IEnumerable<WordModel> GetFilteredWords(string filter)
     {
         try
