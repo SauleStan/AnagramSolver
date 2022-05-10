@@ -9,7 +9,7 @@ public class WordDbRepository : IWordRepository
 {
     private readonly SqlConnection _cn = new ();
     private readonly List<WordModel> _words = new ();
-    
+
     public WordDbRepository()
     {
         _cn.ConnectionString = "Server=localhost;Database=AnagramDB;Trusted_Connection=True;";
@@ -17,11 +17,11 @@ public class WordDbRepository : IWordRepository
     public IEnumerable<WordModel> GetWords()
     {
         _cn.Open();
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = _cn;
-        cmd.CommandType = CommandType.Text;
-        cmd.CommandText = "SELECT Id, Name FROM Words";
-        SqlDataReader dataReader = cmd.ExecuteReader();
+        SqlCommand command = new SqlCommand();
+        command.Connection = _cn;
+        command.CommandType = CommandType.Text;
+        command.CommandText = "SELECT Id, Name FROM Word";
+        SqlDataReader dataReader = command.ExecuteReader();
         if (dataReader.HasRows)
         {
             while (dataReader.Read())
@@ -39,12 +39,12 @@ public class WordDbRepository : IWordRepository
         try
         {
             _cn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = _cn;
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "INSERT INTO Words ([Name]) VALUES (@Word)";
-            cmd.Parameters.AddWithValue("@Word", word);
-            cmd.ExecuteNonQuery();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "INSERT INTO [Word] ([Name]) VALUES (@Word)";
+            command.Parameters.AddWithValue("@Word", word);
+            command.ExecuteNonQuery();
             return true;
         }
         catch (Exception)
@@ -62,14 +62,15 @@ public class WordDbRepository : IWordRepository
         try
         {
             _cn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = _cn;
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "INSERT INTO Words ([Name]) VALUES (@Word)";
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "INSERT INTO [Word] (Name) VALUES (@Word)";
             foreach (var word in words)
             {
-                cmd.Parameters.AddWithValue("@Word", word);
-                cmd.ExecuteNonQuery();
+                command.Parameters.Clear();
+                command.Parameters.Add(new  SqlParameter("@Word", word));
+                command.ExecuteNonQuery();
             }
 
             return true;
@@ -86,18 +87,18 @@ public class WordDbRepository : IWordRepository
 
     public IEnumerable<WordModel> GetFilteredWords(string filter)
     {
+        
         try
         {
-            HashSet<WordModel> filteredWords = new ();
-            filter = filter.Insert(0, "%");
-            filter += "%";
+            List<WordModel> filteredWords = new ();
             _cn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = _cn;
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT Id, Name FROM Words WHERE Name LIKE @Filter";
-            cmd.Parameters.AddWithValue("@Filter", filter);
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT Id, Name FROM [Word] WHERE Name LIKE @Filter";
+            command.Parameters.AddWithValue("@Filter", filter);
+            SqlDataReader dataReader = command.ExecuteReader();
+
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
@@ -106,7 +107,6 @@ public class WordDbRepository : IWordRepository
                 }
             }
             dataReader.Close();
-            
             return filteredWords;
         }
         catch (Exception)
@@ -118,5 +118,95 @@ public class WordDbRepository : IWordRepository
             _cn.Close();
         }
         
+    }
+
+    public bool CacheWord(string searchWord, IEnumerable<string> anagrams)
+    {
+        try
+        {
+            if (_words.Count == 0)
+            {
+                GetWords();
+            }
+            var anagramModels = _words.FindAll(word => anagrams.Contains(word.Name));
+            _cn.Open();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "INSERT INTO [CachedWord]([InputWord],[AnagramWordId]) VALUES (@SearchedWord, @AnagramId)";
+            foreach (var anagramModel in anagramModels)
+            {
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@SearchedWord", searchWord);
+                command.Parameters.AddWithValue("@AnagramId", anagramModel.Id);
+                command.ExecuteNonQuery();
+            }
+
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            _cn.Close();
+        }
+    }
+
+    public IEnumerable<CachedWord> GetCachedWords()
+    {
+        try
+        { 
+            _cn.Open();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT cw.Id, cw.InputWord, w.Name " +
+                                  "FROM [CachedWord] cw " +
+                                  "INNER JOIN [Word] w " +
+                                  "ON cw.AnagramWordId = w.Id";
+            SqlDataReader dataReader = command.ExecuteReader();
+            
+            List<CachedWord> cachedWords = new();
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    var inputWord = (string)dataReader["InputWord"];
+                    if (!cachedWords.Any(cached => cached.InputWord.Equals(inputWord)))
+                    {
+                        var cachedWord = new CachedWord()
+                        {
+                            Id = (int) dataReader["Id"],
+                            InputWord = inputWord
+                        };
+                        cachedWord.Anagrams.Add((string) dataReader["Name"]);
+                        cachedWords.Add(cachedWord);
+
+                    }
+                    else
+                    {
+                        var existingCachedWord = cachedWords.First(cached => cached.InputWord.Equals(inputWord));
+                        if (existingCachedWord.Anagrams.Contains((string)dataReader["Name"]))
+                        {
+                            continue;
+                        }
+                        existingCachedWord.Anagrams.Add((string) dataReader["Name"]);
+                    }
+                }
+            }
+            dataReader.Close();
+            return cachedWords;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            _cn.Close();
+        }
+
     }
 }

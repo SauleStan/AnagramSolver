@@ -1,5 +1,6 @@
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Models;
 
 namespace AnagramSolver.BusinessLogic.Services;
 
@@ -20,6 +21,8 @@ public class WordService : IWordService
 
     public IEnumerable<string> GetFilteredWords(string filter)
     {
+        filter = filter.Insert(0, "%");
+        filter += "%";
         var words = _wordRepository.GetFilteredWords(filter).Select(word => word.Name);
         return words;
     }
@@ -44,5 +47,15 @@ public class WordService : IWordService
         {
             return false;
         }
+    }
+
+    public bool CacheWord(string word, IEnumerable<string> anagrams)
+    {
+        return _wordRepository.CacheWord(word, anagrams);
+    }
+
+    public IEnumerable<CachedWord> GetCachedWords()
+    {
+        return _wordRepository.GetCachedWords();
     }
 }

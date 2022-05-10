@@ -26,7 +26,7 @@ var path = directoryPath + dataFilePath;
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IWordRepository>(sp => new WordDbRepository());
-builder.Services.AddScoped<IWordService>(sp => new WordService(new WordDbRepository()));
+builder.Services.AddSingleton<IWordService>(sp => new WordService(new WordDbRepository()));
 builder.Services.AddSingleton<IAnagramResolver>(sp => new AnagramResolver(new AnagramService(), new WordService(new WordDbRepository())));
 
 var app = builder.Build();

@@ -8,4 +8,6 @@ public interface IWordRepository
     IEnumerable<WordModel> GetFilteredWords(string filter);
     bool AddWord(string word);
     bool AddWords(IEnumerable<string> words);
+    bool CacheWord(string word, IEnumerable<string> anagrams);
+    IEnumerable<CachedWord> GetCachedWords();
 }
