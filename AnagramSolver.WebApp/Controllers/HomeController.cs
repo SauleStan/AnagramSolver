@@ -73,15 +73,13 @@ public class HomeController : Controller
 
     private AnagramList GetCachedWordList(string input)
     {
-        var cachedWords = _wordService.GetCachedWords().Where(cachedWord => cachedWord.InputWord.Equals(input));
-        var enumerable = cachedWords.ToList();
-        if (enumerable.Count == 0)
+        var cachedWord = _wordService.GetCachedWord(input);
+        if (cachedWord.Anagrams.Count == 0)
         {
             var anagramList = _anagramResolver.FindAnagrams(input);
             _wordService.CacheWord(input, anagramList);
             return new AnagramList(anagramList, input);
         }
-        CachedWord cachedWord = enumerable.First(cached => cached.InputWord.Equals(input));
         return new AnagramList(cachedWord.Anagrams, input);
     }
 }

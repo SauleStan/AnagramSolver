@@ -54,9 +54,9 @@ public class WordService : IWordService
         return _wordRepository.CacheWord(word, anagrams);
     }
 
-    public IEnumerable<CachedWord> GetCachedWords()
+    public CachedWord GetCachedWord(string input)
     {
-        return _wordRepository.GetCachedWords();
+        return _wordRepository.GetCachedWord(input);
     }
 
     public IEnumerable<SearchInfo> GetAnagramSearchInfo()

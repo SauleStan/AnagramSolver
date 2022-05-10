@@ -42,7 +42,7 @@ public class WordDbRepository : IWordRepository
             SqlCommand command = new SqlCommand();
             command.Connection = _cn;
             command.CommandType = CommandType.Text;
-            command.CommandText = "INSERT INTO [Word] ([Name]) VALUES (@Word)";
+            command.CommandText = "INSERT INTO Word ([Name]) VALUES (@Word)";
             command.Parameters.AddWithValue("@Word", word);
             command.ExecuteNonQuery();
             return true;
@@ -65,7 +65,7 @@ public class WordDbRepository : IWordRepository
             SqlCommand command = new SqlCommand();
             command.Connection = _cn;
             command.CommandType = CommandType.Text;
-            command.CommandText = "INSERT INTO [Word] (Name) VALUES (@Word)";
+            command.CommandText = "INSERT INTO Word (Name) VALUES (@Word)";
             foreach (var word in words)
             {
                 command.Parameters.Clear();
@@ -95,7 +95,7 @@ public class WordDbRepository : IWordRepository
             SqlCommand command = new SqlCommand();
             command.Connection = _cn;
             command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT Id, Name FROM [Word] WHERE Name LIKE @Filter";
+            command.CommandText = "SELECT Id, Name FROM Word WHERE Name LIKE @Filter";
             command.Parameters.AddWithValue("@Filter", filter);
             SqlDataReader dataReader = command.ExecuteReader();
 
@@ -133,7 +133,7 @@ public class WordDbRepository : IWordRepository
             SqlCommand command = new SqlCommand();
             command.Connection = _cn;
             command.CommandType = CommandType.Text;
-            command.CommandText = "INSERT INTO [CachedWord]([InputWord],[AnagramWordId]) VALUES (@SearchedWord, @AnagramId)";
+            command.CommandText = "INSERT INTO CachedWord([InputWord],[AnagramWordId]) VALUES (@SearchedWord, @AnagramId)";
             foreach (var anagramModel in anagramModels)
             {
                 command.Parameters.Clear();
@@ -154,7 +154,7 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public IEnumerable<CachedWord> GetCachedWords()
+    public CachedWord GetCachedWord(string input)
     {
         try
         { 
@@ -163,41 +163,40 @@ public class WordDbRepository : IWordRepository
             command.Connection = _cn;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT cw.Id, cw.InputWord, w.Name " +
-                                  "FROM [CachedWord] cw " +
-                                  "INNER JOIN [Word] w " +
-                                  "ON cw.AnagramWordId = w.Id";
+                                  "FROM CachedWord cw " +
+                                  "INNER JOIN Word w " +
+                                  "ON cw.AnagramWordId = w.Id " +
+                                  "WHERE cw.InputWord = @Input";
+            command.Parameters.AddWithValue("@Input", input);
             SqlDataReader dataReader = command.ExecuteReader();
-            
-            List<CachedWord> cachedWords = new();
+            var cachedWord = new CachedWord()
+            {
+                InputWord = String.Empty
+            };
+
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
                     var inputWord = (string)dataReader["InputWord"];
-                    if (!cachedWords.Any(cached => cached.InputWord.Equals(inputWord)))
+                    if (!cachedWord.InputWord.Equals(inputWord))
                     {
-                        var cachedWord = new CachedWord()
-                        {
-                            Id = (int) dataReader["Id"],
-                            InputWord = inputWord
-                        };
+                        cachedWord.Id = (int)dataReader["Id"];
+                        cachedWord.InputWord = inputWord;
                         cachedWord.Anagrams.Add((string) dataReader["Name"]);
-                        cachedWords.Add(cachedWord);
-
                     }
                     else
                     {
-                        var existingCachedWord = cachedWords.First(cached => cached.InputWord.Equals(inputWord));
-                        if (existingCachedWord.Anagrams.Contains((string)dataReader["Name"]))
+                        if (cachedWord.Anagrams.Contains((string)dataReader["Name"]))
                         {
                             continue;
                         }
-                        existingCachedWord.Anagrams.Add((string) dataReader["Name"]);
+                        cachedWord.Anagrams.Add((string) dataReader["Name"]);
                     }
                 }
             }
             dataReader.Close();
-            return cachedWords;
+            return cachedWord;
         }
         catch (Exception)
         {
@@ -225,32 +224,30 @@ public class WordDbRepository : IWordRepository
             SqlDataReader dataReader = command.ExecuteReader();
 
             var searchInfoList = new List<SearchInfo>();
+            var newSearchInfo = new SearchInfo();
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    var searchedWord = (string)dataReader["SearchedWord"];
-                    if (!searchInfoList.Any(searchInfo => searchInfo.SearchedWord.Equals(searchedWord)))
+                    var searchedWordExecTime = (TimeSpan)dataReader["ExecTime"];
+                    
+                    if (searchInfoList.Count != 0 && searchedWordExecTime.Equals(searchInfoList.Last().ExecTime))
                     {
-                        var newSearchInfo = new SearchInfo()
+                        newSearchInfo.Anagrams.Add((string) dataReader["Name"]);
+                    }
+                    else
+                    {
+                        newSearchInfo = new SearchInfo
                         {
                             Id = (int)dataReader["Id"],
-                            UserIp = (string) dataReader["UserIp"],
-                            ExecTime = (TimeSpan) dataReader["ExecTime"],
-                            SearchedWord = (string) dataReader["SearchedWord"],
+                            UserIp = (string)dataReader["UserIp"],
+                            ExecTime = (TimeSpan)dataReader["ExecTime"],
+                            SearchedWord = (string)dataReader["SearchedWord"]
                         };
                         newSearchInfo.Anagrams.Add((string) dataReader["Name"]);
                         searchInfoList.Add(newSearchInfo);
                     }
-                    else
-                    {
-                        var existingCachedWord = searchInfoList.First(searchInfo => searchInfo.SearchedWord.Equals(searchedWord));
-                        if (existingCachedWord.Anagrams.Contains((string)dataReader["Name"]))
-                        {
-                            continue;
-                        }
-                        existingCachedWord.Anagrams.Add((string) dataReader["Name"]);
-                    }
+
                 }
             }
             dataReader.Close();

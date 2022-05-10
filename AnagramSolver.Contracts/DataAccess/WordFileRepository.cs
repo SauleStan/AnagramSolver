@@ -79,7 +79,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<CachedWord> GetCachedWords()
+    public CachedWord GetCachedWord(string input)
     {
         throw new NotImplementedException();
     }

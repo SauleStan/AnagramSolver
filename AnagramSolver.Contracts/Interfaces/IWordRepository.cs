@@ -9,7 +9,7 @@ public interface IWordRepository
     bool AddWord(string word);
     bool AddWords(IEnumerable<string> words);
     bool CacheWord(string word, IEnumerable<string> anagrams);
-    IEnumerable<CachedWord> GetCachedWords();
+    CachedWord GetCachedWord(string input);
     IEnumerable<SearchInfo> GetAnagramSearchInfo();
     bool AddAnagramSearchInfo(SearchInfo searchInfo);
     bool ClearSearchInfoTable(string tableName);
