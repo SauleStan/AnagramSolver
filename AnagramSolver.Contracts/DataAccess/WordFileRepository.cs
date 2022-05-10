@@ -94,7 +94,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool ClearSearchInfoTable()
+    public bool ClearSearchInfoTable(string tableName)
     {
         throw new NotImplementedException();
     }

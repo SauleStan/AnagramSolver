@@ -10,4 +10,6 @@
     <input type="text" asp-for="Input"/><br/>
     <span asp-validation-for="Input" class="text-danger"></span><br/>
     <button type="submit">Show Anagrams</button>
+    <button asp-action = "ClearCache">Clear Cache</button><br/>
+    <span>@ViewBag.ClearStatus</span>
 </form>

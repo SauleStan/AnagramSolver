@@ -12,5 +12,5 @@ public interface IWordRepository
     IEnumerable<CachedWord> GetCachedWords();
     IEnumerable<SearchInfo> GetAnagramSearchInfo();
     bool AddAnagramSearchInfo(SearchInfo searchInfo);
-    bool ClearSearchInfoTable();
+    bool ClearSearchInfoTable(string tableName);
 }

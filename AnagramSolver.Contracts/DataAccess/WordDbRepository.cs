@@ -302,7 +302,7 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public bool ClearSearchInfoTable()
+    public bool ClearSearchInfoTable(string tableName)
     {
         try
         { 
@@ -310,7 +310,8 @@ public class WordDbRepository : IWordRepository
             SqlCommand command = new SqlCommand();
             command.Connection = _cn;
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "spSearchInfo_Clear";
+            command.CommandText = "spClearTable";
+            command.Parameters.Add(new SqlParameter("@TableName", tableName));
             command.ExecuteNonQuery();
             return true;
         }

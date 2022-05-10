@@ -62,6 +62,15 @@ public class HomeController : Controller
         return View("Anagrams", anagramList);
     }
 
+    public IActionResult ClearCache()
+    {
+        if (_wordService.ClearTable("CachedWord"))
+        {
+            @ViewBag.ClearStatus = "Cache has been cleared";
+        }
+        return View("Index");
+    }
+
     private AnagramList GetCachedWordList(string input)
     {
         var cachedWords = _wordService.GetCachedWords().Where(cachedWord => cachedWord.InputWord.Equals(input));

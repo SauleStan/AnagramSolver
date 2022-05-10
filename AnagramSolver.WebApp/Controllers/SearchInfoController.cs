@@ -21,7 +21,7 @@ public class SearchInfoController : Controller
 
     public IActionResult ClearTable()
     {
-        _wordService.ClearSearchInfoTable();
+        _wordService.ClearTable("SearchInfo");
         return View("Details", new SearchInfoList(new List<SearchInfo>()));
     }
 }

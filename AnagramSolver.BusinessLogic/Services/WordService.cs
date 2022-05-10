@@ -69,8 +69,8 @@ public class WordService : IWordService
         return _wordRepository.AddAnagramSearchInfo(searchInfo);
     }
 
-    public bool ClearSearchInfoTable()
+    public bool ClearTable(string tableName)
     {
-        return _wordRepository.ClearSearchInfoTable();
+        return _wordRepository.ClearSearchInfoTable(tableName);
     }
 }
