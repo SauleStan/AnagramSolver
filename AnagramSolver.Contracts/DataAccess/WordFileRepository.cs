@@ -83,4 +83,14 @@ public class WordFileRepository : IWordRepository
     {
         throw new NotImplementedException();
     }
+
+    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    {
+        throw new NotImplementedException();
+    }
 }

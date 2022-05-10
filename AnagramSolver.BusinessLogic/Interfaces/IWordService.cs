@@ -9,4 +9,6 @@ public interface IWordService
     bool AddWord(string word);
     bool CacheWord(string word, IEnumerable<string> anagrams);
     IEnumerable<CachedWord> GetCachedWords();
+    IEnumerable<SearchInfo> GetAnagramSearchInfo();
+    bool AddAnagramSearchInfo(SearchInfo searchInfo);
 }

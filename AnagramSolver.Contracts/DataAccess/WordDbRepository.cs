@@ -207,6 +207,98 @@ public class WordDbRepository : IWordRepository
         {
             _cn.Close();
         }
+        
+    }
 
+    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
+    {
+        try
+        {
+            _cn.Open();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT si.Id, si.UserIp, si.ExecTime, si.SearchedWord, w.Name " +
+                                  "FROM SearchInfo si " +
+                                  "INNER JOIN Word w " +
+                                  "ON si.AnagramId = w.Id";
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            var searchInfoList = new List<SearchInfo>();
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    var searchedWord = (string)dataReader["SearchedWord"];
+                    if (!searchInfoList.Any(searchInfo => searchInfo.SearchedWord.Equals(searchedWord)))
+                    {
+                        var newSearchInfo = new SearchInfo()
+                        {
+                            Id = (int)dataReader["Id"],
+                            UserIp = (string) dataReader["UserIp"],
+                            ExecTime = (TimeSpan) dataReader["ExecTime"],
+                            SearchedWord = (string) dataReader["SearchedWord"],
+                        };
+                        newSearchInfo.Anagrams.Add((string) dataReader["Name"]);
+                        searchInfoList.Add(newSearchInfo);
+                    }
+                    else
+                    {
+                        var existingCachedWord = searchInfoList.First(searchInfo => searchInfo.SearchedWord.Equals(searchedWord));
+                        if (existingCachedWord.Anagrams.Contains((string)dataReader["Name"]))
+                        {
+                            continue;
+                        }
+                        existingCachedWord.Anagrams.Add((string) dataReader["Name"]);
+                    }
+                }
+            }
+            dataReader.Close();
+            return searchInfoList;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            _cn.Close();
+        }
+    }
+
+    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    {
+        try
+        {
+            if (_words.Count == 0)
+            {
+                GetWords();
+            }
+            var anagramModels = _words.FindAll(word => searchInfo.Anagrams.Contains(word.Name));
+            _cn.Open();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "INSERT INTO SearchInfo ([UserIp],[ExecTime],[SearchedWord],[AnagramId]) VALUES (@UserIp, @ExecTime, @SearchedWord, @AnagramId)";
+            foreach (var anagramModel in anagramModels)
+            {
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@UserIp", searchInfo.UserIp);
+                command.Parameters.AddWithValue("@ExecTime", searchInfo.ExecTime);
+                command.Parameters.AddWithValue("@SearchedWord", searchInfo.SearchedWord);
+                command.Parameters.AddWithValue("@AnagramId", anagramModel.Id);
+                command.ExecuteNonQuery();
+            }
+
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            _cn.Close();
+        }
     }
 }

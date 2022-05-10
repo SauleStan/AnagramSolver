@@ -25,4 +25,5 @@ public class PaginatedList<T> : List<T>
         List<string> items = enumerable.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         return new PaginatedList<string>(items, count, pageIndex, pageSize);
     }
+    
 }

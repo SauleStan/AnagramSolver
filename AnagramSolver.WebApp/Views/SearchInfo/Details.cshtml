@@ -1,0 +1,34 @@
+@model AnagramSolver.WebApp.Models.SearchInfoList
+
+@{
+    ViewBag.Title = "Search Info";
+}
+
+<table class="table">
+    <thead>
+        <th>User IP</th>
+        <th>Execution time</th>
+        <th>Searched word</th>
+        <th>Anagrams</th>
+    </thead>
+    @foreach (var searchInfo in @Model.SearchInfos)
+    {
+        <tr>
+            <td>
+                @searchInfo.UserIp
+            </td>
+            <td>
+                @searchInfo.ExecTime
+            </td>
+            <td>
+                @searchInfo.SearchedWord
+            </td>
+            <td>
+                @foreach (var anagram in searchInfo.Anagrams)
+                {
+                    @anagram<br/>
+                }
+            </td>
+        </tr>
+    }
+</table>

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Models;
@@ -24,7 +25,19 @@ public class HomeController : Controller
 
     public IActionResult GetAnagrams(string input)
     {
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         var anagramList = GetCachedWordList(input);
+        stopwatch.Stop();
+
+        _wordService.AddAnagramSearchInfo(new SearchInfo()
+        {
+            UserIp = "123",
+            ExecTime = stopwatch.Elapsed,
+            SearchedWord = input,
+            Anagrams = new List<string>(anagramList.Anagrams)
+        });
+        
         return View("Anagrams", anagramList);
     }
     
@@ -32,9 +45,20 @@ public class HomeController : Controller
     public IActionResult GetAnagrams([Bind("Input")]InputModel inputModel)
     {
         if (!ModelState.IsValid) return View("Index");
-        
-        var anagramList = GetCachedWordList(inputModel.Input);
 
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+        var anagramList = GetCachedWordList(inputModel.Input);
+        stopwatch.Stop();
+        
+        _wordService.AddAnagramSearchInfo(new SearchInfo()
+        {
+            UserIp = "123",
+            ExecTime = stopwatch.Elapsed,
+            SearchedWord = inputModel.Input,
+            Anagrams = new List<string>(anagramList.Anagrams)
+        });
+        
         return View("Anagrams", anagramList);
     }
 

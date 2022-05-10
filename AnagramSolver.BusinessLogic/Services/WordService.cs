@@ -58,4 +58,14 @@ public class WordService : IWordService
     {
         return _wordRepository.GetCachedWords();
     }
+
+    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
+    {
+        return _wordRepository.GetAnagramSearchInfo();
+    }
+
+    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    {
+        return _wordRepository.AddAnagramSearchInfo(searchInfo);
+    }
 }
