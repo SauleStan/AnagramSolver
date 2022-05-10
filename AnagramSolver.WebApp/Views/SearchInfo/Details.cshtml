@@ -1,15 +1,19 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model AnagramSolver.WebApp.Models.SearchInfoList
 
 @{
     ViewBag.Title = "Search Info";
 }
 
+<form method="get">
+    <button asp-controller="SearchInfo" asp-action = "ClearTable">Clear Search Info</button>
+</form>
 <table class="table">
     <thead>
-        <th>User IP</th>
-        <th>Execution time</th>
-        <th>Searched word</th>
-        <th>Anagrams</th>
+    <th>User IP</th>
+    <th>Execution time</th>
+    <th>Searched word</th>
+    <th>Anagrams</th>
     </thead>
     @foreach (var searchInfo in @Model.SearchInfos)
     {

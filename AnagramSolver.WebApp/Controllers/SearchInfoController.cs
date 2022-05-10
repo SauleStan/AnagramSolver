@@ -1,4 +1,5 @@
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,5 +17,11 @@ public class SearchInfoController : Controller
     public IActionResult Details()
     {
         return View("Details", new SearchInfoList(_wordService.GetAnagramSearchInfo().ToList()));
+    }
+
+    public IActionResult ClearTable()
+    {
+        _wordService.ClearSearchInfoTable();
+        return View("Details", new SearchInfoList(new List<SearchInfo>()));
     }
 }

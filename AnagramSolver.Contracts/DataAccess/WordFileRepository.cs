@@ -93,4 +93,9 @@ public class WordFileRepository : IWordRepository
     {
         throw new NotImplementedException();
     }
+
+    public bool ClearSearchInfoTable()
+    {
+        throw new NotImplementedException();
+    }
 }

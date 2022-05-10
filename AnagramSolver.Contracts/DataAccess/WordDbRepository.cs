@@ -301,4 +301,26 @@ public class WordDbRepository : IWordRepository
             _cn.Close();
         }
     }
+
+    public bool ClearSearchInfoTable()
+    {
+        try
+        { 
+            _cn.Open();
+            SqlCommand command = new SqlCommand();
+            command.Connection = _cn;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "spSearchInfo_Clear";
+            command.ExecuteNonQuery();
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            _cn.Close();
+        }
+    }
 }
