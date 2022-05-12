@@ -1,26 +1,28 @@
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.Contracts.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using Microsoft.EntityFrameworkCore;
-namespace AnagramSolver.EF.DatabaseFirst.Repositories;
 
-public class WordDatabaseRepository : IWordRepository
+namespace AnagramSolver.EF.CodeFirst.Repositories;
+
+public class AnagramSolverDbRepository : IWordRepository
 {
-    private readonly AnagramDbContext _context;
-    public WordDatabaseRepository(AnagramDbContext context)
+    private readonly AnagramSolverDbContext _context;
+    
+    public AnagramSolverDbRepository(AnagramSolverDbContext context)
     {
         _context = context;
     }
-
-    public IEnumerable<Contracts.Models.Word> GetWords()
+    public IEnumerable<Word> GetWords()
     {
-        return _context.Words.AsEnumerable().Select(word => new Contracts.Models.Word()
+        return _context.WordEntities.Select(entity => new Word()
         {
-            Id = word.Id,
-            Name = word.Name
+            Id = entity.Id,
+            Name = entity.Name
         });
     }
 
-    public IEnumerable<Contracts.Models.Word> GetFilteredWords(string filter)
+    public IEnumerable<Word> GetFilteredWords(string filter)
     {
         throw new NotImplementedException();
     }
@@ -29,7 +31,7 @@ public class WordDatabaseRepository : IWordRepository
     {
         try
         {
-            _context.Add(new Word()
+            _context.Add(new WordEntity()
             {
                 Name = word
             });
@@ -44,7 +46,19 @@ public class WordDatabaseRepository : IWordRepository
 
     public bool AddWords(IEnumerable<string> words)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _context.AddRange(words.Select(word=>new WordEntity()
+            {
+                Name = word
+            }));
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     public bool CacheWord(string word, IEnumerable<string> anagrams)
@@ -53,11 +67,11 @@ public class WordDatabaseRepository : IWordRepository
         {
             foreach (var anagram in anagrams)
             {
-                var dbAnagram = _context.Words.FirstOrDefault(dbAnagram => dbAnagram.Name.Equals(anagram));
-                _context.Add(new EF.DatabaseFirst.Models.CachedWord()
+                var dbAnagram = _context.WordEntities.FirstOrDefault(dbAnagram => dbAnagram.Name.Equals(anagram));
+                _context.Add(new CachedWordEntity()
                 {
                     InputWord = word,
-                    AnagramWordId = dbAnagram.Id
+                    AnagramId = dbAnagram.Id
                 });
                 _context.SaveChanges();
             }
@@ -70,25 +84,25 @@ public class WordDatabaseRepository : IWordRepository
         }
     }
 
-    public Contracts.Models.CachedWord GetCachedWord(string input)
+    public CachedWord GetCachedWord(string input)
     {
-        var cachedWords = _context.CachedWords.Include(word => word.AnagramWord).Where(word => word.InputWord.Equals(input));
-        var cachedWord = new Contracts.Models.CachedWord();
+        var cachedWords = _context.CachedWordEntities.Include(word => word.Anagram).Where(word => word.InputWord.Equals(input));
+        var cachedWord = new CachedWord();
         
         foreach (var dbCachedWord in cachedWords)
         {
-            cachedWord.Anagrams.Add(dbCachedWord.AnagramWord.Name);
+            cachedWord.Anagrams.Add(dbCachedWord.Anagram.Name);
         }
 
         return cachedWord;
     }
 
-    public IEnumerable<Contracts.Models.SearchInfo> GetAnagramSearchInfo()
+    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
     {
-        return _context.SearchInfos.Include(info => info.Anagram).AsEnumerable()
+        return _context.SearchInfoEntities.Include(info => info.Anagram).AsEnumerable()
             .Select(info =>
             {
-                var newInfo = new Contracts.Models.SearchInfo()
+                var newInfo = new SearchInfo()
                 {
                     Id = info.Id,
                     SearchedWord = info.SearchedWord,
@@ -104,19 +118,19 @@ public class WordDatabaseRepository : IWordRepository
             });
     }
 
-    public bool AddAnagramSearchInfo(Contracts.Models.SearchInfo searchInfo)
+    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
     {
         try
         {
             foreach (var dbAnagram in searchInfo.Anagrams.Select(anagram =>
-                         _context.Words.FirstOrDefault(word => word.Name.Equals(anagram))))
+                         _context.WordEntities.FirstOrDefault(word => word.Name.Equals(anagram))))
             {
-                _context.Add(new SearchInfo()
+                _context.Add(new SearchInfoEntity()
                 {
                     Id = searchInfo.Id,
                     UserIp = searchInfo.UserIp,
                     SearchedWord = searchInfo.SearchedWord,
-                    ExecTime = searchInfo.ExecTime,
+                    ExecTime = (TimeSpan)searchInfo.ExecTime,
                     AnagramId = dbAnagram.Id
                 });
                 _context.SaveChanges();
