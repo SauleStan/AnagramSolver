@@ -8,13 +8,13 @@ namespace AnagramSolver.Contracts.DataAccess;
 public class WordDbRepository : IWordRepository
 {
     private readonly SqlConnection _cn = new ();
-    private readonly List<WordModel> _words = new ();
+    private readonly List<Word> _words = new ();
 
     public WordDbRepository()
     {
         _cn.ConnectionString = "Server=localhost;Database=AnagramDB;Trusted_Connection=True;";
     }
-    public IEnumerable<WordModel> GetWords()
+    public IEnumerable<Word> GetWords()
     {
         _cn.Open();
         SqlCommand command = new SqlCommand();
@@ -26,7 +26,7 @@ public class WordDbRepository : IWordRepository
         {
             while (dataReader.Read())
             {
-                _words.Add(new WordModel((int)dataReader["Id"], (string)dataReader["Name"]));
+                _words.Add(new Word((int)dataReader["Id"], (string)dataReader["Name"]));
             }
         }
         dataReader.Close();
@@ -85,12 +85,12 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public IEnumerable<WordModel> GetFilteredWords(string filter)
+    public IEnumerable<Word> GetFilteredWords(string filter)
     {
         
         try
         {
-            List<WordModel> filteredWords = new ();
+            List<Word> filteredWords = new ();
             _cn.Open();
             SqlCommand command = new SqlCommand();
             command.Connection = _cn;
@@ -103,7 +103,7 @@ public class WordDbRepository : IWordRepository
             {
                 while (dataReader.Read())
                 {
-                    filteredWords.Add(new WordModel((int)dataReader["Id"], (string)dataReader["Name"]));
+                    filteredWords.Add(new Word((int)dataReader["Id"], (string)dataReader["Name"]));
                 }
             }
             dataReader.Close();

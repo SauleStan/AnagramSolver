@@ -4,8 +4,8 @@ namespace AnagramSolver.Contracts.Interfaces;
 
 public interface IWordRepository
 {
-    IEnumerable<WordModel> GetWords();
-    IEnumerable<WordModel> GetFilteredWords(string filter);
+    IEnumerable<Word> GetWords();
+    IEnumerable<Word> GetFilteredWords(string filter);
     bool AddWord(string word);
     bool AddWords(IEnumerable<string> words);
     bool CacheWord(string word, IEnumerable<string> anagrams);

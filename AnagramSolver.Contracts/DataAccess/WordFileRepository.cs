@@ -5,13 +5,13 @@ namespace AnagramSolver.Contracts.DataAccess;
 
 public class WordFileRepository : IWordRepository
 {
-    private readonly HashSet<WordModel> _words = new ();
+    private readonly HashSet<Word> _words = new ();
     private readonly string _path;
     public WordFileRepository(string path)
     {
         _path = path;
     }
-    public IEnumerable<WordModel> GetWords()
+    public IEnumerable<Word> GetWords()
     {
         
         using (var sr = new StreamReader(_path))
@@ -23,14 +23,14 @@ public class WordFileRepository : IWordRepository
                 var word = line.Split("\t")[0];
                 if (_words.All(x => x.Name != word))
                 {
-                    _words.Add(new WordModel(word));
+                    _words.Add(new Word(word));
                 }
             }
         }
         return _words;
     }
 
-    public IEnumerable<WordModel> GetFilteredWords(string filter)
+    public IEnumerable<Word> GetFilteredWords(string filter)
     {
         using (var sr = new StreamReader(_path))
         {
@@ -41,7 +41,7 @@ public class WordFileRepository : IWordRepository
                 var word = line.Split("\t")[0];
                 if (_words.All(x => x.Name != word) && word.Contains(filter))
                 {
-                    _words.Add(new WordModel(word));
+                    _words.Add(new Word(word));
                 }
             }
         }

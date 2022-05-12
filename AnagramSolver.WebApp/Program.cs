@@ -2,8 +2,10 @@ using System.Reflection;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
-using AnagramSolver.Contracts.DataAccess;
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.DatabaseFirst.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +27,14 @@ var path = directoryPath + dataFilePath;
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IWordRepository>(sp => new WordDbRepository());
-builder.Services.AddSingleton<IWordService>(sp => new WordService(new WordDbRepository()));
-builder.Services.AddSingleton<IAnagramResolver>(sp => new AnagramResolver(new AnagramService(), new WordService(new WordDbRepository())));
+builder.Services.AddDbContext<AnagramDbContext>(options =>
+    options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddScoped<IWordRepository, WordDatabaseRepository>();
+builder.Services.AddScoped<IWordService, WordService>();
+builder.Services.AddScoped<IAnagramService, AnagramService>();
+builder.Services.AddScoped<IAnagramResolver, AnagramResolver>();
 
 var app = builder.Build();
 
