@@ -20,6 +20,11 @@ public class WordsController : Controller
     {
         return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
     }
+    public IActionResult DisplayWord(string word, int pageNumber = 1)
+    {
+        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords()
+            .Where(dbWord => dbWord.Equals(word)), pageNumber, PageSize));
+    }
     
     [HttpPost]
     public IActionResult DisplayFilteredWords(string searchInputModel, int pageNumber = 1)
@@ -36,16 +41,26 @@ public class WordsController : Controller
     }
     
     [HttpPost]
-    public IActionResult EditWord(EditWordModel word, int pageNumber = 1)
+    public IActionResult EditWord(EditWordModel word)
     {
         var result = _wordService.Edit(word.WordToEdit, word.EditedWord);
         if (result.IsSuccessful)
         {
-            return View("Words", PaginatedList<HashSet<string>>.Create(_wordService
-                .GetWords(), 417, PageSize));
+            return RedirectToAction("DisplayWords");
         }
-        return View("Words",PaginatedList<HashSet<string>>.Create(_wordService
-            .GetWords(), pageNumber, PageSize));
+        return RedirectToAction("DisplayWords");
+    }
+
+    public IActionResult DeleteWord(string wordToDelete)
+    {
+        var result = _wordService.DeleteWord(wordToDelete);
+        if (result.IsSuccessful)
+        {
+            ViewBag.Status = $"{wordToDelete} has been deleted";
+            return View("DeleteDetails");
+        }
+        ViewBag.Status = result.Error!;
+        return View("DeleteDetails");
     }
     
     public IActionResult SaveNewWord()

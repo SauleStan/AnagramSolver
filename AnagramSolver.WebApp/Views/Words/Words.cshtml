@@ -27,7 +27,8 @@
                        asp-route-input="@word">@word</a>
                 </td>
                 <td>
-                    <a asp-action="EditWord" asp-route-wordToEdit="@word">Edit</a>
+                    <a asp-action="EditWord" asp-route-wordToEdit="@word">Edit</a> |
+                    <a asp-action="DeleteWord" asp-route-wordToDelete="@word">Delete</a>
                 </td>
             </tr>
         }

@@ -8,6 +8,7 @@ public interface IWordRepository
     IEnumerable<Word> GetFilteredWords(string filter);
     bool AddWord(string word);
     void EditWord(string wordToEdit, string editedWord);
+    void DeleteWord(string word);
     bool AddWords(IEnumerable<string> words);
     bool CacheWord(string word, IEnumerable<string> anagrams);
     CachedWord GetCachedWord(string input);

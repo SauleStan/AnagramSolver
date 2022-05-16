@@ -80,6 +80,26 @@ public class WordService : IWordService
         }
     }
 
+    public WordResult DeleteWord(string word)
+    {
+        try
+        {
+            _wordRepository.DeleteWord(word);
+            return new WordResult()
+            {
+                IsSuccessful = true
+            };
+        }
+        catch (Exception)
+        {
+            return new WordResult()
+            {
+                IsSuccessful = false,
+                Error = "Failed to delete word"
+            };
+        }
+    }
+
     public bool CacheWord(string word, IEnumerable<string> anagrams)
     {
         return _wordRepository.CacheWord(word, anagrams);

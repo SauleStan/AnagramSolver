@@ -62,6 +62,11 @@ public class WordDbRepository : IWordRepository
         throw new NotImplementedException();
     }
 
+    public void DeleteWord(string word)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool AddWords(IEnumerable<string> words)
     {
         try
