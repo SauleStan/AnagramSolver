@@ -86,7 +86,9 @@ public class AnagramSolverDbRepository : IWordRepository
 
     public CachedWord GetCachedWord(string input)
     {
-        var cachedWords = _context.CachedWordEntities.Include(word => word.Anagram).Where(word => word.InputWord.Equals(input));
+        var cachedWords = _context.CachedWordEntities
+            .Include(word => word.Anagram)
+            .Where(word => word.InputWord.Equals(input));
         var cachedWord = new CachedWord();
         
         foreach (var dbCachedWord in cachedWords)

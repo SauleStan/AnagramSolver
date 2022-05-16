@@ -27,25 +27,36 @@ public class WordService : IWordService
         return words;
     }
 
-    public bool AddWord(string word)
+    public WordResult AddWord(string word)
     {
         try
         {
             if (_wordRepository.GetWords().Any(x => x.Name == word))
             {
-                throw new ArgumentException($"{word} already exists.");
+                return new WordResult()
+                {
+                    IsSuccessful = false,
+                    Error = $"{word} already exists."
+                };
             }
 
             if (!_wordRepository.AddWord(word))
             {
-                throw new Exception("Failed to add the word.");
+                return new WordResult()
+                {
+                    IsSuccessful = false,
+                    Error = "Failed to add the word."
+                };
             }
 
-            return true;
+            return new WordResult()
+            {
+                IsSuccessful = true
+            };
         }
         catch (Exception)
         {
-            return false;
+            throw;
         }
     }
 

@@ -5,8 +5,6 @@ using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.EF.CodeFirst.Models;
 using AnagramSolver.EF.CodeFirst.Repositories;
-using AnagramSolver.EF.DatabaseFirst.Models;
-using AnagramSolver.EF.DatabaseFirst.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -40,8 +40,8 @@ public class WordsController : Controller
             return View("NewWord");
         }
         
-        bool result = _wordService.AddWord(createWordModel.Word);
-        ViewBag.SaveStatus = result;
+        var result = _wordService.AddWord(createWordModel.Word);
+        ViewBag.SaveStatus = result.IsSuccessful ? "Word was added successfully" : "Failed to add the word";
 
         return View("NewWord");
     }
