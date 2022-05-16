@@ -5,6 +5,7 @@ using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.EF.CodeFirst.Models;
 using AnagramSolver.EF.CodeFirst.Repositories;
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,17 @@ var dataFilePath = config.GetValue<string>("WordFilePath");
 var directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 var path = directoryPath + dataFilePath;
 
+builder.Services.AddMemoryCache();
+
+builder.Services.Configure<IpRateLimitOptions>(config.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(config.GetSection("IpRateLimitPolicies"));
+
+builder.Services.AddSingleton<IClientPolicyStore, MemoryCacheClientPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AnagramSolverDbContext>(options =>
@@ -37,6 +49,8 @@ builder.Services.AddScoped<IAnagramService, AnagramService>();
 builder.Services.AddScoped<IAnagramResolver, AnagramResolver>();
 
 var app = builder.Build();
+
+app.UseIpRateLimiting();
 
 if (!app.Environment.IsDevelopment())
 {
