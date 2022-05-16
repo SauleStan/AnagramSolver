@@ -27,6 +27,27 @@ public class WordsController : Controller
         return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetFilteredWords(searchInputModel), pageNumber, PageSize));
     }
     
+    public IActionResult EditWord(string wordToEdit)
+    {
+        return View("Edit", new EditWordModel()
+        {
+            WordToEdit = wordToEdit
+        });
+    }
+    
+    [HttpPost]
+    public IActionResult EditWord(EditWordModel word, int pageNumber = 1)
+    {
+        var result = _wordService.Edit(word.WordToEdit, word.EditedWord);
+        if (result.IsSuccessful)
+        {
+            return View("Words", PaginatedList<HashSet<string>>.Create(_wordService
+                .GetWords(), 417, PageSize));
+        }
+        return View("Words",PaginatedList<HashSet<string>>.Create(_wordService
+            .GetWords(), pageNumber, PageSize));
+    }
+    
     public IActionResult SaveNewWord()
     {
         return View("NewWord");

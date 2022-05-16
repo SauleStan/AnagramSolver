@@ -60,6 +60,26 @@ public class WordService : IWordService
         }
     }
 
+    public WordResult Edit(string wordToEdit, string editedWord)
+    {
+        try
+        {
+            _wordRepository.EditWord(wordToEdit, editedWord);
+            return new WordResult()
+            {
+                IsSuccessful = true
+            };
+        }
+        catch (Exception)
+        {
+            return new WordResult()
+            {
+                IsSuccessful = false,
+                Error = $"Failed to edit word \"{wordToEdit}\""
+            };
+        }
+    }
+
     public bool CacheWord(string word, IEnumerable<string> anagrams)
     {
         return _wordRepository.CacheWord(word, anagrams);

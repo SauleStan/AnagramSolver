@@ -57,6 +57,11 @@ public class WordDbRepository : IWordRepository
         }
     }
 
+    public void EditWord(string word, string editedWord)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool AddWords(IEnumerable<string> words)
     {
         try

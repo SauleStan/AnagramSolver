@@ -1,0 +1,16 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model AnagramSolver.WebApp.Models.EditWordModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<form asp-controller="Words" asp-action="EditWord" method="post">
+    <div class="form-actions no-color">
+        <p>
+            Update word:
+            <input type="hidden" asp-for="WordToEdit" value="@Model.WordToEdit"/>
+            <input type="text" asp-for="EditedWord"/><br/>
+            <button type="submit">Edit</button>
+        </p>
+    </div>
+</form>

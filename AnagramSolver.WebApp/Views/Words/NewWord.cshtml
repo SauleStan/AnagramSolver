@@ -12,11 +12,4 @@
     <span asp-validation-for="Word" class="text-danger"></span><br/>
     <button type="submit">Add</button>
 </form>
-@if (@ViewBag.SaveStatus == true)
-{
-    <span class="text-success">Word was added to the file</span>
-}
-else if (@ViewBag.SaveStatus == false)
-{
-    <span class="text-danger">Something went wrong</span>
-}
+<span>@ViewBag.SaveStatus</span>

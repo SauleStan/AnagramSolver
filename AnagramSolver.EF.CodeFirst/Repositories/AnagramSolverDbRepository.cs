@@ -44,6 +44,24 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
+    public void EditWord(string wordToEdit, string editedWord)
+    {
+        try
+        {
+            var wordToUpdate = _context.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(wordToEdit));
+            if (wordToUpdate != null)
+            {
+                wordToUpdate.Name = editedWord;
+                _context.Update(wordToUpdate);
+                _context.SaveChanges();
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
     public bool AddWords(IEnumerable<string> words)
     {
         try

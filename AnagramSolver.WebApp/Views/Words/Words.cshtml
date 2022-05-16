@@ -17,7 +17,7 @@
     </div>
 </form>
 <div>
-    <table>
+    <table class="table">
         @foreach (var word in @Model)
         {
             <tr>
@@ -25,6 +25,9 @@
                     <a asp-controller="Home"
                        asp-action="GetAnagrams"
                        asp-route-input="@word">@word</a>
+                </td>
+                <td>
+                    <a asp-action="EditWord" asp-route-wordToEdit="@word">Edit</a>
                 </td>
             </tr>
         }
