@@ -21,8 +21,8 @@ public class PaginatedList<T> : List<T>
     public static PaginatedList<string> Create(IEnumerable<string> source, int pageIndex, int pageSize)
     {
         var enumerable = source.ToList();
-        var count = enumerable.Count();
-        List<string> items = enumerable.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        var count = enumerable.Count;
+        var items = enumerable.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         return new PaginatedList<string>(items, count, pageIndex, pageSize);
     }
     

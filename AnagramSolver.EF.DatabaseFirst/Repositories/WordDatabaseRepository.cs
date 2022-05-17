@@ -124,13 +124,13 @@ public class WordDatabaseRepository : IWordRepository
                 var newInfo = new Contracts.Models.SearchInfo()
                 {
                     Id = info.Id,
-                    SearchedWord = info.SearchedWord,
-                    ExecTime = info.ExecTime,
-                    UserIp = info.UserIp
+                    SearchedWord = info.SearchedWord!,
+                    ExecTime = (TimeSpan)info.ExecTime,
+                    UserIp = info.UserIp!
                 };
                 if (info.Anagram != null)
                 {
-                    newInfo.Anagrams.Add(info.Anagram.Name);
+                    newInfo.Anagrams.Add(info.Anagram.Name!);
                 }
 
                 return newInfo;

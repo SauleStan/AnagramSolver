@@ -30,7 +30,7 @@ public class HomeController : Controller
         var anagramList = GetCachedWordList(input);
         stopwatch.Stop();
 
-        _wordService.AddAnagramSearchInfo(new SearchInfo()
+        _wordService.AddAnagramSearchInfo(new SearchInfo
         {
             UserIp = "123",
             ExecTime = stopwatch.Elapsed,
@@ -51,7 +51,7 @@ public class HomeController : Controller
         var anagramList = GetCachedWordList(inputModel.Input);
         stopwatch.Stop();
         
-        _wordService.AddAnagramSearchInfo(new SearchInfo()
+        _wordService.AddAnagramSearchInfo(new SearchInfo
         {
             UserIp = "123",
             ExecTime = stopwatch.Elapsed,
@@ -66,7 +66,7 @@ public class HomeController : Controller
     {
         if (_wordService.ClearTable("CachedWord"))
         {
-            @ViewBag.ClearStatus = "Cache has been cleared";
+            ViewBag.ClearStatus = "Cache has been cleared";
         }
         return View("Index");
     }

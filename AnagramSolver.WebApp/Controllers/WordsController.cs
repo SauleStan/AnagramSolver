@@ -18,7 +18,7 @@ public class WordsController : Controller
     
     public IActionResult DisplayWords(int pageNumber = 1)
     {
-        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords(), pageNumber, PageSize));
+        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords()!, pageNumber, PageSize));
     }
     public IActionResult DisplayWord(string word, int pageNumber = 1)
     {
@@ -34,7 +34,7 @@ public class WordsController : Controller
     
     public IActionResult EditWord(string wordToEdit)
     {
-        return View("Edit", new EditWordModel()
+        return View("Edit", new EditWordModel
         {
             WordToEdit = wordToEdit
         });
@@ -43,11 +43,7 @@ public class WordsController : Controller
     [HttpPost]
     public IActionResult EditWord(EditWordModel word)
     {
-        var result = _wordService.Edit(word.WordToEdit, word.EditedWord);
-        if (result.IsSuccessful)
-        {
-            return RedirectToAction("DisplayWords");
-        }
+        _wordService.Edit(word.WordToEdit, word.EditedWord);
         return RedirectToAction("DisplayWords");
     }
 
@@ -71,7 +67,7 @@ public class WordsController : Controller
     [HttpPost]
     public IActionResult SaveNewWord([Bind("Word")]CreateWordModel createWordModel)
     {
-        if (createWordModel is null || !ModelState.IsValid)
+        if (createWordModel == null || !ModelState.IsValid)
         {
             return View("NewWord");
         }

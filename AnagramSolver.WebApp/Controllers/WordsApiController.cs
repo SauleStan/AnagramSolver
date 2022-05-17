@@ -16,6 +16,6 @@ public class WordsApiController : ControllerBase
     [HttpGet]
     public List<string> GetWords()
     {
-        return _wordService.GetWords().ToList();
+        return _wordService.GetWords().ToList()!;
     }
 }

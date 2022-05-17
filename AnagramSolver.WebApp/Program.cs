@@ -1,4 +1,3 @@
-using System.Reflection;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
@@ -17,14 +16,6 @@ IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile($"appsettings.{environment}.json", true, true)
     .AddEnvironmentVariables()
     .Build();
-
-var minLength = config.GetSection("Constraints").GetValue<int>("MinInput");
-var minAnagrams = config.GetSection("Constraints").GetValue<int>("MinAnagramCount");
-var maxAnagrams = config.GetSection("Constraints").GetValue<int>("MaxAnagramCount");
-var dataFilePath = config.GetValue<string>("WordFilePath");
-
-var directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-var path = directoryPath + dataFilePath;
 
 builder.Services.AddMemoryCache();
 
