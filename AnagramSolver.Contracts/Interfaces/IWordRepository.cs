@@ -10,7 +10,7 @@ public interface IWordRepository
     void EditWord(string wordToEdit, string editedWord);
     void DeleteWord(string word);
     bool AddWords(IEnumerable<string> words);
-    bool CacheWord(string word, IEnumerable<string> anagrams);
+    void CacheWord(string word, IEnumerable<string> anagrams);
     CachedWord GetCachedWord(string input);
     IEnumerable<SearchInfo> GetAnagramSearchInfo();
     bool AddAnagramSearchInfo(SearchInfo searchInfo);

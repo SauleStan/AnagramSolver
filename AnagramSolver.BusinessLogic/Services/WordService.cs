@@ -16,7 +16,7 @@ public class WordService : IWordService
     public IEnumerable<string> GetWords()
     {
         var words = _wordRepository.GetWords().Select(word => word.Name);
-        return words;
+        return words!;
     }
 
     public IEnumerable<string> GetFilteredWords(string filter)
@@ -24,16 +24,16 @@ public class WordService : IWordService
         filter = filter.Insert(0, "%");
         filter += "%";
         var words = _wordRepository.GetFilteredWords(filter).Select(word => word.Name);
-        return words;
+        return words!;
     }
 
-    public WordResult AddWord(string word)
+    public ActionResult AddWord(string word)
     {
         try
         {
             if (_wordRepository.GetWords().Any(x => x.Name == word))
             {
-                return new WordResult()
+                return new ActionResult
                 {
                     IsSuccessful = false,
                     Error = $"{word} already exists."
@@ -42,14 +42,14 @@ public class WordService : IWordService
 
             if (!_wordRepository.AddWord(word))
             {
-                return new WordResult()
+                return new ActionResult
                 {
                     IsSuccessful = false,
                     Error = "Failed to add the word."
                 };
             }
 
-            return new WordResult()
+            return new ActionResult
             {
                 IsSuccessful = true
             };
@@ -60,19 +60,19 @@ public class WordService : IWordService
         }
     }
 
-    public WordResult Edit(string wordToEdit, string editedWord)
+    public ActionResult Edit(string wordToEdit, string editedWord)
     {
         try
         {
             _wordRepository.EditWord(wordToEdit, editedWord);
-            return new WordResult()
+            return new ActionResult
             {
                 IsSuccessful = true
             };
         }
         catch (Exception)
         {
-            return new WordResult()
+            return new ActionResult
             {
                 IsSuccessful = false,
                 Error = $"Failed to edit word \"{wordToEdit}\""
@@ -80,19 +80,19 @@ public class WordService : IWordService
         }
     }
 
-    public WordResult DeleteWord(string word)
+    public ActionResult DeleteWord(string word)
     {
         try
         {
             _wordRepository.DeleteWord(word);
-            return new WordResult()
+            return new ActionResult
             {
                 IsSuccessful = true
             };
         }
         catch (Exception)
         {
-            return new WordResult()
+            return new ActionResult
             {
                 IsSuccessful = false,
                 Error = "Failed to delete word"
@@ -100,9 +100,24 @@ public class WordService : IWordService
         }
     }
 
-    public bool CacheWord(string word, IEnumerable<string> anagrams)
+    public ActionResult CacheWord(string word, IEnumerable<string> anagrams)
     {
-        return _wordRepository.CacheWord(word, anagrams);
+        try
+        {
+            _wordRepository.CacheWord(word, anagrams);
+            return new ActionResult
+            {
+                IsSuccessful = true
+            };
+        }
+        catch (Exception)
+        {
+            return new ActionResult
+            {
+                IsSuccessful = false,
+                Error = "Failed to cache the word"
+            };
+        }
     }
 
     public CachedWord GetCachedWord(string input)
@@ -115,9 +130,24 @@ public class WordService : IWordService
         return _wordRepository.GetAnagramSearchInfo();
     }
 
-    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    public ActionResult AddAnagramSearchInfo(SearchInfo searchInfo)
     {
-        return _wordRepository.AddAnagramSearchInfo(searchInfo);
+        try
+        {
+            _wordRepository.AddAnagramSearchInfo(searchInfo);
+            return new ActionResult
+            {
+                IsSuccessful = true
+            };
+        }
+        catch (Exception)
+        {
+            return new ActionResult
+            {
+                IsSuccessful = false,
+                Error = "Failed to add search info"
+            };
+        }
     }
 
     public bool ClearTable(string tableName)

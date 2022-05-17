@@ -93,7 +93,7 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public bool CacheWord(string word, IEnumerable<string> anagrams)
+    public void CacheWord(string word, IEnumerable<string> anagrams)
     {
         try
         {
@@ -107,12 +107,10 @@ public class AnagramSolverDbRepository : IWordRepository
                 });
                 _context.SaveChanges();
             }
-
-            return true;
         }
         catch (Exception)
         {
-            return false;
+            throw;
         }
     }
 

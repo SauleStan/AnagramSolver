@@ -20,10 +20,10 @@ public class AnagramResolver : IAnagramResolver
     {
         _anagramsSet.Clear();
         
-        var filteredFetchedWords = new HashSet<string>(_wordService.GetWords());
+        var filteredFetchedWords = new HashSet<string>(_wordService.GetWords()!);
         filteredFetchedWords.RemoveWhere(x => x.Length != inputWord.Length);
         
-        _fetchedAnagrams = _anagramService.ConvertToAnagrams(_wordService.GetWords());
+        _fetchedAnagrams = _anagramService.ConvertToAnagrams(_wordService.GetWords()!);
         
         var inputAnagram = _anagramService.ConvertToAnagram(inputWord);
         

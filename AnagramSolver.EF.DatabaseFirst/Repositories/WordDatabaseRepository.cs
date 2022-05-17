@@ -64,8 +64,11 @@ public class WordDatabaseRepository : IWordRepository
     {
         try
         {
-            var wordToDelete = _context.Words.FirstOrDefault(dbWord => dbWord.Name.Equals(word));
-            _context.Remove(wordToDelete);
+            var wordToDelete = _context.Words.FirstOrDefault(dbWord => dbWord.Name!.Equals(word));
+            if (wordToDelete != null)
+            {
+                _context.Remove(wordToDelete);
+            }
             _context.SaveChanges();
         }
         catch (Exception)
@@ -79,26 +82,24 @@ public class WordDatabaseRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool CacheWord(string word, IEnumerable<string> anagrams)
+    public void CacheWord(string word, IEnumerable<string> anagrams)
     {
         try
         {
             foreach (var anagram in anagrams)
             {
-                var dbAnagram = _context.Words.FirstOrDefault(dbAnagram => dbAnagram.Name.Equals(anagram));
+                var dbAnagram = _context.Words.FirstOrDefault(dbAnagram => dbAnagram.Name!.Equals(anagram));
                 _context.Add(new EF.DatabaseFirst.Models.CachedWord()
                 {
                     InputWord = word,
-                    AnagramWordId = dbAnagram.Id
+                    AnagramWordId = dbAnagram?.Id
                 });
                 _context.SaveChanges();
             }
-
-            return true;
         }
         catch (Exception)
         {
-            return false;
+            throw;
         }
     }
 
@@ -141,7 +142,7 @@ public class WordDatabaseRepository : IWordRepository
         try
         {
             foreach (var dbAnagram in searchInfo.Anagrams.Select(anagram =>
-                         _context.Words.FirstOrDefault(word => word.Name.Equals(anagram))))
+                         _context.Words.FirstOrDefault(word => word.Name!.Equals(anagram))))
             {
                 _context.Add(new SearchInfo()
                 {
@@ -149,7 +150,7 @@ public class WordDatabaseRepository : IWordRepository
                     UserIp = searchInfo.UserIp,
                     SearchedWord = searchInfo.SearchedWord,
                     ExecTime = searchInfo.ExecTime,
-                    AnagramId = dbAnagram.Id
+                    AnagramId = dbAnagram?.Id
                 });
                 _context.SaveChanges();
             }

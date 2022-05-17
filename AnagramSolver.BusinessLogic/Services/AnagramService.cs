@@ -22,10 +22,10 @@ public class AnagramService : IAnagramService
         return new Anagram(word, SortWordAlphabetically(word));
     }
 
-    private string SortWordAlphabetically(string word)
+    private static string SortWordAlphabetically(string word)
     {
         word = Regex.Replace(word, @"\s", "");
-        char[] chars = word.ToCharArray();
+        var chars = word.ToCharArray();
         Array.Sort(chars);
         return new string(chars);
     }

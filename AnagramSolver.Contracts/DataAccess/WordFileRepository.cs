@@ -81,7 +81,7 @@ public class WordFileRepository : IWordRepository
         }
     }
 
-    public bool CacheWord(string word, IEnumerable<string> anagrams)
+    public void CacheWord(string word, IEnumerable<string> anagrams)
     {
         throw new NotImplementedException();
     }

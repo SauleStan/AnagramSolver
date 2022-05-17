@@ -130,7 +130,7 @@ public class WordDbRepository : IWordRepository
         
     }
 
-    public bool CacheWord(string searchWord, IEnumerable<string> anagrams)
+    public void CacheWord(string searchWord, IEnumerable<string> anagrams)
     {
         try
         {
@@ -151,8 +151,6 @@ public class WordDbRepository : IWordRepository
                 command.Parameters.AddWithValue("@AnagramId", anagramModel.Id);
                 command.ExecuteNonQuery();
             }
-
-            return true;
         }
         catch (Exception)
         {
@@ -191,7 +189,6 @@ public class WordDbRepository : IWordRepository
                     var inputWord = (string)dataReader["InputWord"];
                     if (!cachedWord.InputWord.Equals(inputWord))
                     {
-                        cachedWord.Id = (int)dataReader["Id"];
                         cachedWord.InputWord = inputWord;
                         cachedWord.Anagrams.Add((string) dataReader["Name"]);
                     }
