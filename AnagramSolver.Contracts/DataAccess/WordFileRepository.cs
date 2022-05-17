@@ -7,6 +7,7 @@ public class WordFileRepository : IWordRepository
 {
     private readonly HashSet<Word> _words = new ();
     private readonly string _path;
+    private const string Separator = "/t";
     public WordFileRepository(string path)
     {
         _path = path;
@@ -16,11 +17,9 @@ public class WordFileRepository : IWordRepository
         
         using (var sr = new StreamReader(_path))
         {
-            string? line;
-            
-            while ((line = sr.ReadLine()) != null)
+            while (sr.ReadLine() is { } line)
             {
-                var word = line.Split("\t")[0];
+                var word = line.Split(Separator)[0];
                 if (_words.All(x => x.Name != word))
                 {
                     _words.Add(new Word(word));
@@ -34,11 +33,9 @@ public class WordFileRepository : IWordRepository
     {
         using (var sr = new StreamReader(_path))
         {
-            string? line;
-            
-            while ((line = sr.ReadLine()) != null)
+            while (sr.ReadLine() is { } line)
             {
-                var word = line.Split("\t")[0];
+                var word = line.Split(Separator)[0];
                 if (_words.All(x => x.Name != word) && word.Contains(filter))
                 {
                     _words.Add(new Word(word));
