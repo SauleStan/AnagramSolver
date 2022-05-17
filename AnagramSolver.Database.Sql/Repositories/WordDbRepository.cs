@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 
-namespace AnagramSolver.Contracts.DataAccess;
+namespace AnagramSolver.Database.Sql.Repositories;
 
 public class WordDbRepository : IWordRepository
 {
