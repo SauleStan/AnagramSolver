@@ -6,32 +6,16 @@ namespace AnagramSolver.Cli.Output;
 public class AnagramOutputFromResolver : IAnagramOutput
 {
     private readonly IAnagramResolver _anagramResolver;
-    private readonly int _minAnagrams;
-    private readonly int _maxAnagrams;
     
-    public AnagramOutputFromResolver(IAnagramResolver anagramResolver, int minAnagrams, int maxAnagrams)
+    public AnagramOutputFromResolver(IAnagramResolver anagramResolver)
     {
         _anagramResolver = anagramResolver;
-        _minAnagrams = minAnagrams;
-        _maxAnagrams = maxAnagrams;
     }
     
-    public Task AnagramOutput(string userInput)
+    public async Task<List<string>> AnagramOutput(string userInput)
     {
         var inputWord = userInput;
-
         var anagrams = _anagramResolver.FindAnagrams(inputWord).ToList();
-
-        Console.WriteLine("Anagrams: ");
-        if (anagrams.Count < _minAnagrams)
-        {
-            Console.WriteLine($"Less than {_minAnagrams} anagrams have been found. Try another word.");
-        }
-
-        foreach (var anagram in anagrams.Take(_maxAnagrams))
-        {
-            Console.WriteLine(anagram);
-        }
-        return Task.CompletedTask;
+        return anagrams;
     }
 }

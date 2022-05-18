@@ -1,4 +1,5 @@
-﻿using AnagramSolver.BusinessLogic;
+﻿using System.Diagnostics;
+using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Cli.Input;
@@ -30,9 +31,35 @@ if (dataFilePath != null)
     IUserInput userInput = new UserInput(minLength);
 
     IAnagramOutput anagramOutput = new AnagramOutputFromUri();
-    while (true)
-    {
-        await anagramOutput.AnagramOutput(userInput.GetUserInput());
-    }
 
+    var input = userInput.GetUserInput();
+    // IDisplay display = new Display();
+    DisplayWithEvents display = new ();
+    display.FormattedPrint(InputToUppercase, input);
+    
+    // while (true)
+    // {
+    //     await anagramOutput.AnagramOutput(userInput.GetUserInput());
+    // }
+
+}
+
+void WriteToConsole(string input)
+{
+    Console.WriteLine(input);
+}
+
+void WriteToDebug(string input)
+{
+    Debug.WriteLine(input);
+}
+
+void WriteToFile(string input)
+{
+    Console.WriteLine($"Wrote {input} to file");
+}
+
+string InputToUppercase(string input)
+{
+    return string.Concat(input[..1].ToUpper(), input.AsSpan(1));
 }
