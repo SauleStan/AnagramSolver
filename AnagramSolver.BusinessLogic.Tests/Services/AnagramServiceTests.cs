@@ -3,7 +3,7 @@ using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Models;
 using NUnit.Framework;
 
-namespace AnagramSolver.Tests;
+namespace AnagramSolver.Tests.Services;
 
 public class AnagramServiceTests
 {
