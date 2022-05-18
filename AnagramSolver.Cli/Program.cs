@@ -35,6 +35,9 @@ if (dataFilePath != null)
     var input = userInput.GetUserInput();
     // IDisplay display = new Display();
     DisplayWithEvents display = new ();
+    display.DisplayText += display_WriteToConsole;
+    display.DisplayText += display_WriteToDebug;
+    display.DisplayText += display_WriteToFile;
     display.FormattedPrint(InputToUppercase, input);
     
     // while (true)
@@ -42,6 +45,19 @@ if (dataFilePath != null)
     //     await anagramOutput.AnagramOutput(userInput.GetUserInput());
     // }
 
+}
+
+void display_WriteToConsole(object sender, string input)
+{
+    Console.WriteLine(input);
+}
+void display_WriteToDebug(object sender, string input)
+{
+    Debug.WriteLine(input);
+}
+void display_WriteToFile(object sender, string input)
+{
+    Console.WriteLine($"Wrote {input} to file");
 }
 
 void WriteToConsole(string input)
