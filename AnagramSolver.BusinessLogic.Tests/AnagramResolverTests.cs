@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.BusinessLogic.Resolvers;
 using AnagramSolver.Contracts.Models;
 using NUnit.Framework;
 using Moq;

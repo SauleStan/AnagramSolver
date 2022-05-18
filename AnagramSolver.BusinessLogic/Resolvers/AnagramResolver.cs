@@ -1,7 +1,7 @@
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Models;
 
-namespace AnagramSolver.BusinessLogic;
+namespace AnagramSolver.BusinessLogic.Resolvers;
 
 public class AnagramResolver : IAnagramResolver
 {

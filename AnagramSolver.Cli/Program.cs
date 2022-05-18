@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.BusinessLogic.Resolvers;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Cli.Input;
 using AnagramSolver.Cli.Interfaces;

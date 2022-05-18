@@ -1,5 +1,7 @@
+using AnagramSolver.Anagramica.Client;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
+using AnagramSolver.BusinessLogic.Resolvers;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.EF.CodeFirst.Models;
@@ -37,7 +39,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IWordRepository, AnagramSolverDbRepository>();
 builder.Services.AddScoped<IWordService, WordService>();
 builder.Services.AddScoped<IAnagramService, AnagramService>();
-builder.Services.AddScoped<IAnagramResolver, AnagramResolver>();
+builder.Services.AddScoped<IAnagramicaClient, AnagramicaClient>();
+builder.Services.AddScoped<IAnagramResolver, AnagramicaResolver>();
 
 var app = builder.Build();
 
