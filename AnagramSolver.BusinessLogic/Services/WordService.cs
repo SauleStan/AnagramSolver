@@ -129,7 +129,7 @@ public class WordService : IWordService
     public CachedWord GetCachedWord(string input)
     {
         return _wordRepository.GetCachedWord(input);
-        }
+    }
 
     public IEnumerable<SearchInfo> GetAnagramSearchInfo()
     {
