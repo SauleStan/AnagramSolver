@@ -15,9 +15,9 @@ public class WordFileRepository : IWordRepository
     public IEnumerable<Word> GetWords()
     {
         
-        using (var sr = new StreamReader(_path))
+        using (var streamReader = new StreamReader(_path))
         {
-            while (sr.ReadLine() is { } line)
+            while (streamReader.ReadLine() is { } line)
             {
                 var word = line.Split(Separator)[0];
                 if (_words.All(x => x.Name != word))

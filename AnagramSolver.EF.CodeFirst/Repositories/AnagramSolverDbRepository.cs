@@ -7,15 +7,15 @@ namespace AnagramSolver.EF.CodeFirst.Repositories;
 
 public class AnagramSolverDbRepository : IWordRepository
 {
-    private readonly AnagramSolverDbContext _context;
+    private readonly AnagramSolverDbContext _dbContext;
     
-    public AnagramSolverDbRepository(AnagramSolverDbContext context)
+    public AnagramSolverDbRepository(AnagramSolverDbContext dbContext)
     {
-        _context = context;
+        _dbContext = dbContext;
     }
     public IEnumerable<Word> GetWords()
     {
-        return _context.WordEntities.Select(entity => new Word
+        return _dbContext.WordEntities.Select(entity => new Word
         {
             Id = entity.Id,
             Name = entity.Name
@@ -31,11 +31,11 @@ public class AnagramSolverDbRepository : IWordRepository
     {
         try
         {
-            _context.Add(new WordEntity
+            _dbContext.Add(new WordEntity
             {
                 Name = word
             });
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             return true;
         }
         catch (Exception)
@@ -48,12 +48,12 @@ public class AnagramSolverDbRepository : IWordRepository
     {
         try
         {
-            var wordToUpdate = _context.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(wordToEdit));
+            var wordToUpdate = _dbContext.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(wordToEdit));
             if (wordToUpdate == null) return;
             
             wordToUpdate.Name = editedWord;
-            _context.Update(wordToUpdate);
-            _context.SaveChanges();
+            _dbContext.Update(wordToUpdate);
+            _dbContext.SaveChanges();
         }
         catch (Exception)
         {
@@ -65,12 +65,12 @@ public class AnagramSolverDbRepository : IWordRepository
     {
         try
         {
-            var wordToDelete = _context.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(word));
+            var wordToDelete = _dbContext.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(word));
             if (wordToDelete != null)
             {
-                _context.Remove(wordToDelete);
+                _dbContext.Remove(wordToDelete);
             }
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
         }
         catch (Exception)
         {
@@ -82,11 +82,11 @@ public class AnagramSolverDbRepository : IWordRepository
     {
         try
         {
-            _context.AddRange(words.Select(word=>new WordEntity
+            _dbContext.AddRange(words.Select(word=>new WordEntity
             {
                 Name = word
             }));
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             return true;
         }
         catch (Exception)
@@ -101,13 +101,13 @@ public class AnagramSolverDbRepository : IWordRepository
         {
             foreach (var anagram in anagrams)
             {
-                var dbAnagram = _context.WordEntities.FirstOrDefault(dbAnagram => dbAnagram.Name.Equals(anagram));
-                _context.Add(new CachedWordEntity()
+                var dbAnagram = _dbContext.WordEntities.FirstOrDefault(dbAnagram => dbAnagram.Name.Equals(anagram));
+                _dbContext.Add(new CachedWordEntity()
                 {
                     InputWord = word,
                     AnagramId = dbAnagram?.Id
                 });
-                _context.SaveChanges();
+                _dbContext.SaveChanges();
             }
         }
         catch (Exception)
@@ -118,7 +118,7 @@ public class AnagramSolverDbRepository : IWordRepository
 
     public CachedWord GetCachedWord(string input)
     {
-        var cachedWords = _context.CachedWordEntities
+        var cachedWords = _dbContext.CachedWordEntities
             .Include(word => word.Anagram)
             .Where(word => word.InputWord.Equals(input));
         var cachedWord = new CachedWord();
@@ -135,7 +135,7 @@ public class AnagramSolverDbRepository : IWordRepository
 
     public IEnumerable<SearchInfo> GetAnagramSearchInfo()
     {
-        return _context.SearchInfoEntities.Include(info => info.Anagram).AsEnumerable()
+        return _dbContext.SearchInfoEntities.Include(info => info.Anagram).AsEnumerable()
             .Select(info =>
             {
                 var newInfo = new SearchInfo
@@ -159,9 +159,9 @@ public class AnagramSolverDbRepository : IWordRepository
         try
         {
             foreach (var dbAnagram in searchInfo.Anagrams.Select(anagram =>
-                         _context.WordEntities.FirstOrDefault(word => word.Name.Equals(anagram))))
+                         _dbContext.WordEntities.FirstOrDefault(word => word.Name.Equals(anagram))))
             {
-                _context.Add(new SearchInfoEntity()
+                _dbContext.Add(new SearchInfoEntity()
                 {
                     Id = searchInfo.Id,
                     UserIp = searchInfo.UserIp,
@@ -169,7 +169,7 @@ public class AnagramSolverDbRepository : IWordRepository
                     ExecTime = searchInfo.ExecTime,
                     AnagramId = dbAnagram!.Id
                 });
-                _context.SaveChanges();
+                _dbContext.SaveChanges();
             }
 
             return true;

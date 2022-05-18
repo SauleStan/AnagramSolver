@@ -19,6 +19,12 @@ public class WordService : IWordService
         return words!;
     }
 
+    public IEnumerable<string?> GetWord(string word)
+    {
+        return _wordRepository.GetWords().Where(repoWord => repoWord.Name!.Equals(word))
+            .Select(fetchedWord => fetchedWord.Name);
+    }
+
     public IEnumerable<string> GetFilteredWords(string filter)
     {
         filter = filter.Insert(0, "%");

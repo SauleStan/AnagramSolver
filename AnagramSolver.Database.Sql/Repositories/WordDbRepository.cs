@@ -7,18 +7,18 @@ namespace AnagramSolver.Database.Sql.Repositories;
 
 public class WordDbRepository : IWordRepository
 {
-    private readonly SqlConnection _cn = new ();
+    private readonly SqlConnection _sqlConnection = new ();
     private readonly List<Word> _words = new ();
 
     public WordDbRepository()
     {
-        _cn.ConnectionString = "Server=localhost;Database=AnagramDB;Trusted_Connection=True;";
+        _sqlConnection.ConnectionString = "Server=localhost;Database=AnagramDB;Trusted_Connection=True;";
     }
     public IEnumerable<Word> GetWords()
     {
-        _cn.Open();
+        _sqlConnection.Open();
         SqlCommand command = new SqlCommand();
-        command.Connection = _cn;
+        command.Connection = _sqlConnection;
         command.CommandType = CommandType.Text;
         command.CommandText = "SELECT Id, Name FROM Word";
         SqlDataReader dataReader = command.ExecuteReader();
@@ -30,7 +30,7 @@ public class WordDbRepository : IWordRepository
             }
         }
         dataReader.Close();
-        _cn.Close();
+        _sqlConnection.Close();
         return _words;
     }
 
@@ -38,9 +38,9 @@ public class WordDbRepository : IWordRepository
     {
         try
         {
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO Word ([Name]) VALUES (@Word)";
             command.Parameters.AddWithValue("@Word", word);
@@ -53,7 +53,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
     }
 
@@ -71,9 +71,9 @@ public class WordDbRepository : IWordRepository
     {
         try
         {
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO Word (Name) VALUES (@Word)";
             foreach (var word in words)
@@ -91,7 +91,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Open();
+            _sqlConnection.Open();
         }
     }
 
@@ -101,9 +101,9 @@ public class WordDbRepository : IWordRepository
         try
         {
             List<Word> filteredWords = new ();
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT Id, Name FROM Word WHERE Name LIKE @Filter";
             command.Parameters.AddWithValue("@Filter", filter);
@@ -125,7 +125,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
         
     }
@@ -139,9 +139,9 @@ public class WordDbRepository : IWordRepository
                 GetWords();
             }
             var anagramModels = _words.FindAll(word => anagrams.Contains(word.Name));
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO CachedWord([InputWord],[AnagramWordId]) VALUES (@SearchedWord, @AnagramId)";
             foreach (var anagramModel in anagramModels)
@@ -158,7 +158,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
     }
 
@@ -166,9 +166,9 @@ public class WordDbRepository : IWordRepository
     {
         try
         { 
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT cw.Id, cw.InputWord, w.Name " +
                                   "FROM CachedWord cw " +
@@ -211,7 +211,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
         
     }
@@ -220,9 +220,9 @@ public class WordDbRepository : IWordRepository
     {
         try
         {
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT si.Id, si.UserIp, si.ExecTime, si.SearchedWord, w.Name " +
                                   "FROM SearchInfo si " +
@@ -266,7 +266,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
     }
 
@@ -279,9 +279,9 @@ public class WordDbRepository : IWordRepository
                 GetWords();
             }
             var anagramModels = _words.FindAll(word => searchInfo.Anagrams.Contains(word.Name));
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO SearchInfo ([UserIp],[ExecTime],[SearchedWord],[AnagramId]) VALUES (@UserIp, @ExecTime, @SearchedWord, @AnagramId)";
             foreach (var anagramModel in anagramModels)
@@ -302,7 +302,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
     }
 
@@ -310,9 +310,9 @@ public class WordDbRepository : IWordRepository
     {
         try
         { 
-            _cn.Open();
+            _sqlConnection.Open();
             SqlCommand command = new SqlCommand();
-            command.Connection = _cn;
+            command.Connection = _sqlConnection;
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "spClearTable";
             command.Parameters.Add(new SqlParameter("@TableName", tableName));
@@ -325,7 +325,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _cn.Close();
+            _sqlConnection.Close();
         }
     }
 }

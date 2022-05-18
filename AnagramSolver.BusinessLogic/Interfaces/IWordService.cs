@@ -5,6 +5,7 @@ namespace AnagramSolver.BusinessLogic.Interfaces;
 public interface IWordService
 {
     public IEnumerable<string?> GetWords();
+    public IEnumerable<string?> GetWord(string word);
     public IEnumerable<string> GetFilteredWords(string filter);
     ActionResult AddWord(string word);
     ActionResult Edit(string wordToEdit, string editedWord);

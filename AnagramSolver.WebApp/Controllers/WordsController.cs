@@ -22,8 +22,7 @@ public class WordsController : Controller
     }
     public IActionResult DisplayWord(string word, int pageNumber = 1)
     {
-        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords()
-            .Where(dbWord => dbWord.Equals(word)), pageNumber, PageSize));
+        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWord(word)!, pageNumber, PageSize));
     }
     
     [HttpPost]
@@ -44,7 +43,7 @@ public class WordsController : Controller
     public IActionResult EditWord(EditWordModel word)
     {
         _wordService.Edit(word.WordToEdit, word.EditedWord);
-        return RedirectToAction("DisplayWords");
+        return RedirectToAction("DisplayWord", new { word = word.EditedWord});
     }
 
     public IActionResult DeleteWord(string wordToDelete)
