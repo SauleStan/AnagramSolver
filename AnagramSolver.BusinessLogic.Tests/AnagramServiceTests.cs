@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Models;
 using NUnit.Framework;

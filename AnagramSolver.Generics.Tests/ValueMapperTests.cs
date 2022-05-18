@@ -1,8 +1,6 @@
-using System;
-using AnagramSolver.Generics;
 using NUnit.Framework;
 
-namespace AnagramSolver.Tests;
+namespace AnagramSolver.Generics.Tests;
 
 public class ValueMapperTests
 {
@@ -16,7 +14,7 @@ public class ValueMapperTests
         var result = ValueMapper.MapValueToEnum<ValueMapper.Gender, int>(value);
 
         // Assert
-        Assert.AreEqual(ValueMapper.Gender.Male, result);
+        Assert.That(result, Is.EqualTo(ValueMapper.Gender.Male));
     }
     
     [Test]
@@ -29,7 +27,7 @@ public class ValueMapperTests
         var result = ValueMapper.MapValueToEnum<ValueMapper.Gender, string>(value);
 
         // Assert
-        Assert.AreEqual(ValueMapper.Gender.Male, result);
+        Assert.That(result, Is.EqualTo(ValueMapper.Gender.Male));
     }
     [Test]
     public void MapStringToWeekday_ReturnsWeekdayEnum_WhenProvidedAString()
@@ -41,7 +39,7 @@ public class ValueMapperTests
         var result = ValueMapper.MapValueToEnum<ValueMapper.Weekday, string>(value);
 
         // Assert
-        Assert.AreEqual(ValueMapper.Weekday.Monday, result);
+        Assert.That(result, Is.EqualTo(ValueMapper.Weekday.Monday));
     }
     
 }
