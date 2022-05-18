@@ -1,5 +1,4 @@
 using AnagramSolver.BusinessLogic.Interfaces;
-using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Controllers;
 using AnagramSolver.WebApp.Models;
@@ -25,6 +24,16 @@ public class HomeControllerTests
     }
 
     [Test]
+    public void Index_ReturnsView()
+    {
+        // Act
+        var result = _homeController.Index();
+        
+        // Assert
+        Assert.That(result, Is.TypeOf<ViewResult>());
+    }
+
+    [Test]
     public void GetAnagrams_ReturnsFoundAnagramsFromCache_WhenProvidedAString()
     {
         // Arrange
@@ -39,7 +48,6 @@ public class HomeControllerTests
         var viewResult = (ViewResult)_homeController.GetAnagrams(input);
         var result = (AnagramList)viewResult.ViewData.Model!;
         // Assert
-        Assert.That(viewResult, Is.TypeOf<ViewResult>());
         Assert.That(result.Anagrams.First(), Is.EqualTo("wrod"));
         _wordServiceMock.Verify(serviceMock => serviceMock.GetCachedWord(input), Times.Exactly(1));
     }
@@ -58,7 +66,52 @@ public class HomeControllerTests
         var result = (AnagramList)viewResult.ViewData.Model!;
         
         // Assert
-        Assert.That(viewResult, Is.TypeOf<ViewResult>());
+        Assert.That(result.Anagrams, Is.EquivalentTo(expectedList));
+        _wordServiceMock.Verify(serviceMock => serviceMock.GetCachedWord(input), Times.Exactly(1));
+        _anagramResolverMock.Verify(resolverMock => resolverMock.FindAnagrams(input), Times.Exactly(1));
+    }
+    
+    [Test]
+    public void GetAnagrams_ReturnsFoundAnagramsFromCache_WhenProvidedInputModel()
+    {
+        // Arrange
+        var input = "word";
+        _wordServiceMock.Setup(service => service.GetCachedWord(input)).Returns(new CachedWord
+        {
+            InputWord = input,
+            Anagrams = new List<string> { "wrod" }
+        });
+        var inputModel = new InputModel
+        {
+            Input = input
+        };
+        
+        // Act
+        var viewResult = (ViewResult)_homeController.GetAnagrams(inputModel);
+        var result = (AnagramList)viewResult.ViewData.Model!;
+        // Assert
+        Assert.That(result.Anagrams.First(), Is.EqualTo("wrod"));
+        _wordServiceMock.Verify(serviceMock => serviceMock.GetCachedWord(input), Times.Exactly(1));
+    }
+
+    [Test]
+    public void GetAnagrams_ReturnsFoundAnagramsFromResolver_WhenInputModelIsNotCached()
+    {
+        // Arrange
+        var input = "word";
+        var expectedList = new List<string> { "wrod", "wodr" };
+        _wordServiceMock.Setup(service => service.GetCachedWord(input)).Returns(new CachedWord());
+        _anagramResolverMock.Setup(resolverMock => resolverMock.FindAnagrams(input)).Returns(expectedList);
+        var inputModel = new InputModel
+        {
+            Input = input
+        };
+        
+        // Act
+        var viewResult = (ViewResult)_homeController.GetAnagrams(inputModel);
+        var result = (AnagramList)viewResult.ViewData.Model!;
+        
+        // Assert
         Assert.That(result.Anagrams, Is.EquivalentTo(expectedList));
         _wordServiceMock.Verify(serviceMock => serviceMock.GetCachedWord(input), Times.Exactly(1));
         _anagramResolverMock.Verify(resolverMock => resolverMock.FindAnagrams(input), Times.Exactly(1));
