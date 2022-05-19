@@ -103,10 +103,10 @@ public class WordDatabaseRepository : IWordRepository
         }
     }
 
-    public Contracts.Models.CachedWord GetCachedWord(string input)
+    public async Task<Contracts.Models.CachedWord> GetCachedWordAsync(string input)
     {
-        var cachedWords = _context.CachedWords.Include(word => word.AnagramWord)
-            .Where(word => word.InputWord.Equals(input));
+        var cachedWords = await _context.CachedWords.Include(word => word.AnagramWord)
+            .Where(word => word.InputWord!.Equals(input)).ToListAsync();
         var cachedWord = new Contracts.Models.CachedWord();
         
         foreach (var dbCachedWord in cachedWords)
@@ -154,9 +154,8 @@ public class WordDatabaseRepository : IWordRepository
                     ExecTime = searchInfo.ExecTime,
                     AnagramId = anagram?.Id
                 });
-                await _context.SaveChangesAsync();
             }
-
+            await _context.SaveChangesAsync();
         }
         catch (Exception)
         {

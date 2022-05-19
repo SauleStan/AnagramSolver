@@ -86,7 +86,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public CachedWord GetCachedWord(string input)
+    public Task<CachedWord> GetCachedWordAsync(string input)
     {
         throw new NotImplementedException();
     }

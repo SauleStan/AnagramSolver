@@ -128,9 +128,9 @@ public class WordService : IWordService
         }
     }
 
-    public CachedWord GetCachedWord(string input)
+    public async Task<CachedWord> GetCachedWordAsync(string input)
     {
-        return _wordRepository.GetCachedWord(input);
+        return await _wordRepository.GetCachedWordAsync(input);
     }
 
     public IEnumerable<SearchInfo> GetAnagramSearchInfo()

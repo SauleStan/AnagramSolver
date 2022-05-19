@@ -11,7 +11,7 @@ public interface IWordService
     ActionResult Edit(string wordToEdit, string editedWord);
     ActionResult DeleteWord(string word);
     ActionResult CacheWord(string word, IEnumerable<string> anagrams);
-    CachedWord GetCachedWord(string input);
+    Task<CachedWord> GetCachedWordAsync(string input);
     IEnumerable<SearchInfo> GetAnagramSearchInfo();
     ActionResult AddAnagramSearchInfo(SearchInfo searchInfo);
     bool ClearTable(string tableName);

@@ -73,7 +73,7 @@ public class HomeController : Controller
 
     private async Task<AnagramList> GetCachedWordListAsync(string input)
     {
-        var cachedWord = _wordService.GetCachedWord(input);
+        var cachedWord = await _wordService.GetCachedWordAsync(input);
         if (cachedWord.Anagrams.Count == 0)
         {
             var anagramList = await _anagramResolver.FindAnagramsAsync(input);

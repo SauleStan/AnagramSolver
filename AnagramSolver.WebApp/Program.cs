@@ -39,8 +39,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IWordRepository, AnagramSolverDbRepository>();
 builder.Services.AddScoped<IWordService, WordService>();
 builder.Services.AddScoped<IAnagramService, AnagramService>();
-builder.Services.AddScoped<IAnagramicaClient, AnagramicaClient>();
-builder.Services.AddScoped<IAnagramResolver, AnagramicaResolver>();
+builder.Services.AddScoped<IAnagramResolver, AnagramResolver>();
 
 var app = builder.Build();
 

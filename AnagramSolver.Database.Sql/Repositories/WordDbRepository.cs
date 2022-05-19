@@ -162,12 +162,12 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public CachedWord GetCachedWord(string input)
+    public async Task<CachedWord> GetCachedWordAsync(string input)
     {
         try
         { 
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand();
+            await _sqlConnection.OpenAsync();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT cw.Id, cw.InputWord, w.Name " +
@@ -176,15 +176,15 @@ public class WordDbRepository : IWordRepository
                                   "ON cw.AnagramWordId = w.Id " +
                                   "WHERE cw.InputWord = @Input";
             command.Parameters.AddWithValue("@Input", input);
-            SqlDataReader dataReader = command.ExecuteReader();
+            var dataReader = await command.ExecuteReaderAsync();
             var cachedWord = new CachedWord()
             {
-                InputWord = String.Empty
+                InputWord = string.Empty
             };
 
             if (dataReader.HasRows)
             {
-                while (dataReader.Read())
+                while (await dataReader.ReadAsync())
                 {
                     var inputWord = (string)dataReader["InputWord"];
                     if (!cachedWord.InputWord.Equals(inputWord))
@@ -202,7 +202,7 @@ public class WordDbRepository : IWordRepository
                     }
                 }
             }
-            dataReader.Close();
+            await dataReader.CloseAsync();
             return cachedWord;
         }
         catch (Exception)

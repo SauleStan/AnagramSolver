@@ -11,7 +11,7 @@ public interface IWordRepository
     void DeleteWord(string word);
     bool AddWords(IEnumerable<string> words);
     Task CacheWord(string word, IEnumerable<string> anagrams);
-    CachedWord GetCachedWord(string input);
+    Task<CachedWord> GetCachedWordAsync(string input);
     IEnumerable<SearchInfo> GetAnagramSearchInfo();
     Task AddAnagramSearchInfo(SearchInfo searchInfo);
     bool ClearSearchInfoTable(string tableName);

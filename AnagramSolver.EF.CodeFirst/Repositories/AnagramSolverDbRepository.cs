@@ -116,11 +116,11 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public CachedWord GetCachedWord(string input)
+    public async Task<CachedWord> GetCachedWordAsync(string input)
     {
-        var cachedWords = _dbContext.CachedWordEntities
+        var cachedWords = await _dbContext.CachedWordEntities
             .Include(word => word.Anagram)
-            .Where(word => word.InputWord.Equals(input));
+            .Where(word => word.InputWord.Equals(input)).ToListAsync();
         var cachedWord = new CachedWord();
         foreach (var dbCachedWord in cachedWords)
         {
@@ -158,9 +158,10 @@ public class AnagramSolverDbRepository : IWordRepository
     {
         try
         {
-            foreach (var dbAnagram in searchInfo.Anagrams.Select(anagram =>
-                         _dbContext.WordEntities.FirstOrDefault(word => word.Name.Equals(anagram))))
+            foreach (var dbAnagramTask in searchInfo.Anagrams.Select(async anagram =>
+                        await _dbContext.WordEntities.FirstOrDefaultAsync(word => word.Name.Equals(anagram))))
             {
+                var dbAnagram = await dbAnagramTask;
                 await _dbContext.AddAsync(new SearchInfoEntity()
                 {
                     Id = searchInfo.Id,
@@ -169,8 +170,8 @@ public class AnagramSolverDbRepository : IWordRepository
                     ExecTime = searchInfo.ExecTime,
                     AnagramId = dbAnagram!.Id
                 });
-                await _dbContext.SaveChangesAsync();
             }
+            await _dbContext.SaveChangesAsync();
         }
         catch (Exception)
         {

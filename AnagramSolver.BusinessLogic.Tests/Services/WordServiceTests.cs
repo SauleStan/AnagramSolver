@@ -172,7 +172,7 @@ public class WordServiceTests
     }
     
     [Test]
-    public void GetCachedWord_ReturnsCachedWord_IfItExistsInCache()
+    public async Task GetCachedWord_ReturnsCachedWord_IfItExistsInCache()
     {
         // Arrange
         var input = "word1";
@@ -181,14 +181,14 @@ public class WordServiceTests
             InputWord = input,
             Anagrams = new List<string> { "1word", "wor1d" }
         };
-        _wordRepositoryMock.Setup(repo => repo.GetCachedWord(input))
-            .Returns(expected);
+        _wordRepositoryMock.Setup(repo => repo.GetCachedWordAsync(input))
+            .ReturnsAsync(expected);
         
         // Act
-        var result = _wordService.GetCachedWord(input);
+        var result = await _wordService.GetCachedWordAsync(input);
         
         // Assert
         Assert.That(result, Is.EqualTo(expected));
-        _wordRepositoryMock.Verify(repo => repo.GetCachedWord(input), Times.Exactly(1));
+        _wordRepositoryMock.Verify(repo => repo.GetCachedWordAsync(input), Times.Exactly(1));
     }
 }
