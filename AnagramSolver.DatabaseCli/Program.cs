@@ -30,6 +30,6 @@ if (dataFilePath != null)
 {
     var wordFileService = new WordService(new WordFileRepository(dataFilePath));
     var wordDbRepository = new AnagramSolverDbRepository(serviceProvider.GetService<AnagramSolverDbContext>()!);
-    var words = wordFileService.GetWords();
+    var words = await wordFileService.GetWordsAsync();
     wordDbRepository.AddWords(words);
 }

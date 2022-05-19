@@ -14,8 +14,9 @@ public class WordsApiController : ControllerBase
     }
 
     [HttpGet]
-    public List<string> GetWords()
+    public async Task<List<string>> GetWords()
     {
-        return _wordService.GetWords().ToList()!;
+        var words = await _wordService.GetWordsAsync();
+        return words.ToList()!;
     }
 }

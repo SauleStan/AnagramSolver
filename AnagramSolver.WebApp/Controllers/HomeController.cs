@@ -23,11 +23,11 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult GetAnagrams(string input)
+    public async Task<IActionResult> GetAnagrams(string input)
     {
         Stopwatch stopwatch = new();
         stopwatch.Start();
-        var anagramList = GetCachedWordList(input);
+        var anagramList = await GetCachedWordListAsync(input);
         stopwatch.Stop();
 
         _wordService.AddAnagramSearchInfo(new SearchInfo
@@ -42,13 +42,13 @@ public class HomeController : Controller
     }
     
     [HttpPost]
-    public IActionResult GetAnagrams([Bind("Input")]InputModel inputModel)
+    public async Task<IActionResult> GetAnagrams([Bind("Input")]InputModel inputModel)
     {
         if (!ModelState.IsValid) return View("Index");
 
         Stopwatch stopwatch = new();
         stopwatch.Start();
-        var anagramList = GetCachedWordList(inputModel.Input);
+        var anagramList = await GetCachedWordListAsync(inputModel.Input);
         stopwatch.Stop();
         
         _wordService.AddAnagramSearchInfo(new SearchInfo
@@ -71,12 +71,12 @@ public class HomeController : Controller
         return View("Index");
     }
 
-    private AnagramList GetCachedWordList(string input)
+    private async Task<AnagramList> GetCachedWordListAsync(string input)
     {
         var cachedWord = _wordService.GetCachedWord(input);
         if (cachedWord.Anagrams.Count == 0)
         {
-            var anagramList = _anagramResolver.FindAnagrams(input);
+            var anagramList = await _anagramResolver.FindAnagramsAsync(input);
             _wordService.CacheWord(input, anagramList);
             return new AnagramList(anagramList, input);
         }

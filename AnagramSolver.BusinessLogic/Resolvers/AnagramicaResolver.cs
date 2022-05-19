@@ -11,8 +11,8 @@ public class AnagramicaResolver : IAnagramResolver
     {
         _anagramicaClient = anagramicaClient;
     }
-    public List<string> FindAnagrams(string inputWord)
+    public async Task<List<string>> FindAnagramsAsync(string inputWord)
     {
-        return _anagramicaClient.GetAllAnagrams(inputWord);
+        return await _anagramicaClient.GetAllAnagramsAsync(inputWord);
     }
 }

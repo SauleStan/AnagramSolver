@@ -2,6 +2,6 @@ namespace AnagramSolver.Anagramica.Client;
 
 public interface IAnagramicaClient
 {
-    List<string> GetAllAnagrams(string userInput);
-    List<string> GetBestAnagrams(string userInput);
+    Task<List<string>> GetAllAnagramsAsync(string userInput);
+    Task<List<string>> GetBestAnagramsAsync(string userInput);
 }

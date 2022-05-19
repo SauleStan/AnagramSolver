@@ -13,15 +13,16 @@ public class WordService : IWordService
         _wordRepository = wordRepository;
     }
     
-    public IEnumerable<string> GetWords()
+    public async Task<IEnumerable<string?>> GetWordsAsync()
     {
-        var words = _wordRepository.GetWords().Select(word => word.Name);
-        return words!;
+        var words = await _wordRepository.GetWordsAsync();
+        return words.Select(word => word.Name);
     }
 
-    public IEnumerable<string?> GetWord(string word)
+    public async Task<IEnumerable<string?>> GetWordAsync(string word)
     {
-        return _wordRepository.GetWords().Where(repoWord => repoWord.Name!.Equals(word))
+        var words = await _wordRepository.GetWordsAsync();
+        return words.Where(repoWord => repoWord.Name!.Equals(word))
             .Select(fetchedWord => fetchedWord.Name);
     }
 
@@ -37,7 +38,8 @@ public class WordService : IWordService
     {
         try
         {
-            if (_wordRepository.GetWords().Any(x => x.Name == word))
+            var words = await _wordRepository.GetWordsAsync();
+            if (words.Any(x => x.Name == word))
             {
                 return new ActionResult
                 {

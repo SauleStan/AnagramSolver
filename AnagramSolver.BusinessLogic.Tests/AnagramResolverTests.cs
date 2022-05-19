@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Resolvers;
@@ -36,12 +37,12 @@ public class AnagramResolverTests
         _anagramSetMock.Add(anagram4);
         _anagramSetMock.Add(anagramSentence);
         
-        _wordServiceMock.Setup(x => x.GetWords()).Returns(_wordSetMock);
+        _wordServiceMock.Setup(x => x.GetWordsAsync()).ReturnsAsync( _wordSetMock);
         _anagramServiceMock.Setup(x => x.ConvertToAnagrams(_wordSetMock)).Returns(_anagramSetMock);
     }
     
     [Test]
-    public void FindAnagrams_ReturnsAnagramHashSet_WhenGivenInputWord()
+    public async Task FindAnagrams_ReturnsAnagramHashSet_WhenGivenInputWord()
     {
         // Arrange
         AnagramResolver anagramResolver = new (_anagramServiceMock.Object, _wordServiceMock.Object);
@@ -50,13 +51,13 @@ public class AnagramResolverTests
         _anagramServiceMock.Setup(x => x.ConvertToAnagram(word)).Returns(new Anagram(word, crib));
 
         // Act
-        var result = anagramResolver.FindAnagrams(word);
+        var result = await anagramResolver.FindAnagramsAsync(word);
         
         // Assert
         Assert.IsTrue(result.Contains("sula"));
     }
     [Test]
-    public void FindAnagrams_ReturnsEmptyAnagramHashSet_WhenGivenInputWordThatHasNoAnagrams()
+    public async Task FindAnagrams_ReturnsEmptyAnagramHashSet_WhenGivenInputWordThatHasNoAnagrams()
     {
         // Arrange
         AnagramResolver anagramResolver = new (_anagramServiceMock.Object, _wordServiceMock.Object);
@@ -65,13 +66,13 @@ public class AnagramResolverTests
         _anagramServiceMock.Setup(x => x.ConvertToAnagram(word)).Returns(new Anagram(word, crib));
 
         // Act
-        var result = anagramResolver.FindAnagrams(word);
+        var result = await anagramResolver.FindAnagramsAsync(word);
         
         // Assert
         Assert.IsEmpty(result);
     }
     [Test]
-    public void FindAnagrams_ReturnsAnagramHashSet_WhenGivenInputSentence()
+    public async Task FindAnagrams_ReturnsAnagramHashSet_WhenGivenInputSentence()
     {
         // Arrange
         AnagramResolver anagramResolver = new (_anagramServiceMock.Object, _wordServiceMock.Object);
@@ -80,7 +81,7 @@ public class AnagramResolverTests
         _anagramServiceMock.Setup(x => x.ConvertToAnagram(sentence)).Returns(new Anagram(sentence, crib));
 
         // Act
-        var result = anagramResolver.FindAnagrams(sentence);
+        var result = await anagramResolver.FindAnagramsAsync(sentence);
         
         // Assert
         Assert.IsTrue(result.Contains("anagram"));

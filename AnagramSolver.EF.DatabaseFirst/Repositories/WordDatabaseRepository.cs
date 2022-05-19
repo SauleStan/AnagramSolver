@@ -11,13 +11,13 @@ public class WordDatabaseRepository : IWordRepository
         _context = context;
     }
 
-    public IEnumerable<Contracts.Models.Word> GetWords()
+    public async Task<IEnumerable<Contracts.Models.Word>> GetWordsAsync()
     {
-        return _context.Words.AsEnumerable().Select(word => new Contracts.Models.Word()
+        return await _context.Words.Select(word => new Contracts.Models.Word()
         {
             Id = word.Id,
             Name = word.Name
-        });
+        }).ToListAsync();
     }
 
     public IEnumerable<Contracts.Models.Word> GetFilteredWords(string filter)
@@ -82,19 +82,19 @@ public class WordDatabaseRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public void CacheWord(string word, IEnumerable<string> anagrams)
+    public async Task CacheWord(string word, IEnumerable<string> anagrams)
     {
         try
         {
             foreach (var anagram in anagrams)
             {
-                var dbAnagram = _context.Words.FirstOrDefault(dbAnagram => dbAnagram.Name!.Equals(anagram));
-                _context.Add(new EF.DatabaseFirst.Models.CachedWord()
+                var dbAnagram = await _context.Words.FirstOrDefaultAsync(dbAnagram => dbAnagram.Name!.Equals(anagram));
+                await _context.AddAsync(new EF.DatabaseFirst.Models.CachedWord()
                 {
                     InputWord = word,
                     AnagramWordId = dbAnagram?.Id
                 });
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
         catch (Exception)
@@ -105,7 +105,8 @@ public class WordDatabaseRepository : IWordRepository
 
     public Contracts.Models.CachedWord GetCachedWord(string input)
     {
-        var cachedWords = _context.CachedWords.Include(word => word.AnagramWord).Where(word => word.InputWord.Equals(input));
+        var cachedWords = _context.CachedWords.Include(word => word.AnagramWord)
+            .Where(word => word.InputWord.Equals(input));
         var cachedWord = new Contracts.Models.CachedWord();
         
         foreach (var dbCachedWord in cachedWords)
@@ -137,29 +138,29 @@ public class WordDatabaseRepository : IWordRepository
             });
     }
 
-    public bool AddAnagramSearchInfo(Contracts.Models.SearchInfo searchInfo)
+    public async Task AddAnagramSearchInfo(Contracts.Models.SearchInfo searchInfo)
     {
         try
         {
-            foreach (var dbAnagram in searchInfo.Anagrams.Select(anagram =>
-                         _context.Words.FirstOrDefault(word => word.Name!.Equals(anagram))))
+            foreach (var dbAnagram in searchInfo.Anagrams.Select(async anagram =>
+                         await _context.Words.FirstOrDefaultAsync(word => word.Name!.Equals(anagram))))
             {
-                _context.Add(new SearchInfo()
+                var anagram = await dbAnagram;
+                await _context.AddAsync(new SearchInfo()
                 {
                     Id = searchInfo.Id,
                     UserIp = searchInfo.UserIp,
                     SearchedWord = searchInfo.SearchedWord,
                     ExecTime = searchInfo.ExecTime,
-                    AnagramId = dbAnagram?.Id
+                    AnagramId = anagram?.Id
                 });
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
-            return true;
         }
         catch (Exception)
         {
-            return false;
+            throw;
         }
     }
 

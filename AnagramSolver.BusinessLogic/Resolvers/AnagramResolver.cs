@@ -16,14 +16,14 @@ public class AnagramResolver : IAnagramResolver
         _wordService = wordService;
     }
 
-    public List<string> FindAnagrams(string inputWord)
+    public async Task<List<string>> FindAnagramsAsync(string inputWord)
     {
         _anagramsSet.Clear();
         
-        var filteredFetchedWords = new HashSet<string>(_wordService.GetWords()!);
-        filteredFetchedWords.RemoveWhere(x => x.Length != inputWord.Length);
-        
-        _fetchedAnagrams = _anagramService.ConvertToAnagrams(_wordService.GetWords()!);
+        var filteredFetchedWords = new HashSet<string?>(await _wordService.GetWordsAsync());
+        filteredFetchedWords.RemoveWhere(x => x != null && x.Length != inputWord.Length);
+
+        _fetchedAnagrams = _anagramService.ConvertToAnagrams((await _wordService.GetWordsAsync())!);
         
         var inputAnagram = _anagramService.ConvertToAnagram(inputWord);
         

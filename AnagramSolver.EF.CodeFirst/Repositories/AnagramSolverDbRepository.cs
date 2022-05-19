@@ -13,13 +13,13 @@ public class AnagramSolverDbRepository : IWordRepository
     {
         _dbContext = dbContext;
     }
-    public IEnumerable<Word> GetWords()
+    public async Task<IEnumerable<Word>> GetWordsAsync()
     {
-        return _dbContext.WordEntities.Select(entity => new Word
+        return await _dbContext.WordEntities.Select(entity => new Word
         {
             Id = entity.Id,
             Name = entity.Name
-        });
+        }).ToListAsync();
     }
 
     public IEnumerable<Word> GetFilteredWords(string filter)
@@ -95,19 +95,19 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public void CacheWord(string word, IEnumerable<string> anagrams)
+    public async Task CacheWord(string word, IEnumerable<string> anagrams)
     {
         try
         {
             foreach (var anagram in anagrams)
             {
                 var dbAnagram = _dbContext.WordEntities.FirstOrDefault(dbAnagram => dbAnagram.Name.Equals(anagram));
-                _dbContext.Add(new CachedWordEntity()
+                await _dbContext.AddAsync(new CachedWordEntity()
                 {
                     InputWord = word,
                     AnagramId = dbAnagram?.Id
                 });
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
         }
         catch (Exception)
@@ -154,14 +154,14 @@ public class AnagramSolverDbRepository : IWordRepository
             });
     }
 
-    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    public async Task AddAnagramSearchInfo(SearchInfo searchInfo)
     {
         try
         {
             foreach (var dbAnagram in searchInfo.Anagrams.Select(anagram =>
                          _dbContext.WordEntities.FirstOrDefault(word => word.Name.Equals(anagram))))
             {
-                _dbContext.Add(new SearchInfoEntity()
+                await _dbContext.AddAsync(new SearchInfoEntity()
                 {
                     Id = searchInfo.Id,
                     UserIp = searchInfo.UserIp,
@@ -169,14 +169,12 @@ public class AnagramSolverDbRepository : IWordRepository
                     ExecTime = searchInfo.ExecTime,
                     AnagramId = dbAnagram!.Id
                 });
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
-
-            return true;
         }
         catch (Exception)
         {
-            return false;
+            throw;
         }
     }
 

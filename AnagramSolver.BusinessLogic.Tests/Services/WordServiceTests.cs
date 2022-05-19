@@ -23,10 +23,10 @@ public class WordServiceTests
     }
 
     [Test]
-    public void GetWords_ReturnsAllWordNames_WhenCalled()
+    public async Task GetWords_ReturnsAllWordNames_WhenCalled()
     {
         // Arrange
-        _wordRepositoryMock.Setup(repo => repo.GetWords()).Returns(
+        _wordRepositoryMock.Setup(repo => repo.GetWordsAsync()).ReturnsAsync(
             new List<Word>
             {
                 new ()
@@ -43,18 +43,18 @@ public class WordServiceTests
         var expected = new List<string>{"word1", "word2"};
         
         // Act
-        var result = _wordService.GetWords();
+        var result = await _wordService.GetWordsAsync();
         
         // Assert
         Assert.That(result, Is.EquivalentTo(expected));
     }
     
     [Test]
-    public void GetWords_ReturnsInputWordName_WhenInputExistsInStorage()
+    public async Task GetWords_ReturnsInputWordName_WhenInputExistsInStorage()
     {
         // Arrange
         var input = "word2";
-        _wordRepositoryMock.Setup(repo => repo.GetWords()).Returns(
+        _wordRepositoryMock.Setup(repo => repo.GetWordsAsync()).ReturnsAsync(
             new List<Word>
             {
                 new ()
@@ -71,22 +71,22 @@ public class WordServiceTests
         var expected = new List<string>{"word2"};
         
         // Act
-        var result = _wordService.GetWord(input);
+        var result = await _wordService.GetWordAsync(input);
         
         // Assert
         Assert.That(result, Is.EquivalentTo(expected));
     }
     
     [Test]
-    public void GetWords_ReturnsEmptyList_WhenInputDoesNotExistInStorage()
+    public async Task GetWords_ReturnsEmptyList_WhenInputDoesNotExistInStorage()
     {
         // Arrange
         var input = "word2";
-        _wordRepositoryMock.Setup(repo => repo.GetWords())
-            .Returns(new List<Word>());
+        _wordRepositoryMock.Setup(repo => repo.GetWordsAsync())
+            .ReturnsAsync(new List<Word>());
         
         // Act
-        var result = _wordService.GetWord(input);
+        var result = await _wordService.GetWordAsync(input);
         
         // Assert
         Assert.That(result, Is.Empty);
@@ -126,7 +126,7 @@ public class WordServiceTests
     {
         // Arrange
         var word = "borb";
-        _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).Returns(Task.FromResult(true));
+        _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).ReturnsAsync(true);
         
         // Act
         var result = await _wordService.AddWordAsync(word);
@@ -136,11 +136,11 @@ public class WordServiceTests
     }
     
     [Test]
-    public async void AddWord_ReturnsFailedActionResult_WhenWordIsNotAdded()
+    public async Task AddWord_ReturnsFailedActionResult_WhenWordIsNotAdded()
     {
         // Arrange
         var word = "borb";
-        _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).Returns(Task.FromResult(false));
+        _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).ReturnsAsync(false);
         
         // Act
         var result = await _wordService.AddWordAsync(word);
@@ -150,12 +150,12 @@ public class WordServiceTests
     }
     
     [Test]
-    public async void AddWord_ReturnsFailedActionResult_WhenWordAlreadyExists()
+    public async Task AddWord_ReturnsFailedActionResult_WhenWordAlreadyExists()
     {
         // Arrange
         var word = "borb";
-        _wordRepositoryMock.Setup(repo => repo.GetWords())
-            .Returns(new List<Word>
+        _wordRepositoryMock.Setup(repo => repo.GetWordsAsync())
+            .ReturnsAsync(new List<Word>
             {
                 new()
                 {

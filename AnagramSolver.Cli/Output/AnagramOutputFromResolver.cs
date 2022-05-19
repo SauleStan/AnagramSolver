@@ -15,7 +15,7 @@ public class AnagramOutputFromResolver : IAnagramOutput
     public async Task<List<string>> AnagramOutput(string userInput)
     {
         var inputWord = userInput;
-        var anagrams = _anagramResolver.FindAnagrams(inputWord).ToList();
+        var anagrams = await _anagramResolver.FindAnagramsAsync(inputWord);
         return anagrams;
     }
 }

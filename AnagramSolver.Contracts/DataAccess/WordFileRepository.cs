@@ -12,12 +12,12 @@ public class WordFileRepository : IWordRepository
     {
         _path = path;
     }
-    public IEnumerable<Word> GetWords()
+    public async Task<IEnumerable<Word>> GetWordsAsync()
     {
         
         using (var streamReader = new StreamReader(_path))
         {
-            while (streamReader.ReadLine() is { } line)
+            while (await streamReader.ReadLineAsync() is { } line)
             {
                 var word = line.Split(Separator)[0];
                 if (_words.All(x => x.Name != word))
@@ -81,7 +81,7 @@ public class WordFileRepository : IWordRepository
         }
     }
 
-    public void CacheWord(string word, IEnumerable<string> anagrams)
+    public Task CacheWord(string word, IEnumerable<string> anagrams)
     {
         throw new NotImplementedException();
     }
@@ -96,7 +96,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    public Task AddAnagramSearchInfo(SearchInfo searchInfo)
     {
         throw new NotImplementedException();
     }

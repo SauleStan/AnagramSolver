@@ -2,5 +2,5 @@ namespace AnagramSolver.BusinessLogic.Interfaces;
 
 public interface IAnagramResolver
 {
-    public List<string> FindAnagrams(string inputWord);
+    public Task<List<string>> FindAnagramsAsync(string inputWord);
 }

@@ -14,23 +14,23 @@ public class WordDbRepository : IWordRepository
     {
         _sqlConnection.ConnectionString = "Server=localhost;Database=AnagramDB;Trusted_Connection=True;";
     }
-    public IEnumerable<Word> GetWords()
+    public async Task<IEnumerable<Word>> GetWordsAsync()
     {
-        _sqlConnection.Open();
-        SqlCommand command = new SqlCommand();
+        await _sqlConnection.OpenAsync();
+        var command = new SqlCommand();
         command.Connection = _sqlConnection;
         command.CommandType = CommandType.Text;
         command.CommandText = "SELECT Id, Name FROM Word";
-        SqlDataReader dataReader = command.ExecuteReader();
+        var dataReader = await command.ExecuteReaderAsync();
         if (dataReader.HasRows)
         {
-            while (dataReader.Read())
+            while (await dataReader.ReadAsync())
             {
                 _words.Add(new Word((int)dataReader["Id"], (string)dataReader["Name"]));
             }
         }
-        dataReader.Close();
-        _sqlConnection.Close();
+        await dataReader.CloseAsync();
+        await _sqlConnection.CloseAsync();
         return _words;
     }
 
@@ -130,17 +130,17 @@ public class WordDbRepository : IWordRepository
         
     }
 
-    public void CacheWord(string searchWord, IEnumerable<string> anagrams)
+    public async Task CacheWord(string searchWord, IEnumerable<string> anagrams)
     {
         try
         {
             if (_words.Count == 0)
             {
-                GetWords();
+                await GetWordsAsync();
             }
             var anagramModels = _words.FindAll(word => anagrams.Contains(word.Name));
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand();
+            await _sqlConnection.OpenAsync();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO CachedWord([InputWord],[AnagramWordId]) VALUES (@SearchedWord, @AnagramId)";
@@ -149,7 +149,7 @@ public class WordDbRepository : IWordRepository
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@SearchedWord", searchWord);
                 command.Parameters.AddWithValue("@AnagramId", anagramModel.Id);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
         catch (Exception)
@@ -158,7 +158,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
     }
 
@@ -270,20 +270,21 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public bool AddAnagramSearchInfo(SearchInfo searchInfo)
+    public async Task AddAnagramSearchInfo(SearchInfo searchInfo)
     {
         try
         {
             if (_words.Count == 0)
             {
-                GetWords();
+                await GetWordsAsync();
             }
             var anagramModels = _words.FindAll(word => searchInfo.Anagrams.Contains(word.Name));
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand();
+            await _sqlConnection.OpenAsync();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
-            command.CommandText = "INSERT INTO SearchInfo ([UserIp],[ExecTime],[SearchedWord],[AnagramId]) VALUES (@UserIp, @ExecTime, @SearchedWord, @AnagramId)";
+            command.CommandText = "INSERT INTO SearchInfo ([UserIp],[ExecTime],[SearchedWord],[AnagramId]) " +
+                                  "VALUES (@UserIp, @ExecTime, @SearchedWord, @AnagramId)";
             foreach (var anagramModel in anagramModels)
             {
                 command.Parameters.Clear();
@@ -291,10 +292,8 @@ public class WordDbRepository : IWordRepository
                 command.Parameters.AddWithValue("@ExecTime", searchInfo.ExecTime);
                 command.Parameters.AddWithValue("@SearchedWord", searchInfo.SearchedWord);
                 command.Parameters.AddWithValue("@AnagramId", anagramModel.Id);
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
-
-            return true;
         }
         catch (Exception)
         {
@@ -302,7 +301,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
     }
 

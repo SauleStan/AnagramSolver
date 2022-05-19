@@ -15,8 +15,8 @@ public class AnagramController : ControllerBase
     }
     
     [HttpGet("{input}")]
-    public List<string> GetAnagrams(string input)
+    public async Task<List<string>> GetAnagrams(string input)
     {
-        return _anagramResolver.FindAnagrams(input).ToList();
+        return await _anagramResolver.FindAnagramsAsync(input);
     }
 }

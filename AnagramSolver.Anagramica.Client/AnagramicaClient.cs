@@ -12,11 +12,11 @@ public class AnagramicaClient : IAnagramicaClient
         _client = new HttpClient(handler);
     }
     
-    public List<string> GetAllAnagrams(string userInput)
+    public async Task<List<string>> GetAllAnagramsAsync(string userInput)
     {
         try	
         {
-            var jsonResult = FetchData($"http://www.anagramica.com/all/:{userInput}").Result;
+            var jsonResult = await FetchData($"http://www.anagramica.com/all/:{userInput}");
             if (jsonResult != null)
             {
                 return jsonResult["all"];
@@ -29,11 +29,11 @@ public class AnagramicaClient : IAnagramicaClient
         return new List<string>();
     }
 
-    public List<string> GetBestAnagrams(string userInput)
+    public async Task<List<string>> GetBestAnagramsAsync(string userInput)
     {
         try
         {
-            var jsonResult = FetchData($"http://www.anagramica.com/best/:{userInput}").Result;
+            var jsonResult = await FetchData($"http://www.anagramica.com/best/:{userInput}");
             if (jsonResult != null)
             {
                 return jsonResult["best"];

@@ -4,15 +4,15 @@ namespace AnagramSolver.Contracts.Interfaces;
 
 public interface IWordRepository
 {
-    IEnumerable<Word> GetWords();
+    Task<IEnumerable<Word>> GetWordsAsync();
     IEnumerable<Word> GetFilteredWords(string filter);
     Task<bool> AddWordAsync(string word);
     void EditWord(string wordToEdit, string editedWord);
     void DeleteWord(string word);
     bool AddWords(IEnumerable<string> words);
-    void CacheWord(string word, IEnumerable<string> anagrams);
+    Task CacheWord(string word, IEnumerable<string> anagrams);
     CachedWord GetCachedWord(string input);
     IEnumerable<SearchInfo> GetAnagramSearchInfo();
-    bool AddAnagramSearchInfo(SearchInfo searchInfo);
+    Task AddAnagramSearchInfo(SearchInfo searchInfo);
     bool ClearSearchInfoTable(string tableName);
 }

@@ -16,13 +16,13 @@ public class WordsController : Controller
 
     }
     
-    public IActionResult DisplayWords(int pageNumber = 1)
+    public async Task<IActionResult> DisplayWords(int pageNumber = 1)
     {
-        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWords()!, pageNumber, PageSize));
+        return View("Words", PaginatedList<HashSet<string>>.Create((await _wordService.GetWordsAsync())!, pageNumber, PageSize));
     }
-    public IActionResult DisplayWord(string word, int pageNumber = 1)
+    public async Task<IActionResult> DisplayWord(string word, int pageNumber = 1)
     {
-        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetWord(word)!, pageNumber, PageSize));
+        return View("Words", PaginatedList<HashSet<string>>.Create((await _wordService.GetWordAsync(word))!, pageNumber, PageSize));
     }
     
     [HttpPost]
