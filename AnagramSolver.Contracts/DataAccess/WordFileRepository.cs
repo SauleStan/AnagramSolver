@@ -45,11 +45,11 @@ public class WordFileRepository : IWordRepository
         return _words;
     }
 
-    public bool AddWord(string word)
+    public async Task<bool> AddWordAsync(string word)
     {
         try
         {
-            File.AppendAllText(_path, word + Environment.NewLine);
+            await File.AppendAllTextAsync(_path, word + Environment.NewLine);
             return true;
         }
         catch (FileNotFoundException)

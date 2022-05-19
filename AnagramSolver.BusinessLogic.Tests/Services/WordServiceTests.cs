@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
@@ -121,35 +122,35 @@ public class WordServiceTests
     }
 
     [Test]
-    public void AddWord_ReturnsSuccessfulActionResult_WhenWordIsAdded()
+    public async Task AddWord_ReturnsSuccessfulActionResult_WhenWordIsAdded()
     {
         // Arrange
         var word = "borb";
-        _wordRepositoryMock.Setup(repo => repo.AddWord(word)).Returns(true);
+        _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).Returns(Task.FromResult(true));
         
         // Act
-        var result = _wordService.AddWord(word);
+        var result = await _wordService.AddWordAsync(word);
         
         // Assert
         Assert.That(result.IsSuccessful, Is.True);
     }
     
     [Test]
-    public void AddWord_ReturnsFailedActionResult_WhenWordIsNotAdded()
+    public async void AddWord_ReturnsFailedActionResult_WhenWordIsNotAdded()
     {
         // Arrange
         var word = "borb";
-        _wordRepositoryMock.Setup(repo => repo.AddWord(word)).Returns(false);
+        _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).Returns(Task.FromResult(false));
         
         // Act
-        var result = _wordService.AddWord(word);
+        var result = await _wordService.AddWordAsync(word);
         
         // Assert
         Assert.That(result.IsSuccessful, Is.False);
     }
     
     [Test]
-    public void AddWord_ReturnsFailedActionResult_WhenWordAlreadyExists()
+    public async void AddWord_ReturnsFailedActionResult_WhenWordAlreadyExists()
     {
         // Arrange
         var word = "borb";
@@ -164,7 +165,7 @@ public class WordServiceTests
             });
         
         // Act
-        var result = _wordService.AddWord(word);
+        var result = await _wordService.AddWordAsync(word);
         
         // Assert
         Assert.That(result.IsSuccessful, Is.False);

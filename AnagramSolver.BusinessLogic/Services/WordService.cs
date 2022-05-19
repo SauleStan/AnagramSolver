@@ -33,7 +33,7 @@ public class WordService : IWordService
         return words!;
     }
 
-    public ActionResult AddWord(string word)
+    public async Task<ActionResult> AddWordAsync(string word)
     {
         try
         {
@@ -46,7 +46,7 @@ public class WordService : IWordService
                 };
             }
 
-            if (!_wordRepository.AddWord(word))
+            if (await _wordRepository.AddWordAsync(word) != true)
             {
                 return new ActionResult
                 {

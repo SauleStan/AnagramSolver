@@ -25,15 +25,15 @@ public class WordDatabaseRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool AddWord(string word)
+    public async Task<bool> AddWordAsync(string word)
     {
         try
         {
-            _context.Add(new Word()
+            await _context.AddAsync(new Word()
             {
                 Name = word
             });
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
         catch (Exception)

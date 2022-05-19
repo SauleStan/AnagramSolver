@@ -6,7 +6,7 @@ public interface IWordRepository
 {
     IEnumerable<Word> GetWords();
     IEnumerable<Word> GetFilteredWords(string filter);
-    bool AddWord(string word);
+    Task<bool> AddWordAsync(string word);
     void EditWord(string wordToEdit, string editedWord);
     void DeleteWord(string word);
     bool AddWords(IEnumerable<string> words);

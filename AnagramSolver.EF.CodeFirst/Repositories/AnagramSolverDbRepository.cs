@@ -27,15 +27,15 @@ public class AnagramSolverDbRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool AddWord(string word)
+    public async Task<bool> AddWordAsync(string word)
     {
         try
         {
-            _dbContext.Add(new WordEntity
+            await _dbContext.AddAsync(new WordEntity
             {
                 Name = word
             });
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return true;
         }
         catch (Exception)

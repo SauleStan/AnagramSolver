@@ -64,14 +64,14 @@ public class WordsController : Controller
     }
     
     [HttpPost]
-    public IActionResult SaveNewWord([Bind("Word")]CreateWordModel createWordModel)
+    public async Task<IActionResult> SaveNewWord([Bind("Word")]CreateWordModel createWordModel)
     {
         if (createWordModel == null || !ModelState.IsValid)
         {
             return View("NewWord");
         }
         
-        var result = _wordService.AddWord(createWordModel.Word);
+        var result = await _wordService.AddWordAsync(createWordModel.Word);
         ViewBag.SaveStatus = result.IsSuccessful ? "Word was added successfully" : "Failed to add the word";
 
         return View("NewWord");

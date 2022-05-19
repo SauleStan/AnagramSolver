@@ -34,17 +34,17 @@ public class WordDbRepository : IWordRepository
         return _words;
     }
 
-    public bool AddWord(string word)
+    public async Task<bool> AddWordAsync(string word)
     {
         try
         {
-            _sqlConnection.Open();
+            await _sqlConnection.OpenAsync();
             SqlCommand command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO Word ([Name]) VALUES (@Word)";
             command.Parameters.AddWithValue("@Word", word);
-            command.ExecuteNonQuery();
+            await command.ExecuteNonQueryAsync();
             return true;
         }
         catch (Exception)
@@ -53,7 +53,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
     }
 

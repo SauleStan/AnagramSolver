@@ -7,7 +7,7 @@ public interface IWordService
     public IEnumerable<string?> GetWords();
     public IEnumerable<string?> GetWord(string word);
     public IEnumerable<string> GetFilteredWords(string filter);
-    ActionResult AddWord(string word);
+    Task<ActionResult> AddWordAsync(string word);
     ActionResult Edit(string wordToEdit, string editedWord);
     ActionResult DeleteWord(string word);
     ActionResult CacheWord(string word, IEnumerable<string> anagrams);
