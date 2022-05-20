@@ -68,11 +68,11 @@ public class WordService : IWordService
         }
     }
 
-    public ActionResult Edit(string wordToEdit, string editedWord)
+    public async Task<ActionResult> EditAsync(string wordToEdit, string editedWord)
     {
         try
         {
-            _wordRepository.EditWord(wordToEdit, editedWord);
+            await _wordRepository.EditWordAsync(wordToEdit, editedWord);
             return new ActionResult
             {
                 IsSuccessful = true

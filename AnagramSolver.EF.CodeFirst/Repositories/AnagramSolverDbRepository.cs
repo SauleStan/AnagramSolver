@@ -44,16 +44,16 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public void EditWord(string wordToEdit, string editedWord)
+    public async Task EditWordAsync(string wordToEdit, string editedWord)
     {
         try
         {
-            var wordToUpdate = _dbContext.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(wordToEdit));
+            var wordToUpdate = await _dbContext.WordEntities.FirstOrDefaultAsync(dbWord => dbWord.Name.Equals(wordToEdit));
             if (wordToUpdate == null) return;
             
             wordToUpdate.Name = editedWord;
             _dbContext.Update(wordToUpdate);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
         catch (Exception)
         {

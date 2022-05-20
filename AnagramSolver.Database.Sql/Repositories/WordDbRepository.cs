@@ -57,7 +57,7 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public void EditWord(string word, string editedWord)
+    public Task EditWordAsync(string word, string editedWord)
     {
         throw new NotImplementedException();
     }

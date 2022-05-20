@@ -42,16 +42,16 @@ public class WordDatabaseRepository : IWordRepository
         }
     }
 
-    public void EditWord(string wordToEdit, string editedWord)
+    public async Task EditWordAsync(string wordToEdit, string editedWord)
     {
         try
         {
-            var wordToUpdate = _context.Words.FirstOrDefault(dbWord => dbWord.Name.Equals(wordToEdit));
+            var wordToUpdate = await _context.Words.FirstOrDefaultAsync(dbWord => dbWord.Name.Equals(wordToEdit));
             if (wordToUpdate != null)
             {
                 wordToUpdate.Name = editedWord;
                 _context.Update(wordToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
         catch (Exception)

@@ -9,7 +9,7 @@
         <p>
             Update word:
             <input type="hidden" asp-for="WordToEdit" value="@Model.WordToEdit"/>
-            <input type="text" asp-for="EditedWord"/><br/>
+            <input type="text" asp-for="EditedWord" value="@Model.WordToEdit"/><br/>
             <button type="submit">Edit</button>
         </p>
     </div>

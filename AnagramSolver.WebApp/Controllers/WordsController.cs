@@ -40,9 +40,9 @@ public class WordsController : Controller
     }
     
     [HttpPost]
-    public IActionResult EditWord(EditWordModel word)
+    public async Task<IActionResult> EditWord(EditWordModel word)
     {
-        _wordService.Edit(word.WordToEdit, word.EditedWord);
+        await _wordService.EditAsync(word.WordToEdit, word.EditedWord);
         return RedirectToAction("DisplayWord", new { word = word.EditedWord});
     }
 
