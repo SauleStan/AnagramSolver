@@ -46,9 +46,9 @@ public class WordsController : Controller
         return RedirectToAction("DisplayWord", new { word = word.EditedWord});
     }
 
-    public IActionResult DeleteWord(string wordToDelete)
+    public async Task<IActionResult> DeleteWord(string wordToDelete)
     {
-        var result = _wordService.DeleteWord(wordToDelete);
+        var result = await _wordService.DeleteWordAsync(wordToDelete);
         if (result.IsSuccessful)
         {
             ViewBag.Status = $"{wordToDelete} has been deleted";

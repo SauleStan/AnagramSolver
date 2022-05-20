@@ -61,16 +61,16 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public void DeleteWord(string word)
+    public async Task DeleteWordAsync(string word)
     {
         try
         {
-            var wordToDelete = _dbContext.WordEntities.FirstOrDefault(dbWord => dbWord.Name.Equals(word));
+            var wordToDelete = await _dbContext.WordEntities.FirstOrDefaultAsync(dbWord => dbWord.Name.Equals(word));
             if (wordToDelete != null)
             {
                 _dbContext.Remove(wordToDelete);
             }
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
         catch (Exception)
         {

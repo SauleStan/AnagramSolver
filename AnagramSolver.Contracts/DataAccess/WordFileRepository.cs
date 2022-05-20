@@ -63,7 +63,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public void DeleteWord(string word)
+    public Task DeleteWordAsync(string word)
     {
         throw new NotImplementedException();
     }

@@ -9,7 +9,7 @@ public interface IWordService
     public IEnumerable<string> GetFilteredWords(string filter);
     Task<ActionResult> AddWordAsync(string word);
     ActionResult Edit(string wordToEdit, string editedWord);
-    ActionResult DeleteWord(string word);
+    Task<ActionResult> DeleteWordAsync(string word);
     ActionResult CacheWord(string word, IEnumerable<string> anagrams);
     Task<CachedWord> GetCachedWordAsync(string input);
     Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();

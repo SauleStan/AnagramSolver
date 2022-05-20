@@ -88,11 +88,11 @@ public class WordService : IWordService
         }
     }
 
-    public ActionResult DeleteWord(string word)
+    public async Task<ActionResult> DeleteWordAsync(string word)
     {
         try
         {
-            _wordRepository.DeleteWord(word);
+            await _wordRepository.DeleteWordAsync(word);
             return new ActionResult
             {
                 IsSuccessful = true

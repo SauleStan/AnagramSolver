@@ -8,7 +8,7 @@ public interface IWordRepository
     IEnumerable<Word> GetFilteredWords(string filter);
     Task<bool> AddWordAsync(string word);
     void EditWord(string wordToEdit, string editedWord);
-    void DeleteWord(string word);
+    Task DeleteWordAsync(string word);
     bool AddWords(IEnumerable<string> words);
     Task CacheWord(string word, IEnumerable<string> anagrams);
     Task<CachedWord> GetCachedWordAsync(string input);

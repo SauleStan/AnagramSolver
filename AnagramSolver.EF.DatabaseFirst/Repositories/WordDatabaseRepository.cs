@@ -60,16 +60,16 @@ public class WordDatabaseRepository : IWordRepository
         }
     }
 
-    public void DeleteWord(string word)
+    public async Task DeleteWordAsync(string word)
     {
         try
         {
-            var wordToDelete = _context.Words.FirstOrDefault(dbWord => dbWord.Name!.Equals(word));
+            var wordToDelete = await _context.Words.FirstOrDefaultAsync(dbWord => dbWord.Name!.Equals(word));
             if (wordToDelete != null)
             {
                 _context.Remove(wordToDelete);
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         catch (Exception)
         {
