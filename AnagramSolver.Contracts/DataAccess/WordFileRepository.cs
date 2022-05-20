@@ -68,11 +68,11 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool AddWords(IEnumerable<string> words)
+    public async Task<bool> AddWordsAsync(IEnumerable<string> words)
     {
         try
         {
-            File.AppendAllLines(_path, words);
+            await File.AppendAllLinesAsync(_path, words);
             return true;
         }
         catch (FileNotFoundException)

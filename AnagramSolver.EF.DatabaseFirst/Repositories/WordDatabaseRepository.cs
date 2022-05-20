@@ -77,7 +77,7 @@ public class WordDatabaseRepository : IWordRepository
         }
     }
 
-    public bool AddWords(IEnumerable<string> words)
+    public Task<bool> AddWordsAsync(IEnumerable<string> words)
     {
         throw new NotImplementedException();
     }

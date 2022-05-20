@@ -39,7 +39,7 @@ public class WordDbRepository : IWordRepository
         try
         {
             await _sqlConnection.OpenAsync();
-            SqlCommand command = new SqlCommand();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO Word ([Name]) VALUES (@Word)";
@@ -67,12 +67,12 @@ public class WordDbRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool AddWords(IEnumerable<string> words)
+    public async Task<bool> AddWordsAsync(IEnumerable<string> words)
     {
         try
         {
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand();
+            await _sqlConnection.OpenAsync();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "INSERT INTO Word (Name) VALUES (@Word)";
@@ -80,7 +80,7 @@ public class WordDbRepository : IWordRepository
             {
                 command.Parameters.Clear();
                 command.Parameters.Add(new  SqlParameter("@Word", word));
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
 
             return true;
@@ -91,7 +91,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Open();
+            await _sqlConnection.CloseAsync();
         }
     }
 
@@ -125,7 +125,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
         
     }
@@ -211,7 +211,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
         
     }
@@ -310,7 +310,7 @@ public class WordDbRepository : IWordRepository
         try
         { 
             await _sqlConnection.OpenAsync();
-            SqlCommand command = new SqlCommand();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "spClearTable";

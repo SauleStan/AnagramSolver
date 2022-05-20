@@ -78,15 +78,15 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public bool AddWords(IEnumerable<string> words)
+    public async Task<bool> AddWordsAsync(IEnumerable<string> words)
     {
         try
         {
-            _dbContext.AddRange(words.Select(word=>new WordEntity
+            await _dbContext.AddRangeAsync(words.Select(word=>new WordEntity
             {
                 Name = word
             }));
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return true;
         }
         catch (Exception)
