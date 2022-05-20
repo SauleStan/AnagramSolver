@@ -81,7 +81,7 @@ public class WordFileRepository : IWordRepository
         }
     }
 
-    public Task CacheWord(string word, IEnumerable<string> anagrams)
+    public Task CacheWordAsync(string word, IEnumerable<string> anagrams)
     {
         throw new NotImplementedException();
     }
@@ -101,7 +101,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public bool ClearSearchInfoTable(string tableName)
+    public Task<bool> ClearSearchInfoTableAsync(string tableName)
     {
         throw new NotImplementedException();
     }

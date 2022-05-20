@@ -130,7 +130,7 @@ public class WordDbRepository : IWordRepository
         
     }
 
-    public async Task CacheWord(string searchWord, IEnumerable<string> anagrams)
+    public async Task CacheWordAsync(string searchWord, IEnumerable<string> anagrams)
     {
         try
         {
@@ -305,17 +305,17 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public bool ClearSearchInfoTable(string tableName)
+    public async Task<bool> ClearSearchInfoTableAsync(string tableName)
     {
         try
         { 
-            _sqlConnection.Open();
+            await _sqlConnection.OpenAsync();
             SqlCommand command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "spClearTable";
             command.Parameters.Add(new SqlParameter("@TableName", tableName));
-            command.ExecuteNonQuery();
+            await command.ExecuteNonQueryAsync();
             return true;
         }
         catch (Exception)
@@ -324,7 +324,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
     }
 }

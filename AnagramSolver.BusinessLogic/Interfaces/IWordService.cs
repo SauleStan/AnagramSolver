@@ -14,5 +14,5 @@ public interface IWordService
     Task<CachedWord> GetCachedWordAsync(string input);
     Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();
     Task<ActionResult> AddAnagramSearchInfoAsync(SearchInfo searchInfo);
-    bool ClearTable(string tableName);
+    Task<bool> ClearTableAsync(string tableName);
 }

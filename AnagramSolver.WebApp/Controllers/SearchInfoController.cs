@@ -22,7 +22,7 @@ public class SearchInfoController : Controller
 
     public IActionResult ClearTable()
     {
-        _wordService.ClearTable("SearchInfo");
+        _wordService.ClearTableAsync("SearchInfo");
         return View("Details", new SearchInfoList(new List<SearchInfo>()));
     }
 }

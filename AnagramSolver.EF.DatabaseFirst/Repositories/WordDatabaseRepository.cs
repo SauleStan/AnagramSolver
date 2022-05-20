@@ -82,7 +82,7 @@ public class WordDatabaseRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public async Task CacheWord(string word, IEnumerable<string> anagrams)
+    public async Task CacheWordAsync(string word, IEnumerable<string> anagrams)
     {
         try
         {
@@ -163,7 +163,7 @@ public class WordDatabaseRepository : IWordRepository
         }
     }
 
-    public bool ClearSearchInfoTable(string tableName)
+    public Task<bool> ClearSearchInfoTableAsync(string tableName)
     {
         throw new NotImplementedException();
     }

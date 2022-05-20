@@ -10,9 +10,9 @@ public interface IWordRepository
     Task EditWordAsync(string wordToEdit, string editedWord);
     Task DeleteWordAsync(string word);
     bool AddWords(IEnumerable<string> words);
-    Task CacheWord(string word, IEnumerable<string> anagrams);
+    Task CacheWordAsync(string word, IEnumerable<string> anagrams);
     Task<CachedWord> GetCachedWordAsync(string input);
     Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();
     Task AddAnagramSearchInfoAsync(SearchInfo searchInfo);
-    bool ClearSearchInfoTable(string tableName);
+    Task<bool> ClearSearchInfoTableAsync(string tableName);
 }

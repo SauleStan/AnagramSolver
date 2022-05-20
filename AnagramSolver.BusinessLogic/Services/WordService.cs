@@ -112,7 +112,7 @@ public class WordService : IWordService
     {
         try
         {
-            _wordRepository.CacheWord(word, anagrams);
+            _wordRepository.CacheWordAsync(word, anagrams);
             return new ActionResult
             {
                 IsSuccessful = true
@@ -158,8 +158,8 @@ public class WordService : IWordService
         }
     }
 
-    public bool ClearTable(string tableName)
+    public async Task<bool> ClearTableAsync(string tableName)
     {
-        return _wordRepository.ClearSearchInfoTable(tableName);
+        return await _wordRepository.ClearSearchInfoTableAsync(tableName);
     }
 }

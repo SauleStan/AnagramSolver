@@ -62,9 +62,9 @@ public class HomeController : Controller
         return View("Anagrams", anagramList);
     }
 
-    public IActionResult ClearCache()
+    public async Task<IActionResult> ClearCache()
     {
-        if (_wordService.ClearTable("CachedWord"))
+        if (await _wordService.ClearTableAsync("CachedWord"))
         {
             ViewBag.ClearStatus = "Cache has been cleared";
         }
