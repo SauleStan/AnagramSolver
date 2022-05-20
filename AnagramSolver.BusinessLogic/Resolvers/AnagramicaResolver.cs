@@ -1,4 +1,4 @@
-using AnagramSolver.Anagramica.Client;
+using AnagramSolver.Anagramica;
 using AnagramSolver.BusinessLogic.Interfaces;
 
 namespace AnagramSolver.BusinessLogic.Resolvers;

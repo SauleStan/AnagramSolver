@@ -1,4 +1,4 @@
-namespace AnagramSolver.Anagramica.Client;
+namespace AnagramSolver.Anagramica;
 
 public interface IAnagramicaClient
 {

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace AnagramSolver.Anagramica.Client;
+namespace AnagramSolver.Anagramica;
 
 public class AnagramicaClient : IAnagramicaClient
 {

@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Generics.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.WebApp.Tests", "AnagramSolver.WebApp.Tests\AnagramSolver.WebApp.Tests.csproj", "{717670F6-1705-4884-B736-41A0A7892559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Anagramica.Client", "AnagramSolver.Anagramica.Client\AnagramSolver.Anagramica.Client.csproj", "{03A3DBF8-C10D-4B08-BF41-FA35A8DA52FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Anagramica", "AnagramSolver.Anagramica\AnagramSolver.Anagramica.csproj", "{03A3DBF8-C10D-4B08-BF41-FA35A8DA52FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

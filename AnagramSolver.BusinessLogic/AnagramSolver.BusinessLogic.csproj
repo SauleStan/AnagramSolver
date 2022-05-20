@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AnagramSolver.Anagramica.Client\AnagramSolver.Anagramica.Client.csproj" />
+      <ProjectReference Include="..\AnagramSolver.Anagramica\AnagramSolver.Anagramica.csproj" />
       <ProjectReference Include="..\AnagramSolver.Contracts\AnagramSolver.Contracts.csproj" />
       <ProjectReference Include="..\AnagramSolver.EF.DatabaseFirst\AnagramSolver.EF.DatabaseFirst.csproj" />
     </ItemGroup>

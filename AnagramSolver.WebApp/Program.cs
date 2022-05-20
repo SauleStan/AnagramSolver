@@ -1,5 +1,3 @@
-using AnagramSolver.Anagramica.Client;
-using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Resolvers;
 using AnagramSolver.BusinessLogic.Services;
