@@ -13,6 +13,6 @@ public interface IWordService
     ActionResult CacheWord(string word, IEnumerable<string> anagrams);
     Task<CachedWord> GetCachedWordAsync(string input);
     Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();
-    ActionResult AddAnagramSearchInfo(SearchInfo searchInfo);
+    Task<ActionResult> AddAnagramSearchInfoAsync(SearchInfo searchInfo);
     bool ClearTable(string tableName);
 }

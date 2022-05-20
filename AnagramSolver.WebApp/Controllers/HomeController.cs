@@ -30,7 +30,7 @@ public class HomeController : Controller
         var anagramList = await GetCachedWordListAsync(input);
         stopwatch.Stop();
 
-        _wordService.AddAnagramSearchInfo(new SearchInfo
+        _wordService.AddAnagramSearchInfoAsync(new SearchInfo
         {
             UserIp = "123",
             ExecTime = stopwatch.Elapsed,
@@ -51,7 +51,7 @@ public class HomeController : Controller
         var anagramList = await GetCachedWordListAsync(inputModel.Input);
         stopwatch.Stop();
         
-        _wordService.AddAnagramSearchInfo(new SearchInfo
+        await _wordService.AddAnagramSearchInfoAsync(new SearchInfo
         {
             UserIp = "123",
             ExecTime = stopwatch.Elapsed,

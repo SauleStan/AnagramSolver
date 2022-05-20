@@ -154,7 +154,7 @@ public class AnagramSolverDbRepository : IWordRepository
         });
     }
 
-    public async Task AddAnagramSearchInfo(SearchInfo searchInfo)
+    public async Task AddAnagramSearchInfoAsync(SearchInfo searchInfo)
     {
         try
         {

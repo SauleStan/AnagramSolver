@@ -138,11 +138,11 @@ public class WordService : IWordService
         return await _wordRepository.GetAnagramSearchInfoAsync();
     }
 
-    public ActionResult AddAnagramSearchInfo(SearchInfo searchInfo)
+    public async Task<ActionResult> AddAnagramSearchInfoAsync(SearchInfo searchInfo)
     {
         try
         {
-            _wordRepository.AddAnagramSearchInfo(searchInfo);
+            await _wordRepository.AddAnagramSearchInfoAsync(searchInfo);
             return new ActionResult
             {
                 IsSuccessful = true

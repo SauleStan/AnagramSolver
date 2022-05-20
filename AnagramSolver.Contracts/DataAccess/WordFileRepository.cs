@@ -96,7 +96,7 @@ public class WordFileRepository : IWordRepository
         throw new NotImplementedException();
     }
 
-    public Task AddAnagramSearchInfo(SearchInfo searchInfo)
+    public Task AddAnagramSearchInfoAsync(SearchInfo searchInfo)
     {
         throw new NotImplementedException();
     }

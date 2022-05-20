@@ -138,7 +138,7 @@ public class WordDatabaseRepository : IWordRepository
             });
     }
 
-    public async Task AddAnagramSearchInfo(Contracts.Models.SearchInfo searchInfo)
+    public async Task AddAnagramSearchInfoAsync(Contracts.Models.SearchInfo searchInfo)
     {
         try
         {
