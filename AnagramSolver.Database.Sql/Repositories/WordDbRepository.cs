@@ -216,25 +216,25 @@ public class WordDbRepository : IWordRepository
         
     }
 
-    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
+    public async Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync()
     {
         try
         {
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand();
+            await _sqlConnection.OpenAsync();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT si.Id, si.UserIp, si.ExecTime, si.SearchedWord, w.Name " +
                                   "FROM SearchInfo si " +
                                   "INNER JOIN Word w " +
                                   "ON si.AnagramId = w.Id";
-            SqlDataReader dataReader = command.ExecuteReader();
+            var dataReader = await command.ExecuteReaderAsync();
 
             var searchInfoList = new List<SearchInfo>();
             var newSearchInfo = new SearchInfo();
             if (dataReader.HasRows)
             {
-                while (dataReader.Read())
+                while (await dataReader.ReadAsync())
                 {
                     var searchedWordExecTime = (TimeSpan)dataReader["ExecTime"];
                     
@@ -257,7 +257,7 @@ public class WordDbRepository : IWordRepository
 
                 }
             }
-            dataReader.Close();
+            await dataReader.CloseAsync();
             return searchInfoList;
         }
         catch (Exception)
@@ -266,7 +266,7 @@ public class WordDbRepository : IWordRepository
         }
         finally
         {
-            _sqlConnection.Close();
+            await _sqlConnection.CloseAsync();
         }
     }
 

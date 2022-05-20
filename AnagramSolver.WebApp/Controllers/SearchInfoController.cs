@@ -14,9 +14,10 @@ public class SearchInfoController : Controller
         _wordService = wordService;
     }
     
-    public IActionResult Details()
+    public async Task<IActionResult> Details()
     {
-        return View("Details", new SearchInfoList(_wordService.GetAnagramSearchInfo().ToList()));
+        var searchInfos = await _wordService.GetAnagramSearchInfoAsync();
+        return View("Details", new SearchInfoList(searchInfos.ToList()));
     }
 
     public IActionResult ClearTable()

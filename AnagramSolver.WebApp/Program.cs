@@ -33,7 +33,7 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AnagramSolverDbContext>(options =>
-    options.UseSqlServer(config.GetConnectionString("DatabaseConnection2")!));
+    options.UseLazyLoadingProxies().UseSqlServer(config.GetConnectionString("DatabaseConnection2")!));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IWordRepository, AnagramSolverDbRepository>();

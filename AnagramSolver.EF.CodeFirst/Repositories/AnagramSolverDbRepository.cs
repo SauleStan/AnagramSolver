@@ -133,25 +133,25 @@ public class AnagramSolverDbRepository : IWordRepository
         return cachedWord;
     }
 
-    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
+    public async Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync()
     {
-        return _dbContext.SearchInfoEntities.Include(info => info.Anagram).AsEnumerable()
-            .Select(info =>
+        var searchInfos = await _dbContext.SearchInfoEntities.ToListAsync();
+        return searchInfos.Select(info =>
+        {
+            var newInfo = new SearchInfo
             {
-                var newInfo = new SearchInfo
-                {
-                    Id = info.Id,
-                    SearchedWord = info.SearchedWord,
-                    ExecTime = info.ExecTime,
-                    UserIp = info.UserIp
-                };
-                if (info.Anagram != null)
-                {
-                    newInfo.Anagrams.Add(info.Anagram.Name);
-                }
+                Id = info.Id,
+                SearchedWord = info.SearchedWord,
+                ExecTime = info.ExecTime,
+                UserIp = info.UserIp
+            };
+            if (info.Anagram != null)
+            {
+                newInfo.Anagrams.Add(info.Anagram.Name);
+            }
 
-                return newInfo;
-            });
+            return newInfo;
+        });
     }
 
     public async Task AddAnagramSearchInfo(SearchInfo searchInfo)

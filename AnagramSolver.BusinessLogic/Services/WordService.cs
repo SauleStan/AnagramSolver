@@ -133,9 +133,9 @@ public class WordService : IWordService
         return await _wordRepository.GetCachedWordAsync(input);
     }
 
-    public IEnumerable<SearchInfo> GetAnagramSearchInfo()
+    public async Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync()
     {
-        return _wordRepository.GetAnagramSearchInfo();
+        return await _wordRepository.GetAnagramSearchInfoAsync();
     }
 
     public ActionResult AddAnagramSearchInfo(SearchInfo searchInfo)

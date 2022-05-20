@@ -117,10 +117,10 @@ public class WordDatabaseRepository : IWordRepository
         return cachedWord;
     }
 
-    public IEnumerable<Contracts.Models.SearchInfo> GetAnagramSearchInfo()
+    public async Task<IEnumerable<Contracts.Models.SearchInfo>> GetAnagramSearchInfoAsync()
     {
-        return _context.SearchInfos.Include(info => info.Anagram).AsEnumerable()
-            .Select(info =>
+        var searchInfos = await _context.SearchInfos.Include(info => info.Anagram).ToListAsync();
+        return searchInfos.Select(info =>
             {
                 var newInfo = new Contracts.Models.SearchInfo()
                 {

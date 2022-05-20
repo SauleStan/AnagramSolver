@@ -12,7 +12,7 @@ public interface IWordRepository
     bool AddWords(IEnumerable<string> words);
     Task CacheWord(string word, IEnumerable<string> anagrams);
     Task<CachedWord> GetCachedWordAsync(string input);
-    IEnumerable<SearchInfo> GetAnagramSearchInfo();
+    Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();
     Task AddAnagramSearchInfo(SearchInfo searchInfo);
     bool ClearSearchInfoTable(string tableName);
 }
