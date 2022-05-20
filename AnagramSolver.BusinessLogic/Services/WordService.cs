@@ -109,11 +109,11 @@ public class WordService : IWordService
         }
     }
 
-    public ActionResult CacheWord(string word, IEnumerable<string> anagrams)
+    public async Task<ActionResult> CacheWordAsync(string word, IEnumerable<string> anagrams)
     {
         try
         {
-            _wordRepository.CacheWordAsync(word, anagrams);
+            await _wordRepository.CacheWordAsync(word, anagrams);
             return new ActionResult
             {
                 IsSuccessful = true

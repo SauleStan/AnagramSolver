@@ -10,7 +10,7 @@ public interface IWordService
     Task<ActionResult> AddWordAsync(string word);
     Task<ActionResult> EditAsync(string wordToEdit, string editedWord);
     Task<ActionResult> DeleteWordAsync(string word);
-    ActionResult CacheWord(string word, IEnumerable<string> anagrams);
+    Task<ActionResult> CacheWordAsync(string word, IEnumerable<string> anagrams);
     Task<CachedWord> GetCachedWordAsync(string input);
     Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();
     Task<ActionResult> AddAnagramSearchInfoAsync(SearchInfo searchInfo);
