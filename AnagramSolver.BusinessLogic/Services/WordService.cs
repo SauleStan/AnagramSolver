@@ -31,8 +31,7 @@ public class WordService : IWordService
         filter = filter.Insert(0, "%");
         filter += "%";
         var words = await _wordRepository.GetFilteredWordsAsync(filter);
-        var filteredWords = words.Select(word => word.Name);
-        return filteredWords;
+        return words.Select(word => word.Name)!;
     }
 
     public async Task<ActionResult> AddWordAsync(string word)
