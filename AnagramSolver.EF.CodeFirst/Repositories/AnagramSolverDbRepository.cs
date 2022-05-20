@@ -22,7 +22,7 @@ public class AnagramSolverDbRepository : IWordRepository
         }).ToListAsync();
     }
 
-    public IEnumerable<Word> GetFilteredWords(string filter)
+    public Task<IEnumerable<Word>> GetFilteredWordsAsync(string filter)
     {
         throw new NotImplementedException();
     }

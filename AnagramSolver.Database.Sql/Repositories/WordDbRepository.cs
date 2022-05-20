@@ -95,19 +95,19 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public IEnumerable<Word> GetFilteredWords(string filter)
+    public async Task<IEnumerable<Word>> GetFilteredWordsAsync(string filter)
     {
         
         try
         {
             List<Word> filteredWords = new ();
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand();
+            await _sqlConnection.OpenAsync();
+            var command = new SqlCommand();
             command.Connection = _sqlConnection;
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT Id, Name FROM Word WHERE Name LIKE @Filter";
             command.Parameters.AddWithValue("@Filter", filter);
-            SqlDataReader dataReader = command.ExecuteReader();
+            var dataReader = await command.ExecuteReaderAsync();
 
             if (dataReader.HasRows)
             {
@@ -116,7 +116,7 @@ public class WordDbRepository : IWordRepository
                     filteredWords.Add(new Word((int)dataReader["Id"], (string)dataReader["Name"]));
                 }
             }
-            dataReader.Close();
+            await dataReader.CloseAsync();
             return filteredWords;
         }
         catch (Exception)

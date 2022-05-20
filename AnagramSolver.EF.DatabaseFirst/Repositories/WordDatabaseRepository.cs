@@ -20,7 +20,7 @@ public class WordDatabaseRepository : IWordRepository
         }).ToListAsync();
     }
 
-    public IEnumerable<Contracts.Models.Word> GetFilteredWords(string filter)
+    public Task<IEnumerable<Contracts.Models.Word>> GetFilteredWordsAsync(string filter)
     {
         throw new NotImplementedException();
     }

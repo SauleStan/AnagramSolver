@@ -4,9 +4,9 @@ namespace AnagramSolver.BusinessLogic.Interfaces;
 
 public interface IWordService
 {
-    public Task<IEnumerable<string?>> GetWordsAsync();
-    public Task<IEnumerable<string?>> GetWordAsync(string word);
-    public IEnumerable<string> GetFilteredWords(string filter);
+    Task<IEnumerable<string?>> GetWordsAsync();
+    Task<IEnumerable<string?>> GetWordAsync(string word);
+    Task<IEnumerable<string>> GetFilteredWordsAsync(string filter);
     Task<ActionResult> AddWordAsync(string word);
     Task<ActionResult> EditAsync(string wordToEdit, string editedWord);
     Task<ActionResult> DeleteWordAsync(string word);

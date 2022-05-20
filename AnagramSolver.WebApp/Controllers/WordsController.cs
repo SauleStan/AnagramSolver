@@ -26,9 +26,9 @@ public class WordsController : Controller
     }
     
     [HttpPost]
-    public IActionResult DisplayFilteredWords(string searchInputModel, int pageNumber = 1)
+    public async Task<IActionResult> DisplayFilteredWords(string searchInputModel, int pageNumber = 1)
     {
-        return View("Words", PaginatedList<HashSet<string>>.Create(_wordService.GetFilteredWords(searchInputModel), pageNumber, PageSize));
+        return View("Words", PaginatedList<HashSet<string>>.Create(await _wordService.GetFilteredWordsAsync(searchInputModel), pageNumber, PageSize));
     }
     
     public IActionResult EditWord(string wordToEdit)

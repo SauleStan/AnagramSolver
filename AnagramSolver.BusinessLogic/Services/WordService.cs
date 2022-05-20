@@ -26,12 +26,13 @@ public class WordService : IWordService
             .Select(fetchedWord => fetchedWord.Name);
     }
 
-    public IEnumerable<string> GetFilteredWords(string filter)
+    public async Task<IEnumerable<string>> GetFilteredWordsAsync(string filter)
     {
         filter = filter.Insert(0, "%");
         filter += "%";
-        var words = _wordRepository.GetFilteredWords(filter).Select(word => word.Name);
-        return words!;
+        var words = await _wordRepository.GetFilteredWordsAsync(filter);
+        var filteredWords = words.Select(word => word.Name);
+        return filteredWords;
     }
 
     public async Task<ActionResult> AddWordAsync(string word)

@@ -29,11 +29,11 @@ public class WordFileRepository : IWordRepository
         return _words;
     }
 
-    public IEnumerable<Word> GetFilteredWords(string filter)
+    public async Task<IEnumerable<Word>> GetFilteredWordsAsync(string filter)
     {
         using (var sr = new StreamReader(_path))
         {
-            while (sr.ReadLine() is { } line)
+            while (await sr.ReadLineAsync() is { } line)
             {
                 var word = line.Split(Separator)[0];
                 if (_words.All(x => x.Name != word) && word.Contains(filter))

@@ -93,14 +93,14 @@ public class WordServiceTests
     }
 
     [Test]
-    public void GetFilteredWords_ReturnsListWithWordNames_WhenGivenAFilterWord()
+    public async Task GetFilteredWords_ReturnsListWithWordNames_WhenGivenAFilterWord()
     {
         // Arrange
         var filterWord = "mod";
         var expected = new List<string> { "model", "moderator" };
         
-        _wordRepositoryMock.Setup(repo => repo.GetFilteredWords("%mod%"))
-            .Returns(new List<Word>
+        _wordRepositoryMock.Setup(repo => repo.GetFilteredWordsAsync("%mod%"))
+            .ReturnsAsync(new List<Word>
             {
                 new()
                 {
@@ -115,7 +115,7 @@ public class WordServiceTests
             });
         
         // Act
-        var result = _wordService.GetFilteredWords(filterWord);
+        var result = await _wordService.GetFilteredWordsAsync(filterWord);
         
         // Assert
         Assert.That(result, Is.EquivalentTo(expected));
