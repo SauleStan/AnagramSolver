@@ -77,7 +77,7 @@ public class HomeController : Controller
         if (cachedWord.Anagrams.Count == 0)
         {
             var anagramList = await _anagramResolver.FindAnagramsAsync(input);
-            _wordService.CacheWordAsync(input, anagramList);
+            await _wordService.CacheWordAsync(input, anagramList);
             return new AnagramList(anagramList, input);
         }
         return new AnagramList(cachedWord.Anagrams, input);
