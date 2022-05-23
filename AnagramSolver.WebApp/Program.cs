@@ -17,6 +17,15 @@ IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://localhost:7188/")
+            .AllowAnyOrigin();
+    });
+});
+
 builder.Services.AddMemoryCache();
 
 builder.Services.Configure<IpRateLimitOptions>(config.GetSection("IpRateLimiting"));
@@ -53,6 +62,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthorization();
 

@@ -1,4 +1,5 @@
 using AnagramSolver.BusinessLogic.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnagramSolver.WebApp.Controllers;
@@ -12,7 +13,7 @@ public class WordsApiController : ControllerBase
     {
         _wordService = wordService;
     }
-
+    
     [HttpGet]
     public async Task<List<string>> GetWords()
     {
