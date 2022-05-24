@@ -179,7 +179,7 @@ public class AnagramSolverDbRepository : IWordRepository
         }
     }
 
-    public Task<bool> ClearSearchInfoTableAsync(string tableName)
+    public Task<bool> ClearTableAsync(string tableName)
     {
         throw new NotImplementedException();
     }

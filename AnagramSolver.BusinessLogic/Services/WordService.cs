@@ -160,6 +160,6 @@ public class WordService : IWordService
 
     public async Task<bool> ClearTableAsync(string tableName)
     {
-        return await _wordRepository.ClearSearchInfoTableAsync(tableName);
+        return await _wordRepository.ClearTableAsync(tableName);
     }
 }

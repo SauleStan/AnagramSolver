@@ -28,8 +28,9 @@ var serviceProvider = services.BuildServiceProvider();
 
 if (dataFilePath != null)
 {
-    var wordFileService = new WordService(new WordFileRepository(dataFilePath));
+    var wordFileService = new WordFileRepository(dataFilePath);
     var wordDbRepository = new AnagramSolverDbRepository(serviceProvider.GetService<AnagramSolverDbContext>()!);
     var words = await wordFileService.GetWordsAsync();
-    await wordDbRepository.AddWordsAsync(words);
+    var stringWords = words.Select(word => word.Name);
+    await wordDbRepository.AddWordsAsync(stringWords!);
 }

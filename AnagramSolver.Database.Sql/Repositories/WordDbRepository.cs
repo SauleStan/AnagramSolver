@@ -305,7 +305,7 @@ public class WordDbRepository : IWordRepository
         }
     }
 
-    public async Task<bool> ClearSearchInfoTableAsync(string tableName)
+    public async Task<bool> ClearTableAsync(string tableName)
     {
         try
         { 

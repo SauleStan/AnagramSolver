@@ -3,7 +3,7 @@ using AnagramSolver.Contracts.Models;
 
 namespace AnagramSolver.Contracts.DataAccess;
 
-public class WordFileRepository : IWordRepository
+public class WordFileRepository : IWordFilterable
 {
     private readonly HashSet<Word> _words = new ();
     private readonly string _path;
@@ -58,16 +58,6 @@ public class WordFileRepository : IWordRepository
         }
     }
 
-    public Task EditWordAsync(string wordToEdit, string editedWord)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteWordAsync(string word)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<bool> AddWordsAsync(IEnumerable<string> words)
     {
         try
@@ -79,30 +69,5 @@ public class WordFileRepository : IWordRepository
         {
             return false;
         }
-    }
-
-    public Task CacheWordAsync(string word, IEnumerable<string> anagrams)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<CachedWord> GetCachedWordAsync(string input)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task AddAnagramSearchInfoAsync(SearchInfo searchInfo)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> ClearSearchInfoTableAsync(string tableName)
-    {
-        throw new NotImplementedException();
     }
 }
