@@ -5,8 +5,6 @@ namespace AnagramSolver.BusinessLogic.Resolvers;
 
 public class AnagramResolver : IAnagramResolver
 {
-    private HashSet<Anagram> _fetchedAnagrams = new();
-    private readonly HashSet<string> _anagramsSet = new();
     private readonly IAnagramService _anagramService;
     private readonly IWordService _wordService;
 
@@ -18,23 +16,20 @@ public class AnagramResolver : IAnagramResolver
 
     public async Task<List<string>> FindAnagramsAsync(string inputWord)
     {
-        _anagramsSet.Clear();
+        var anagramSet = new HashSet<string>();
         
-        var filteredFetchedWords = new HashSet<string?>(await _wordService.GetWordsAsync());
-        filteredFetchedWords.RemoveWhere(x => x != null && x.Length != inputWord.Length);
-
-        _fetchedAnagrams = _anagramService.ConvertToAnagrams((await _wordService.GetWordsAsync())!);
+        var fetchedAnagrams = _anagramService.ConvertToAnagrams((await _wordService.GetWordsAsync())!);
         
         var inputAnagram = _anagramService.ConvertToAnagram(inputWord);
         
-        foreach (var anagram in _fetchedAnagrams)
+        foreach (var anagram in fetchedAnagrams)
         {
             if (anagram.Crib.Equals(inputAnagram.Crib) && !anagram.Name.Equals(inputAnagram.Name))
             {
-                _anagramsSet.Add(anagram.Name);
+                anagramSet.Add(anagram.Name);
             }
         }
 
-        return _anagramsSet.ToList();
+        return anagramSet.ToList();
     }
 }
