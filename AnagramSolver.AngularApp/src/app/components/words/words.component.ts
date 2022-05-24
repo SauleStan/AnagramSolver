@@ -13,13 +13,7 @@ export class WordsComponent implements OnInit{
     constructor(private wordService: WordService){}
 
     ngOnInit(): void {
-        debugger
-        /***var fetchedWords = this.wordService.getWords().subscribe((fetchedWords) => {
-            fetchedWords.forEach(fetchedWord => fetchedWord.)
-        });***/
-
         this.wordService.getWords().subscribe((fetchedWords) =>{
-            console.log(fetchedWords);
             this.words = fetchedWords;
         });
         
