@@ -42,7 +42,7 @@ public class WordsController : Controller
     [HttpPost]
     public async Task<IActionResult> EditWord(EditWordModel word)
     {
-        await _wordService.EditAsync(word.WordToEdit, word.EditedWord);
+        await _wordService.EditWordAsync(word.WordToEdit, word.EditedWord);
         return RedirectToAction("DisplayWord", new { word = word.EditedWord});
     }
 

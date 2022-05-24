@@ -68,7 +68,7 @@ public class WordService : IWordService
         }
     }
 
-    public async Task<ActionResult> EditAsync(string wordToEdit, string editedWord)
+    public async Task<ActionResult> EditWordAsync(string wordToEdit, string editedWord)
     {
         try
         {
