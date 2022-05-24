@@ -10,12 +10,19 @@ namespace AnagramSolver.WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly IAnagramResolver _anagramResolver;
-    private readonly IWordService _wordService;
-
-    public HomeController(IAnagramResolver anagramResolver, IWordService wordService)
+    private readonly ISearchInfo _searchInfo;
+    private readonly ICacheable _cache;
+    private readonly IClearTable _clearTable;
+    
+    public HomeController(IAnagramResolver anagramResolver,
+        ISearchInfo searchInfo,
+        ICacheable cache,
+        IClearTable clearTable)
     {
         _anagramResolver = anagramResolver;
-        _wordService = wordService;
+        _searchInfo = searchInfo;
+        _cache = cache;
+        _clearTable = clearTable;
     }
     
     public IActionResult Index()
@@ -30,7 +37,7 @@ public class HomeController : Controller
         var anagramList = await GetCachedWordListAsync(input);
         stopwatch.Stop();
 
-        await _wordService.AddAnagramSearchInfoAsync(new SearchInfo
+        await _searchInfo.AddAnagramSearchInfoAsync(new SearchInfo
         {
             UserIp = "123",
             ExecTime = stopwatch.Elapsed,
@@ -51,7 +58,7 @@ public class HomeController : Controller
         var anagramList = await GetCachedWordListAsync(inputModel.Input);
         stopwatch.Stop();
         
-        await _wordService.AddAnagramSearchInfoAsync(new SearchInfo
+        await _searchInfo.AddAnagramSearchInfoAsync(new SearchInfo
         {
             UserIp = "123",
             ExecTime = stopwatch.Elapsed,
@@ -64,7 +71,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> ClearCache()
     {
-        if (await _wordService.ClearTableAsync("CachedWord"))
+        if (await _clearTable.ClearTableAsync("CachedWord"))
         {
             ViewBag.ClearStatus = "Cache has been cleared";
         }
@@ -73,11 +80,11 @@ public class HomeController : Controller
 
     private async Task<AnagramList> GetCachedWordListAsync(string input)
     {
-        var cachedWord = await _wordService.GetCachedWordAsync(input);
+        var cachedWord = await _cache.GetCachedWordAsync(input);
         if (cachedWord.Anagrams.Count == 0)
         {
             var anagramList = await _anagramResolver.FindAnagramsAsync(input);
-            await _wordService.CacheWordAsync(input, anagramList);
+            await _cache.CacheWordAsync(input, anagramList);
             return new AnagramList(anagramList, input);
         }
         return new AnagramList(cachedWord.Anagrams, input);

@@ -6,20 +6,23 @@ using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using NUnit.Framework;
 using Moq;
+using ICacheable = AnagramSolver.BusinessLogic.Interfaces.ICacheable;
 
 namespace AnagramSolver.Tests.Services;
 
 [TestFixture]
 public class WordServiceTests
 {
-    private IWordService _wordService;
+    private IFilterableWordService _filterableWordService;
+    private ICacheable _cache;
     private Mock<IWordRepository> _wordRepositoryMock;
     
     [SetUp]
     public void Setup()
     {
         _wordRepositoryMock = new Mock<IWordRepository>();
-        _wordService = new WordService(_wordRepositoryMock.Object);
+        _filterableWordService = new WordService(_wordRepositoryMock.Object);
+        _cache = new WordService(_wordRepositoryMock.Object);
     }
 
     [Test]
@@ -43,7 +46,7 @@ public class WordServiceTests
         var expected = new List<string>{"word1", "word2"};
         
         // Act
-        var result = await _wordService.GetWordsAsync();
+        var result = await _filterableWordService.GetWordsAsync();
         
         // Assert
         Assert.That(result, Is.EquivalentTo(expected));
@@ -71,7 +74,7 @@ public class WordServiceTests
         var expected = new List<string>{"word2"};
         
         // Act
-        var result = await _wordService.GetWordAsync(input);
+        var result = await _filterableWordService.GetWordAsync(input);
         
         // Assert
         Assert.That(result, Is.EquivalentTo(expected));
@@ -86,7 +89,7 @@ public class WordServiceTests
             .ReturnsAsync(new List<Word>());
         
         // Act
-        var result = await _wordService.GetWordAsync(input);
+        var result = await _filterableWordService.GetWordAsync(input);
         
         // Assert
         Assert.That(result, Is.Empty);
@@ -115,7 +118,7 @@ public class WordServiceTests
             });
         
         // Act
-        var result = await _wordService.GetFilteredWordsAsync(filterWord);
+        var result = await _filterableWordService.GetFilteredWordsAsync(filterWord);
         
         // Assert
         Assert.That(result, Is.EquivalentTo(expected));
@@ -129,7 +132,7 @@ public class WordServiceTests
         _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).ReturnsAsync(true);
         
         // Act
-        var result = await _wordService.AddWordAsync(word);
+        var result = await _filterableWordService.AddWordAsync(word);
         
         // Assert
         Assert.That(result.IsSuccessful, Is.True);
@@ -143,7 +146,7 @@ public class WordServiceTests
         _wordRepositoryMock.Setup(repo => repo.AddWordAsync(word)).ReturnsAsync(false);
         
         // Act
-        var result = await _wordService.AddWordAsync(word);
+        var result = await _filterableWordService.AddWordAsync(word);
         
         // Assert
         Assert.That(result.IsSuccessful, Is.False);
@@ -165,7 +168,7 @@ public class WordServiceTests
             });
         
         // Act
-        var result = await _wordService.AddWordAsync(word);
+        var result = await _filterableWordService.AddWordAsync(word);
         
         // Assert
         Assert.That(result.IsSuccessful, Is.False);
@@ -185,7 +188,7 @@ public class WordServiceTests
             .ReturnsAsync(expected);
         
         // Act
-        var result = await _wordService.GetCachedWordAsync(input);
+        var result = await _cache.GetCachedWordAsync(input);
         
         // Assert
         Assert.That(result, Is.EqualTo(expected));

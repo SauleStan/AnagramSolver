@@ -1,10 +1,13 @@
 using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using ICacheable = AnagramSolver.BusinessLogic.Interfaces.ICacheable;
+using IClearTable = AnagramSolver.BusinessLogic.Interfaces.IClearTable;
+using ISearchInfo = AnagramSolver.BusinessLogic.Interfaces.ISearchInfo;
 
 namespace AnagramSolver.BusinessLogic.Services;
 
-public class WordService : IWordService
+public class WordService : IFilterableWordService, ISearchInfo, IClearTable, ICacheable
 {
     private readonly IWordRepository _wordRepository;
 

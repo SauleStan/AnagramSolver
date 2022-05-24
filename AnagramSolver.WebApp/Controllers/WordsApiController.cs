@@ -1,5 +1,4 @@
 using AnagramSolver.BusinessLogic.Interfaces;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnagramSolver.WebApp.Controllers;

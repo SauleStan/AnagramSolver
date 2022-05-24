@@ -6,6 +6,9 @@ using AnagramSolver.EF.CodeFirst.Models;
 using AnagramSolver.EF.CodeFirst.Repositories;
 using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
+using ICacheable = AnagramSolver.BusinessLogic.Interfaces.ICacheable;
+using IClearTable = AnagramSolver.BusinessLogic.Interfaces.IClearTable;
+using ISearchInfo = AnagramSolver.BusinessLogic.Interfaces.ISearchInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +48,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IWordRepository, AnagramSolverDbRepository>();
 builder.Services.AddScoped<IWordService, WordService>();
+builder.Services.AddScoped<IFilterableWordService, WordService>();
+builder.Services.AddScoped<ISearchInfo, WordService>();
+builder.Services.AddScoped<IClearTable, WordService>();
+builder.Services.AddScoped<ICacheable, WordService>();
 builder.Services.AddScoped<IAnagramService, AnagramService>();
 builder.Services.AddScoped<IAnagramResolver, AnagramResolver>();
 

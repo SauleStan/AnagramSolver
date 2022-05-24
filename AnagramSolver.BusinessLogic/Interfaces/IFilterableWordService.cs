@@ -1,6 +1,6 @@
 namespace AnagramSolver.BusinessLogic.Interfaces;
 
-public interface IFilterable
+public interface IFilterableWordService : IWordService
 {
     Task<IEnumerable<string>> GetFilteredWordsAsync(string filter);
 }
