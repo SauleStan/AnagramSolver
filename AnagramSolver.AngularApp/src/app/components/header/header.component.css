@@ -1,7 +1,22 @@
 header {
     display: flex;
-    justify-content:space-between;
+    justify-content:left;
     align-items: center;
     background-color: #EDFBFC;
     margin: 10px;
+}
+
+a, a:visited{
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover{
+    color:rgb(90, 90, 90)
+}
+
+.nav-bar{
+    margin-left: 20px;
+    padding: 10px;
+    background-color:rgb(196, 235, 226);
 }
