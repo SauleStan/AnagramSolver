@@ -1,8 +1,11 @@
 <div class="container">
-    <div class="search-bar">
-        <app-button color="turquoise" text="Search" (btnClick)="toggleAnagramSearchTask()"></app-button>
-    </div>
-    <div>
-        <app-words></app-words>
+    <form class="search-bar" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <label>Search anagrams:</label>
+        <input id="inputWord" type="text" formControlName="inputWord">
+        <app-button type="submit" color="turquoise" text="Search"></app-button>
+    </form>
+    <div class="anagram-container">
+        <div>Found anagrams: </div>
+        <app-word-item class="word" *ngFor="let anagram of anagrams" [word]="anagram"></app-word-item>
     </div>
 </div>
