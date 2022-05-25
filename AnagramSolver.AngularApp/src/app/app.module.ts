@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 import { AppComponent } from './app.component';
 import { AnagramComponent } from './components/anagram/anagram.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -29,7 +31,8 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true })
+    RouterModule.forRoot(appRoutes, { enableTracing: true }),
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,7 @@
 <div class="container">
     <div class="words">
-        <app-word-item *ngFor="let word of words" [word]="word"></app-word-item>
+        <app-word-item *ngFor="let word of words | paginate: { itemsPerPage: 100, currentPage: page }"
+            [word]="word"></app-word-item>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
     </div>
 </div>

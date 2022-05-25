@@ -9,6 +9,7 @@ import { WordService } from "../../services/word.service";
 })
 export class WordsComponent implements OnInit{
     words: Word[] = [];
+    page: any;
 
     constructor(private wordService: WordService){}
 
