@@ -4,11 +4,11 @@ import { AnagramService } from "src/app/services/anagram.service";
 import { Word } from "src/app/Word";
 
 @Component({
-    selector: 'app-body',
-    templateUrl: './body.component.html',
-    styleUrls: ['./body.component.css']
+    selector: 'app-anagram',
+    templateUrl: './anagram.component.html',
+    styleUrls: ['./anagram.component.css']
 })
-export class BodyComponent implements OnInit{
+export class AnagramComponent implements OnInit{
     searchForm = this.formBuilder.group({
         inputWord: ''
     });

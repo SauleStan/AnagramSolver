@@ -5,14 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { BodyComponent } from './components/body/body.component';
+import { AnagramComponent } from './components/body/anagram.component';
 import { ButtonComponent } from './components/button/button.component';
 import { HeaderComponent } from './components/header/header.component';
 import { WordItemComponent } from './components/word-item/word-item.component';
 import { WordsComponent } from './components/words/words.component';
 
 const appRoutes: Routes = [
-  {path: '', component: BodyComponent},
+  {path: '', component: AnagramComponent},
   {path: 'words', component: WordsComponent}
 ]
 
@@ -22,7 +22,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     ButtonComponent,
     WordsComponent,
-    BodyComponent,
+    AnagramComponent,
     WordItemComponent
   ],
   imports: [
