@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+html{
+    background-color: #303039;
+}
+
+h1, h3{
+    color: #fffffe;
+}
+
+h1:hover, h3:hover{
+    color:rgb(219, 219, 219);
+}
+
+h2{
+    color: #271c19;
+}
+
+
+.container{
+    border: 3px solid #000000;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    html{
+        background-color:rgb(110, 168, 155);
+    }
+
+    h2{
+        color:#f2f2f2
+    }
+}

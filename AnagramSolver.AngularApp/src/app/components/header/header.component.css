@@ -2,8 +2,8 @@ header {
     display: flex;
     justify-content:left;
     align-items: center;
-    background-color: #EDFBFC;
     margin: 10px;
+    min-width: 400px;
 }
 
 a, a:visited{
@@ -11,12 +11,9 @@ a, a:visited{
     text-decoration: none;
 }
 
-a:hover{
-    color:rgb(90, 90, 90)
-}
-
 .nav-bar{
+    display: flex;
+    align-items: center;
     margin-left: 20px;
     padding: 10px;
-    background-color:rgb(196, 235, 226);
 }

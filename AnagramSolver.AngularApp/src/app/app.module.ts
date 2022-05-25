@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { AnagramComponent } from './components/body/anagram.component';
+import { AnagramComponent } from './components/anagram/anagram.component';
 import { ButtonComponent } from './components/button/button.component';
 import { HeaderComponent } from './components/header/header.component';
 import { WordItemComponent } from './components/word-item/word-item.component';

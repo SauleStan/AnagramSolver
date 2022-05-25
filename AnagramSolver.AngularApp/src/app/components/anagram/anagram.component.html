@@ -2,10 +2,10 @@
     <form class="search-bar" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <label>Search anagrams:</label>
         <input id="inputWord" type="text" formControlName="inputWord">
-        <app-button type="submit" color="turquoise" text="Search"></app-button>
+        <app-button type="submit" text="Search"></app-button>
     </form>
     <div class="anagram-container">
-        <div>Found anagrams: </div>
+        <label>Found anagrams: </label>
         <app-word-item class="word" *ngFor="let anagram of anagrams" [word]="anagram"></app-word-item>
     </div>
 </div>
