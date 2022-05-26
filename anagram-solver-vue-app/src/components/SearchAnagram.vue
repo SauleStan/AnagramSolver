@@ -5,7 +5,7 @@
             <input v-model="inputWord" type="text" name="inputWord"
             placeholder="Search anagrams"/>
         </div>
-        <input type="submit" value="Search" class="button"/>
+        <Button type="submit" text="Search" class="button" />
     </form>
     <div>
         Found anagrams:
@@ -15,12 +15,14 @@
 
 <script>
 import Words from './Words.vue';
+import Button from './Button.vue';
 
 export default {
     name: 'App-search-anagram',
     components: {
-        Words
-    },
+    Words,
+    Button
+},
     data() {
         return {
             inputWord: '',
@@ -29,9 +31,10 @@ export default {
     },
     methods:{
         async fetchAnagrams(input){
-            const response = await fetch(`https://localhost:7188/api/Anagram/${input}`);
-            const data = await response.json();
-            return data;
+            return await fetch(`https://localhost:7188/api/Anagram/${input}`)
+                            .then(response => response.json())
+                            .then(data => this.anagrams = data)
+                            .catch(error => console.log(error.message));
         },
         async onSubmit(e){
             e.preventDefault();

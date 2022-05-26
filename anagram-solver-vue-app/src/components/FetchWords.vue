@@ -16,17 +16,11 @@ export default {
         }
     },
     mounted() {
-        this.fetchData().then((data)=>
-        {
-            this.fetchedWords = data
-        });
-    },
-    methods: {
-        async fetchData(){
-            const response =  await fetch(`https://localhost:7188/api/Words`);
-            const data = await response.json();
-            return data
-        }
+        fetch(`https://localhost:7188/api/Words`)
+            .then(response => response.json())
+            .then(data => this.fetchedWords = data)
+            .catch(error => console.log(error.message));
     }
+    
 }
 </script>
