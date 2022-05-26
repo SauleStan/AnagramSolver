@@ -1,19 +1,15 @@
 <template>
   <Header title="Anagram Solver"/>
-  <div>
-    <SearchAnagram />
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
 import Header from './components/Header.vue'
-import SearchAnagram from './components/SearchAnagram.vue';
 
 export default {
   name: 'App',
   components: {
-    Header,
-    SearchAnagram
+    Header
   }
 }
 
