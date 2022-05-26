@@ -1,7 +1,7 @@
 <template>
     <header>
-        <router-link to="/" class="title">{{ title }}</router-link>
-        <router-link to="/words">Words</router-link>
+        <router-link :to="{ name: 'Home-view' }" class="title">{{ title }}</router-link>
+        <router-link :to="{ name: 'Words-view' }">Words</router-link>
     </header>
 </template>
 
