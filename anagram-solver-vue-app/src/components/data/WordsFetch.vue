@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Words from './Words.vue'
+import Words from '../common/WordsList.vue'
 
 export default {
     name: 'App-fetch-words',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Word from './Word.vue'
+import Word from '../Word.vue'
 export default {
     name: "App-words",
     props: {

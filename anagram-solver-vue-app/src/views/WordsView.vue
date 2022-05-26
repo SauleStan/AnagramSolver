@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import FetchWords from '../components/FetchWords'
+import FetchWords from '../components/data/WordsFetch.vue'
 export default {
     name: 'Words-view',
     components: {

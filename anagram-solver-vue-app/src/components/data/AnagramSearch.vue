@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Words from './Words.vue';
-import Button from './Button.vue';
+import Words from '../common/WordsList.vue';
+import Button from '../common/Button.vue';
 
 export default {
     name: 'App-search-anagram',
@@ -31,7 +31,7 @@ export default {
     },
     methods:{
         async fetchAnagrams(input){
-            return await fetch(`https://localhost:7188/api/Anagram/${input}`)
+            await fetch(`https://localhost:7188/api/Anagram/${input}`)
                             .then(response => response.json())
                             .then(data => this.anagrams = data)
                             .catch(error => console.log(error.message));
@@ -44,7 +44,7 @@ export default {
                 return
             }
 
-            this.anagrams = await this.fetchAnagrams(this.inputWord);
+            await this.fetchAnagrams(this.inputWord);
         }
     }
 }

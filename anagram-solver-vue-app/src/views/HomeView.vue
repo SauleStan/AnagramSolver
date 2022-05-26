@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SearchAnagram from '../components/SearchAnagram.vue';
+import SearchAnagram from '../components/data/AnagramSearch.vue';
 
 export default {
     name: 'Home-view',
