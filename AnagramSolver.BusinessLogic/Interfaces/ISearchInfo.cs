@@ -5,5 +5,5 @@ namespace AnagramSolver.BusinessLogic.Interfaces;
 public interface ISearchInfo
 {
     Task<IEnumerable<SearchInfo>> GetAnagramSearchInfoAsync();
-    Task<ActionResult> AddAnagramSearchInfoAsync(SearchInfo searchInfo);
+    Task<WordResult> AddAnagramSearchInfoAsync(SearchInfo searchInfo);
 }

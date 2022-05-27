@@ -6,7 +6,7 @@ public interface IWordService
 {
     Task<IEnumerable<string?>> GetWordsAsync();
     Task<IEnumerable<string?>> GetWordAsync(string word);
-    Task<ActionResult> AddWordAsync(string word);
-    Task<ActionResult> EditWordAsync(string wordToEdit, string editedWord);
-    Task<ActionResult> DeleteWordAsync(string word);
+    Task<WordResult> AddWordAsync(string word);
+    Task<WordResult> EditWordAsync(string wordToEdit, string editedWord);
+    Task<WordResult> DeleteWordAsync(string word);
 }

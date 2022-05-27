@@ -16,6 +16,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0-preview.4.22229.4" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0-preview.4.22229.4" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0-preview.4.22229.4" />
+      <PackageReference Include="NLog" Version="5.0.0" />
+      <PackageReference Include="NLog.Extensions.Logging" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,6 +30,12 @@
       <None Update="appsettings.local.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="nlog.config.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

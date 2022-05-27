@@ -1,17 +1,22 @@
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.EF.CodeFirst.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AnagramSolver.EF.CodeFirst.Repositories;
 
 public class AnagramSolverDbRepository : IWordRepository
 {
     private readonly AnagramSolverDbContext _dbContext;
+    private readonly ILogger<AnagramSolverDbRepository> _logger;
     
-    public AnagramSolverDbRepository(AnagramSolverDbContext dbContext)
+    public AnagramSolverDbRepository(AnagramSolverDbContext dbContext,
+        ILogger<AnagramSolverDbRepository> logger)
     {
         _dbContext = dbContext;
+        _logger = logger;
     }
     public async Task<IEnumerable<Word>> GetWordsAsync()
     {
@@ -36,10 +41,12 @@ public class AnagramSolverDbRepository : IWordRepository
                 Name = word
             });
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("Added new word!");
             return true;
         }
-        catch (Exception)
+        catch (SqlException exception)
         {
+            _logger.LogError(exception.Message);
             return false;
         }
     }

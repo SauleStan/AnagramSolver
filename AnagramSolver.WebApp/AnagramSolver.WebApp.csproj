@@ -20,6 +20,16 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="NLog" Version="5.0.0" />
+      <PackageReference Include="NLog.Extensions.Logging" Version="5.0.0" />
+      <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="nlog.config.xml" />
+      <Content Include="nlog.config.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

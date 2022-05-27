@@ -4,6 +4,7 @@ using AnagramSolver.BusinessLogic.Interfaces;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Moq;
 using ICacheable = AnagramSolver.BusinessLogic.Interfaces.ICacheable;
@@ -16,13 +17,14 @@ public class WordServiceTests
     private IFilterableWordService _filterableWordService;
     private ICacheable _cache;
     private Mock<IWordRepository> _wordRepositoryMock;
-    
+    private readonly Mock<ILogger<WordService>> _loggerMock = new ();
+
     [SetUp]
     public void Setup()
     {
         _wordRepositoryMock = new Mock<IWordRepository>();
-        _filterableWordService = new WordService(_wordRepositoryMock.Object);
-        _cache = new WordService(_wordRepositoryMock.Object);
+        _filterableWordService = new WordService(_wordRepositoryMock.Object, _loggerMock.Object);
+        _cache = new WordService(_wordRepositoryMock.Object, _loggerMock.Object);
     }
 
     [Test]
